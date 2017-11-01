@@ -1,0 +1,5 @@
+#YBNF 1.0 utf8;
+$author{author} = $_yyd_ch_<1,6>;
+$shi{action%shi} = 诗;
+$ci{action%ci} = 词;
+$poetry_main{service%poetry} = $author 的 ($shi|$ci);

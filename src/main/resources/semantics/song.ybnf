@@ -1,0 +1,4 @@
+#YBNF 1.0 utf8;
+$songer{songer} = $_yyd_ch_<1,6>;
+$song{action%song} = 歌;
+$song_main{service%song} = $songer 的 $song;

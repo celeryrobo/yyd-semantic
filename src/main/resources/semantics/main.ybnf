@@ -1,0 +1,9 @@
+#YBNF 0.1 utf8;
+#include original.ybnf;
+#include classpath:semantics/common.ybnf;
+#include classpath:semantics/poetry.ybnf;
+#include classpath:semantics/song.ybnf;
+#include classpath:semantics/xiangsheng.ybnf;
+service common;
+root $main;
+$main = $poetry_main|$song_main|$xiangsheng_main;

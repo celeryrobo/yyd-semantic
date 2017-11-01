@@ -1,0 +1,5 @@
+#YBNF 1.0 utf8;
+$character = A|B|C|D|E|F|G|H|I|J|K|M|N|L|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|m|l|n|o|p|q|r|s|t|u|v|w|x|y|z;
+$_yyd_ch_ = $_yyd_han_|$character;
+$han_digital = 零|一|二|三|四|五|六|七|八|九|十|百|千|万;
+$digital = $_yyd_digital_|$han_digital;

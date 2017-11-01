@@ -1,0 +1,4 @@
+#YBNF 1.0 utf8;
+$yanyuan{yanyuan} = $_yyd_ch_<1,6>;
+$xiangsheng{action%xiangsheng} = 相声;
+$xiangsheng_main{service%xiangsheng} = $yanyuan 的 $xiangsheng;
