@@ -44,11 +44,6 @@
 			<artifactId>yyd-semantic-compile</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.yyd</groupId>
-			<artifactId>yyd-semantic-test</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<build>
