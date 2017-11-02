@@ -21,8 +21,6 @@ public class SemanticFactory {
 	public SemanticFactory() throws Exception {
 		String classRootPath = this.getClass().getResource("/semantics/").getPath();
 		ArrayList<String> propFilenames = FileUtils.listFilenames(classRootPath, ".properties");
-		String[] propFilenameArr = new String[propFilenames.size()];
-		propFilenames.toArray(propFilenameArr);
 		semanticMap = new HashMap<String, Semantic<?>>();
 		properties = new Properties();
 		for (String filename : propFilenames) {
@@ -37,7 +35,6 @@ public class SemanticFactory {
 		if (semantic == null) {
 			String className = properties.getProperty(serviceName);
 			Class<?> clazz = Class.forName(className);
-			System.out.println(clazz.getName());
 			semantic = (Semantic<?>) springContext.getBean(clazz);
 			semanticMap.put(serviceName, semantic);
 		}

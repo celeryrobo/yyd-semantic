@@ -1,9 +1,20 @@
 #YBNF 0.1 utf8;
 #include original.ybnf;
 #include classpath:semantics/common.ybnf;
-#include classpath:semantics/poetry.ybnf;
-#include classpath:semantics/song.ybnf;
-#include classpath:semantics/xiangsheng.ybnf;
 service common;
 root $main;
+
+$author{author} = $_yyd_ch_<1,6>;
+$shi{action%shi} = 诗;
+$ci{action%ci} = 词;
+$poetry_main{service%poetry} = $author 的 ($shi|$ci);
+
+$songer{songer} = $_yyd_ch_<1,6>;
+$song{action%song} = 歌;
+$song_main{service%song} = $songer 的 $song;
+
+$yanyuan{yanyuan} = $_yyd_ch_<1,6>;
+$xiangsheng{action%xiangsheng} = 相声;
+$xiangsheng_main{service%xiangsheng} = $yanyuan 的 $xiangsheng;
+
 $main = $poetry_main|$song_main|$xiangsheng_main;

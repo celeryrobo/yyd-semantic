@@ -1,0 +1,8 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/common.ybnf;
+service song;
+root $main;
+$songer{songer} = $_yyd_ch_<1,6>|刘德华|黎明|张学友|郭富城;
+$song_main = $songer 的 歌;
+$main{action%song} = ($songer 的)|$song_main|$songer;

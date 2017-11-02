@@ -1,26 +1,29 @@
 package com.yyd.semantic.common;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ybnf.compiler.beans.YbnfCompileResult;
 
 public class SemanticResult {
 	private Integer errCode;
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String errMsg;
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String service;
 	private String text;
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Map<String, Object> slots;
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Object data;
-	
-	public SemanticResult(Integer errCode, String errMsg, String service, String text) {
+
+	public SemanticResult(Integer errCode, String errMsg, YbnfCompileResult result) {
 		this.errCode = errCode;
 		this.errMsg = errMsg;
-		this.service = service;
-		this.text = text;
+		if (result != null) {
+			this.service = result.getService();
+			this.text = result.getText();
+			this.slots = new HashMap<String, Object>();
+			this.slots.putAll(result.getSlots());
+			this.slots.put("objects", result.getObjects());
+		}
 	}
 
 	public Integer getErrCode() {
@@ -31,6 +34,7 @@ public class SemanticResult {
 		this.errCode = errCode;
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String getErrMsg() {
 		return errMsg;
 	}
@@ -39,6 +43,7 @@ public class SemanticResult {
 		this.errMsg = errMsg;
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String getService() {
 		return service;
 	}
@@ -55,6 +60,7 @@ public class SemanticResult {
 		this.text = text;
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Map<String, Object> getSlots() {
 		return slots;
 	}
@@ -63,6 +69,7 @@ public class SemanticResult {
 		this.slots = slots;
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Object getData() {
 		return data;
 	}

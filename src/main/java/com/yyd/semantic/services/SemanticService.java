@@ -1,11 +1,13 @@
 package com.yyd.semantic.services;
 
-import com.ybnf.semantic.Semantic;
+import com.yyd.semantic.common.SemanticResult;
 
 public interface SemanticService {
 	
-	String getSemanticLang() throws Exception;
+	String getSemanticLang();
 	
-	Semantic<?> handleSemantic(String service) throws Exception;
+	String getSemanticLang(String langFilename) throws Exception;
+	
+	SemanticResult handleSemantic(String service) throws Exception;
 	
 }
