@@ -4,17 +4,13 @@
 service common;
 root $main;
 
-$author{author} = $_yyd_ch_<1,6>;
-$shi{action%shi} = 诗;
-$ci{action%ci} = 词;
-$poetry_main{service%poetry} = $author 的 ($shi|$ci);
+$author{author} = $_yyd_string_;
+$poetry_main{service%poetry} = $author 的 (词|诗);
 
-$songer{songer} = $_yyd_ch_<1,6>;
-$song{action%song} = 歌;
-$song_main{service%song} = $songer 的 $song;
+$songer{songer} = $_yyd_string_;
+$song_main{service%song} = $songer 的歌;
 
-$yanyuan{yanyuan} = $_yyd_ch_<1,6>;
-$xiangsheng{action%xiangsheng} = 相声;
-$xiangsheng_main{service%xiangsheng} = $yanyuan 的 $xiangsheng;
+$yanyuan{yanyuan} = $_yyd_string_;
+$xiangsheng_main{service%xiangsheng} = $yanyuan 的相声;
 
 $main = $poetry_main|$song_main|$xiangsheng_main;

@@ -3,6 +3,6 @@
 #include classpath:semantics/common.ybnf;
 service song;
 root $main;
-$songer{songer} = $_yyd_ch_<1,6>|刘德华|黎明|张学友|郭富城;
+$songer{songer} = $_yyd_string_;
 $song_main = $songer 的 歌;
 $main{action%song} = ($songer 的)|$song_main|$songer;

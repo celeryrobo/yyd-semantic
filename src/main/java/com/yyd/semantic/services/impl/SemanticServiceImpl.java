@@ -10,6 +10,7 @@ import com.ybnf.compiler.beans.AbstractSemanticResult;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
 import com.yyd.semantic.common.FileUtils;
+import com.yyd.semantic.common.SemanticContext;
 import com.yyd.semantic.common.SemanticFactory;
 import com.yyd.semantic.common.SemanticResult;
 import com.yyd.semantic.common.impl.SemanticIntention;
@@ -18,12 +19,13 @@ import com.yyd.semantic.services.SemanticService;
 
 @Service
 public class SemanticServiceImpl implements SemanticService {
-	private static String temp_service = null;
 	private static Map<String, String> fileLangMap;
 	private String semanticBaseDirname;
 	private String semanticLang;
 	@Autowired
 	private SemanticFactory semanticFactory;
+	@Autowired
+	private SemanticContext semanticContext;
 
 	public SemanticServiceImpl() throws Exception {
 		fileLangMap = new HashMap<String, String>();
@@ -49,14 +51,15 @@ public class SemanticServiceImpl implements SemanticService {
 	}
 
 	@Override
-	public SemanticResult handleSemantic(String text) throws Exception {
-		YbnfCompileResult result = parseSemantic(text, temp_service);
+	public SemanticResult handleSemantic(String text, String userIdentify) throws Exception {
+		semanticContext.setUserIdentify(userIdentify);
+		YbnfCompileResult result = parseSemantic(text, semanticContext.getService());
 		SemanticResult sr;
 		if (result == null) {
 			sr = new SemanticResult(404, "match error ！！！", result);
 			sr.setText(text);
 		} else {
-			temp_service = result.getService();
+			semanticContext.setService(result.getService());
 			Semantic<?> semantic = semanticFactory.build(result.getService());
 			AbstractSemanticResult rs = semantic.handle(result);
 			sr = new SemanticResult(rs.getErrCode(), null, result);
