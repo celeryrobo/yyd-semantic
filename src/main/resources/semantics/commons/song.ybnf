@@ -1,0 +1,4 @@
+#YBNF 1.0 utf8;
+$songer{songer} = 刘德华|周杰伦|张学友|黎明;
+$song_name{song_name} = $_yyd_string_;
+$song_case1{action%song} = [给我] (来|播|唱) [$digital] [首] [$songer 的] 歌  [([来]听听|吧)];

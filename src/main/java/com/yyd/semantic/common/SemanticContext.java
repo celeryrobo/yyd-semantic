@@ -1,9 +1,12 @@
 package com.yyd.semantic.common;
 
 public interface SemanticContext {
-	void setUserIdentify(String userIdentify);
+	void loadByUserIdentify(String userIdentify);
 
 	String getService();
 
-	void setService(Object value);
+	void setService(String service);
+	
+	void save();
+	
 }

@@ -1,0 +1,3 @@
+#YBNF 1.0 utf8;
+$yanyuan{yanyuan} = $_yyd_string_;
+$xiangsheng_case1{action%xiangsheng} = $yanyuan 的相声;

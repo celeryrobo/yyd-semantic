@@ -1,8 +1,7 @@
 #YBNF 1.0 utf8;
 #include original.ybnf;
-#include classpath:semantics/common.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/song.ybnf;
 service song;
 root $main;
-$songer{songer} = $_yyd_string_;
-$song_main = $songer 的 歌;
-$main{action%song} = ($songer 的)|$song_main|$songer;
+$main{action%song} = ($songer 的)|$song_case1;

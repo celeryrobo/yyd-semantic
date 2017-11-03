@@ -1,16 +1,12 @@
 #YBNF 0.1 utf8;
 #include original.ybnf;
-#include classpath:semantics/common.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/poetry.ybnf;
+#include classpath:semantics/commons/song.ybnf;
+#include classpath:semantics/commons/xiangsheng.ybnf;
 service common;
 root $main;
-
-$author{author} = $_yyd_string_;
-$poetry_main{service%poetry} = $author 的 (词|诗);
-
-$songer{songer} = $_yyd_string_;
-$song_main{service%song} = $songer 的歌;
-
-$yanyuan{yanyuan} = $_yyd_string_;
-$xiangsheng_main{service%xiangsheng} = $yanyuan 的相声;
-
+$poetry_main{service%poetry} = $poetry_case1;
+$song_main{service%song} = $song_case1;
+$xiangsheng_main{service%xiangsheng} = $xiangsheng_case1;
 $main = $poetry_main|$song_main|$xiangsheng_main;

@@ -1,8 +1,8 @@
 #YBNF 1.0 utf8;
 #include original.ybnf;
-#include classpath:semantics/common.ybnf;
+#include classpath:semantics/commons/common.ybnf;
 service xiangsheng;
 root $main;
 $yanyuan{yanyuan} = $_yyd_string_;
 $xiangsheng_main = $yanyuan 的 相声;
-$main{action%xiangsheng} = ($yanyuan 的)|$xiangsheng_main|$yanyuan;
+$main{action%xiangsheng} = ($yanyuan 的)|$xiangsheng_main;

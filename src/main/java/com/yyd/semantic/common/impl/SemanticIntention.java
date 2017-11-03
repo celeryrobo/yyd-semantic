@@ -14,6 +14,7 @@ public class SemanticIntention implements SemanticMatching {
 		String langFilename = String.format("%sintentions/%s.ybnf", semanticBaseDirname, service);
 		String ybnf = semanticService.getSemanticLang(langFilename);
 		compiler = new YbnfCompiler(ybnf);
+		System.out.println(compiler.isFailure());
 		if (compiler.isFailure()) {
 			throw new Exception(compiler.getFailure());
 		}
@@ -25,6 +26,7 @@ public class SemanticIntention implements SemanticMatching {
 		try {
 			result = compiler.compile(text);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return result;
 	}

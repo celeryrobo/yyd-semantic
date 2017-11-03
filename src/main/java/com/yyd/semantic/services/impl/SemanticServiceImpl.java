@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.ybnf.compiler.beans.AbstractSemanticResult;
@@ -18,10 +19,11 @@ import com.yyd.semantic.common.impl.SemanticScene;
 import com.yyd.semantic.services.SemanticService;
 
 @Service
+@Scope("prototype")
 public class SemanticServiceImpl implements SemanticService {
 	private static Map<String, String> fileLangMap;
-	private String semanticBaseDirname;
-	private String semanticLang;
+	private static String semanticBaseDirname;
+	private static String semanticLang;
 	@Autowired
 	private SemanticFactory semanticFactory;
 	@Autowired
@@ -29,8 +31,12 @@ public class SemanticServiceImpl implements SemanticService {
 
 	public SemanticServiceImpl() throws Exception {
 		fileLangMap = new HashMap<String, String>();
-		semanticBaseDirname = this.getClass().getResource("/semantics/").getPath();
-		semanticLang = FileUtils.readFile(semanticBaseDirname + "main.ybnf");
+		if (semanticBaseDirname == null) {
+			semanticBaseDirname = this.getClass().getResource("/semantics/").getPath();
+		}
+		if (semanticLang == null) {
+			semanticLang = FileUtils.readFile(semanticBaseDirname + "main.ybnf");
+		}
 	}
 
 	@Override
@@ -52,7 +58,7 @@ public class SemanticServiceImpl implements SemanticService {
 
 	@Override
 	public SemanticResult handleSemantic(String text, String userIdentify) throws Exception {
-		semanticContext.setUserIdentify(userIdentify);
+		semanticContext.loadByUserIdentify(userIdentify);
 		YbnfCompileResult result = parseSemantic(text, semanticContext.getService());
 		SemanticResult sr;
 		if (result == null) {
@@ -65,24 +71,53 @@ public class SemanticServiceImpl implements SemanticService {
 			sr = new SemanticResult(rs.getErrCode(), null, result);
 			sr.setData(rs);
 		}
+		semanticContext.save();
 		return sr;
 	}
 
 	private YbnfCompileResult parseSemantic(String text, String service) throws Exception {
+		return parseSemantic(text, service, 0);
+	}
+
+	private YbnfCompileResult parseSemantic(String text, String service, int loopCount) throws Exception {
+		if (loopCount > 5) {
+			return null;
+		}
 		YbnfCompileResult result;
 		if (service == null || "".equals(service)) {
+			// 场景为空时表示场景匹配，场景不为空表示意图匹配
 			result = new SemanticScene(this).matching(text);
-			if (result != null) {
-				YbnfCompileResult rs = parseSemantic(text, result.getService());
+			// 如果匹配失败则进入分词实体识别，否则进入意图匹配
+			if (result == null) {
+				String serv = cutWord(text);
+				if (serv != null) {
+					// 表示匹配到了场景，否则没有匹配到场景
+					result = parseSemantic(text, serv, loopCount + 1);
+				}
+			} else {
+				YbnfCompileResult rs = parseSemantic(text, result.getService(), loopCount + 1);
 				result = (rs == null ? result : rs);
 			}
 		} else {
+			// 根据场景名进行意图匹配
 			result = new SemanticIntention(this, service).matching(text);
+			// 意图匹配失败后，则进入场景匹配
 			if (result == null) {
-				result = parseSemantic(text, null);
+				result = parseSemantic(text, null, loopCount + 1);
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * 分词意图识别方法
+	 * 
+	 * @param text
+	 *            语料
+	 * @return 场景名
+	 */
+	private String cutWord(String text) {
+		return "song";
 	}
 
 }

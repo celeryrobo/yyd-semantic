@@ -1,6 +1,7 @@
 package com.yyd.semantic.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,7 @@ import com.yyd.semantic.common.SemanticResult;
 import com.yyd.semantic.services.SemanticService;
 
 @RestController
+@Scope("prototype")
 @RequestMapping("/semantic")
 public class SemanticController {
 	@Autowired

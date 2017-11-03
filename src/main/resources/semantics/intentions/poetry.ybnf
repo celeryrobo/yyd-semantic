@@ -1,8 +1,7 @@
 #YBNF 1.0 utf8;
 #include original.ybnf;
-#include classpath:semantics/common.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/poetry.ybnf;
 service poetry;
 root $main;
-$author{author} = $_yyd_string_;
-$poetry_main = $author 的 (诗|词);
-$main{action%poetry} = ($author 的)|$poetry_main|$author;
+$main{action%poetry} = ($author 的)|$poetry_case1|$author;
