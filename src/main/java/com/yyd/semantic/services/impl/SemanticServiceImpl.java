@@ -79,7 +79,7 @@ public class SemanticServiceImpl implements SemanticService {
 	}
 
 	private YbnfCompileResult parseSemantic(String text, String service, int loopCount) throws Exception {
-		if (loopCount > 5) {
+		if (loopCount > 2) {
 			return null;
 		}
 		YbnfCompileResult result;
