@@ -7,13 +7,16 @@ import com.yyd.semantic.common.SemanticMatching;
 import com.yyd.semantic.services.SemanticService;
 
 public class SemanticScene implements SemanticMatching {
-	private Compiler compiler;
+	private static Compiler compiler = null;
 
 	public SemanticScene(SemanticService semanticService) throws Exception {
-		String ybnf = semanticService.getSemanticLang();
-		compiler = new YbnfCompiler(ybnf);
-		if (compiler.isFailure()) {
-			throw new Exception(compiler.getFailure());
+		if (compiler == null) {
+			String ybnf = semanticService.getSemanticLang();
+			compiler = new YbnfCompiler(ybnf);
+			if (compiler.isFailure()) {
+				compiler = null;
+				throw new Exception(compiler.getFailure());
+			}
 		}
 	}
 

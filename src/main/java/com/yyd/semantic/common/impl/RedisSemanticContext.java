@@ -24,7 +24,7 @@ public class RedisSemanticContext implements SemanticContext {
 	private StringRedisTemplate redisTemplate;
 	private ContextOperations contextOperations;
 	private Map<String, OperationEntity> mapParams;
-	
+
 	public RedisSemanticContext() {
 		mapParams = new HashMap<String, OperationEntity>();
 	}
@@ -32,9 +32,9 @@ public class RedisSemanticContext implements SemanticContext {
 	@Override
 	public void loadByUserIdentify(String userIdentify) {
 		contextOperations = new ContextOperations(redisTemplate, userIdentify);
-		String[] paramNames = {"service"};
+		String[] paramNames = { "service", "params" };
 		List<Object> objs = contextOperations.load(paramNames);
-		for(int index = 0; index < paramNames.length; index++) {
+		for (int index = 0; index < paramNames.length; index++) {
 			mapParams.put(paramNames[index], new OperationEntity(objs.get(index)));
 		}
 	}
@@ -42,6 +42,9 @@ public class RedisSemanticContext implements SemanticContext {
 	@Override
 	public String getService() {
 		OperationEntity entity = mapParams.get("service");
+		if (entity == null) {
+			return null;
+		}
 		return (String) entity.getValue();
 	}
 
@@ -51,13 +54,13 @@ public class RedisSemanticContext implements SemanticContext {
 		entity.setValue(service);
 		entity.setStatus(OperationEntity.MIDIFYED);
 	}
-	
+
 	@Override
 	public void save() {
 		Map<String, Object> params = new HashMap<String, Object>();
-		for(Map.Entry<String, OperationEntity> entry : mapParams.entrySet()) {
+		for (Map.Entry<String, OperationEntity> entry : mapParams.entrySet()) {
 			OperationEntity entity = entry.getValue();
-			if(entity.getStatus() == OperationEntity.MIDIFYED) {
+			if (entity.getStatus() == OperationEntity.MIDIFYED) {
 				params.put(entry.getKey(), entity.getValue());
 			}
 		}
@@ -70,7 +73,7 @@ public class RedisSemanticContext implements SemanticContext {
 	 * @author celery
 	 * 
 	 */
-	private class ContextOperations {
+	private static class ContextOperations {
 		private String redisKeyname;
 		private StringRedisTemplate redisTemplate;
 		private Long timeout = 24L * 60L * 60L;
@@ -82,16 +85,16 @@ public class RedisSemanticContext implements SemanticContext {
 			}
 		}
 
-		public List<Object> load(String ...keys) {
+		public List<Object> load(String... keys) {
 			Collection<Object> collection = new ArrayList<Object>();
 			for (String key : keys) {
 				collection.add(key);
 			}
-			return redisTemplate.opsForHash().multiGet(redisKeyname,collection);
+			return redisTemplate.opsForHash().multiGet(redisKeyname, collection);
 		}
 
 		public Object save(Map<String, Object> args) {
-			if(args.size() == 0) {
+			if (args.size() == 0) {
 				return null;
 			}
 			SessionCallback<Object> sessionCallback = new SessionCallback<Object>() {
@@ -108,13 +111,13 @@ public class RedisSemanticContext implements SemanticContext {
 			return result;
 		}
 	}
-	
-	private class OperationEntity{
+
+	private static class OperationEntity {
 		public static final int NORMAL = 0;
 		public static final int MIDIFYED = 1;
 		private Object value;
 		private int status;
-		
+
 		public OperationEntity(Object value) {
 			setValue(value);
 			setStatus(OperationEntity.NORMAL);
