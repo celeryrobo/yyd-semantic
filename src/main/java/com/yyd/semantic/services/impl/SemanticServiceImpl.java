@@ -71,7 +71,6 @@ public class SemanticServiceImpl implements SemanticService {
 			sr = new SemanticResult(rs.getErrCode(), null, result);
 			sr.setData(rs);
 		}
-		semanticContext.save();
 		return sr;
 	}
 
