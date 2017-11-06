@@ -12,6 +12,8 @@ public class Test implements Semantic<TestBean> {
 	@Override
 	public TestBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
 		String text = ybnfCompileResult.toString();
+		semanticContext.getParams().putAll(ybnfCompileResult.getSlots());
+		semanticContext.getParams().putAll(ybnfCompileResult.getObjects());
 		TestBean rs = new TestBean();
 		rs.setId(1);
 		rs.setName(text);

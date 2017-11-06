@@ -65,11 +65,14 @@ public class SemanticServiceImpl implements SemanticService {
 			sr = new SemanticResult(404, "match error ！！！", result);
 			sr.setText(text);
 		} else {
+			if(result.getService() != semanticContext.getService()) {
+				semanticContext.getParams().clear();
+			}
 			Semantic<?> semantic = semanticFactory.build(result.getService());
 			AbstractSemanticResult rs = semantic.handle(result, semanticContext);
+			semanticContext.setService(result.getService());
 			sr = new SemanticResult(rs.getErrCode(), null, result);
 			sr.setData(rs);
-			semanticContext.setService(result.getService());
 		}
 		return sr;
 	}
