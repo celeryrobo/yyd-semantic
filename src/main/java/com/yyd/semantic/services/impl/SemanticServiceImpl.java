@@ -65,7 +65,7 @@ public class SemanticServiceImpl implements SemanticService {
 			sr = new SemanticResult(404, "match error ！！！", result);
 			sr.setText(text);
 		} else {
-			if (result.getService() != semanticContext.getService()) {
+			if (result.getService().equals(semanticContext.getService())) {
 				if (!semanticContext.getParams().isEmpty()) {
 					semanticContext.getParams().clear();
 				}
