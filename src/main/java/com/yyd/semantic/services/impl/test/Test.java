@@ -4,12 +4,13 @@ import org.springframework.stereotype.Service;
 
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
+import com.ybnf.semantic.SemanticContext;
 
 @Service
 public class Test implements Semantic<TestBean> {
 
 	@Override
-	public TestBean handle(YbnfCompileResult ybnfCompileResult) {
+	public TestBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
 		String text = ybnfCompileResult.toString();
 		TestBean rs = new TestBean();
 		rs.setId(1);

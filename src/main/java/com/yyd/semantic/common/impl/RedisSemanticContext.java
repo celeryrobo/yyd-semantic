@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import com.yyd.semantic.common.SemanticContext;
+import com.ybnf.semantic.SemanticContext;
 
 @Component
 @Scope("prototype")
@@ -17,20 +17,16 @@ public class RedisSemanticContext implements SemanticContext {
 	@Autowired
 	private StringRedisTemplate redisTemplate;
 	private Map<Object, Object> attrs; // 上下文属性字典
-	private Map<Object, Object> slots; // 语义槽字典
-	private Map<Object, Object> objects; // 语义槽实体字典
+	private Map<Object, Object> params; // 语义槽参数字典
 
 	@Override
 	public void loadByUserIdentify(String userIdentify) {
 		String attrKeyname = "SEMANTIC:CONTEXT:ATTRS:USER:" + userIdentify;
 		attrs = new RedisStringMap(redisTemplate, attrKeyname);
 		redisTemplate.expire(attrKeyname, timeout, TimeUnit.SECONDS);
-		String slotKeyname = "SEMANTIC:CONTEXT:SLOTS:USER:" + userIdentify;
-		slots = new RedisStringMap(redisTemplate, slotKeyname);
-		redisTemplate.expire(slotKeyname, timeout, TimeUnit.SECONDS);
-		String objectKeyname = "SEMANTIC:CONTEXT:OBJECTS:USER:" + userIdentify;
-		objects = new RedisStringMap(redisTemplate, objectKeyname);
-		redisTemplate.expire(objectKeyname, timeout, TimeUnit.SECONDS);
+		String paramKeyname = "SEMANTIC:CONTEXT:PARAMS:USER:" + userIdentify;
+		params = new RedisStringMap(redisTemplate, paramKeyname);
+		redisTemplate.expire(paramKeyname, timeout, TimeUnit.SECONDS);
 	}
 
 	@Override
@@ -44,13 +40,8 @@ public class RedisSemanticContext implements SemanticContext {
 	}
 
 	@Override
-	public Map<Object, Object> getSlots() {
-		return slots;
-	}
-
-	@Override
-	public Map<Object, Object> getObjects() {
-		return objects;
+	public Map<Object, Object> getParams() {
+		return params;
 	}
 
 }

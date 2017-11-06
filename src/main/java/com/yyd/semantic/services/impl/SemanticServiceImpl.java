@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.ybnf.compiler.beans.AbstractSemanticResult;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
+import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.FileUtils;
-import com.yyd.semantic.common.SemanticContext;
 import com.yyd.semantic.common.SemanticFactory;
 import com.yyd.semantic.common.SemanticResult;
 import com.yyd.semantic.common.impl.SemanticIntention;
@@ -65,11 +65,11 @@ public class SemanticServiceImpl implements SemanticService {
 			sr = new SemanticResult(404, "match error ！！！", result);
 			sr.setText(text);
 		} else {
-			semanticContext.setService(result.getService());
 			Semantic<?> semantic = semanticFactory.build(result.getService());
-			AbstractSemanticResult rs = semantic.handle(result);
+			AbstractSemanticResult rs = semantic.handle(result, semanticContext);
 			sr = new SemanticResult(rs.getErrCode(), null, result);
 			sr.setData(rs);
+			semanticContext.setService(result.getService());
 		}
 		return sr;
 	}
