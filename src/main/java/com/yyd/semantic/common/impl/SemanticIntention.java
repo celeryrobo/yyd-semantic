@@ -34,6 +34,7 @@ public class SemanticIntention implements SemanticMatching {
 		try {
 			result = compiler.compile(text);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return result;
 	}
