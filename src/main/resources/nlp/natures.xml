@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<serviceconf> 
+	<nature>
+		<name>npoet</name>
+		<desc>诗人</desc>
+		<service>poetry</service>
+	</nature>
+	<nature>
+		<name>npoem</name>
+		<desc>诗名</desc>
+		<service>poetry</service>
+	</nature>
+	<nature>
+		<name>npoemse</name>
+		<desc>一句诗</desc>
+		<service>poetry</service>
+	</nature>	
+</serviceconf> 

@@ -4,4 +4,5 @@
 #include classpath:semantics/commons/poetry.ybnf;
 service poetry;
 root $main;
-$main{action%poetry} = ($author 的)|$poetry_case1|$author;
+
+$poetry_main{service%poetry} = $poetry_case1|$poetry_case2|$poetry_case3|$poetry_case4|$poetry_case5|$poetry_case6;
