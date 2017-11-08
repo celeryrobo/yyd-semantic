@@ -2,6 +2,6 @@
 $songer{songer} = 刘德华|周杰伦|张学友|黎明|$_yyd_string_;
 $song_name{songName} = $_yyd_string_;
 $song_case1 = $song_case2 | $song_case3 | $song_case4;
-$song_case2{action%song} = (我想听 [[一] 首] 歌) | (唱 [[一] 首] 歌 );
-$song_case3{action%song} = (我想听 | 来 | 唱 | 播 | 放) [[一] 首] $songer 的 ($song_name | 歌);
-$song_case4{action%song} = (唱 $song_name [的] 歌手是谁);
+$song_case2{action%song} = (我想听 [[一] 首] 歌) | (唱 [[一] 首] 歌 [曲]);
+$song_case3{action%song} = (我想听 | 来 | 唱 | 播 | 放) [[一] 首] $songer 的 ($song_name | (歌 [曲]));
+$song_case4{action%song} = (唱 $song_name 的歌手[是谁]) | ($song_name 是谁唱的);
