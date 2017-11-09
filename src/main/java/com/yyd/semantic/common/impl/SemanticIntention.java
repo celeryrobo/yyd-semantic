@@ -6,6 +6,7 @@ import java.util.Map;
 import com.ybnf.compiler.Compiler;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.compiler.impl.YbnfCompiler;
+import com.ybnf.semantic.SemanticCallable;
 import com.yyd.semantic.common.SemanticMatching;
 import com.yyd.semantic.services.SemanticService;
 
@@ -13,7 +14,8 @@ public class SemanticIntention implements SemanticMatching {
 	private static Map<String, Compiler> compilerMap = new HashMap<String, Compiler>();
 	private Compiler compiler;
 
-	public SemanticIntention(SemanticService semanticService, String service) throws Exception {
+	public SemanticIntention(SemanticService semanticService, String service, SemanticCallable semanticCallable)
+			throws Exception {
 		if (compilerMap.containsKey(service)) {
 			compiler = compilerMap.get(service);
 		} else {
@@ -24,6 +26,8 @@ public class SemanticIntention implements SemanticMatching {
 			if (compiler.isFailure()) {
 				throw new Exception(compiler.getFailure());
 			}
+			compiler.setSemanticCallable(semanticCallable);
+			System.out.println(compiler.getGrammar());
 			compilerMap.put(service, compiler);
 		}
 	}

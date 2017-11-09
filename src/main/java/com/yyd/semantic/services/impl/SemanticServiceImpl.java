@@ -3,6 +3,8 @@ package com.yyd.semantic.services.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -10,12 +12,14 @@ import org.springframework.stereotype.Service;
 import com.ybnf.compiler.beans.AbstractSemanticResult;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
+import com.ybnf.semantic.SemanticCallable;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.FileUtils;
 import com.yyd.semantic.common.SemanticFactory;
 import com.yyd.semantic.common.SemanticResult;
 import com.yyd.semantic.common.impl.SemanticIntention;
 import com.yyd.semantic.common.impl.SemanticScene;
+import com.yyd.semantic.nlp.SegSceneParser;
 import com.yyd.semantic.services.SemanticService;
 
 @Service
@@ -28,6 +32,8 @@ public class SemanticServiceImpl implements SemanticService {
 	private SemanticFactory semanticFactory;
 	@Autowired
 	private SemanticContext semanticContext;
+	@Resource(name = "GlobalSemanticCallable")
+	private SemanticCallable semanticCallable;
 
 	public SemanticServiceImpl() throws Exception {
 		fileLangMap = new HashMap<String, String>();
@@ -91,7 +97,7 @@ public class SemanticServiceImpl implements SemanticService {
 		YbnfCompileResult result;
 		if (service == null || "".equals(service)) {
 			// 场景为空时表示场景匹配，场景不为空表示意图匹配
-			result = new SemanticScene(this).matching(text);
+			result = new SemanticScene(this, semanticCallable).matching(text);
 			// 如果匹配失败则进入分词实体识别，否则进入意图匹配
 			if (result == null) {
 				String serv = cutWord(text);
@@ -105,7 +111,7 @@ public class SemanticServiceImpl implements SemanticService {
 			}
 		} else {
 			// 根据场景名进行意图匹配
-			result = new SemanticIntention(this, service).matching(text);
+			result = new SemanticIntention(this, service, semanticCallable).matching(text);
 			// 意图匹配失败后，则进入场景匹配
 			if (result == null) {
 				result = parseSemantic(text, null, loopCount + 1);
@@ -122,7 +128,8 @@ public class SemanticServiceImpl implements SemanticService {
 	 * @return 场景名
 	 */
 	private String cutWord(String text) {
-		return "song";
+		String service = SegSceneParser.parse(text);
+		return service;
 	}
 
 }
