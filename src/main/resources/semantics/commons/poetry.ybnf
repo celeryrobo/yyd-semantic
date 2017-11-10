@@ -10,7 +10,7 @@ $sentence{sentence} = $_call_poetry_sentence_;
 $poetry_case1{action%queryPoetry} = [我想听|来首|背一首] [$dynasty|$author] [的] (词|诗|$title);
 $poetry_case2{action%next} = [$sentence] [的] 下一句;
 $poetry_case3{action%last} = [$sentence] [的] 上一句;
-$poetry_case4{action%queryAuthor}=(这首诗|$title|$sentence) [的] 作者  [是谁]; 
+$poetry_case4{action%queryAuthor}=(这首诗|$title|$sentence) [的] 作者  [是谁];
 $poetry_case5{action%queryDynasty}=(这首诗|$title|$sentence|$author) (是|属于) 哪个朝代;
 $poetry_case6{action%queryTitle}=(这句|$sentence) (出自|属于) 哪首诗;
 

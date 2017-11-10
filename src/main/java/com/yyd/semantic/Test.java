@@ -1,15 +1,15 @@
 package com.yyd.semantic;
 
+import java.util.List;
 
-
-import com.yyd.semantic.nlp.SegSceneParser;
-
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.seg.common.Term;
 
 public class Test {
 
 	public static void main(String[] args) {
-		String service = SegSceneParser.parse("床前明月光的下一句");
-		System.out.println(service);
+		List<Term> terms = HanLP.segment("姑苏城外寒山寺");
+		System.out.println(terms);
 	}
 
 }
