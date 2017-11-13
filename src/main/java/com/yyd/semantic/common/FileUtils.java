@@ -10,11 +10,16 @@ import java.util.ArrayList;
  * @author celery
  *
  */
+import java.util.Properties;
+
 public class FileUtils {
 	/**
 	 * 查找指定后缀名的文件
-	 * @param filename 文件或者文件夹
-	 * @param ext 指定需要查找的文件的后缀
+	 * 
+	 * @param filename
+	 *            文件或者文件夹
+	 * @param ext
+	 *            指定需要查找的文件的后缀
 	 * @return 所有查询到的文件绝对路径
 	 */
 	public static ArrayList<File> listFiles(String filename, String ext) {
@@ -22,7 +27,7 @@ public class FileUtils {
 		File file = new File(filename);
 		if (!file.exists()) {
 			return files;
-		}else if(file.isDirectory()) {
+		} else if (file.isDirectory()) {
 			File[] filelist = file.listFiles(new FileExtFilter(ext));
 			if (filelist != null) {
 				for (File f : filelist) {
@@ -34,11 +39,11 @@ public class FileUtils {
 		}
 		return files;
 	}
-	
-	public static ArrayList<String> listFilenames(String filename, String ext){
+
+	public static ArrayList<String> listFilenames(String filename, String ext) {
 		ArrayList<File> files = listFiles(filename, ext);
 		ArrayList<String> filenames = new ArrayList<String>();
-		for(File file : files) {
+		for (File file : files) {
 			filenames.add(file.getAbsolutePath());
 		}
 		return filenames;
@@ -46,7 +51,9 @@ public class FileUtils {
 
 	/**
 	 * 读取指定文件的全部内容
-	 * @param filename 指定的需要读取的文件名称
+	 * 
+	 * @param filename
+	 *            指定的需要读取的文件名称
 	 * @return 读取文件的全部内容
 	 * @throws Exception
 	 */
@@ -66,5 +73,18 @@ public class FileUtils {
 			fis.close();
 		}
 		return sb.toString();
+	}
+	
+	public static String getResourcePath() {
+		return Thread.currentThread().getContextClassLoader().getResource("").getPath();
+	}
+
+	public static Properties buildProperties(String path) throws Exception {
+		String propertiesPath = getResourcePath() + path;
+		Properties properties = new Properties();
+		FileInputStream fis = new FileInputStream(propertiesPath);
+		properties.load(fis);
+		fis.close();
+		return properties;
 	}
 }

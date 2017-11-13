@@ -30,16 +30,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>	
-			<version>1.1.1</version> 					
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.boot</groupId>  
-            <artifactId>spring-boot-starter-data-redis</artifactId>         
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
 		<dependency>
-    		<groupId>mysql</groupId>
-    		<artifactId>mysql-connector-java</artifactId>    		
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,17 +58,23 @@
 		</dependency>
 		<dependency>
 			<groupId>com.yyd</groupId>
-			<artifactId>hanlp</artifactId>
-			<version>1.3.2</version>
+			<artifactId>ansj_seg</artifactId>
+			<version>5.1.3</version>
 			<scope>system</scope>
-			<systemPath>C:/Users/hongxinzhao/Desktop/hanlp-1.3.2.jar</systemPath>
+			<systemPath>C:/Users/hongxinzhao/Desktop/ansj_seg-5.1.3.jar</systemPath>
 		</dependency>
-		 <dependency>
-    		<groupId>dom4j</groupId>
-    		<artifactId>dom4j</artifactId>
-   			<version>1.6.1</version>
+		<dependency>
+			<groupId>com.yyd</groupId>
+			<artifactId>nlp-lang</artifactId>
+			<version>1.7.5</version>
+			<scope>system</scope>
+			<systemPath>C:/Users/hongxinzhao/Desktop/nlp-lang-1.7.5.jar</systemPath>
 		</dependency>
-		
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

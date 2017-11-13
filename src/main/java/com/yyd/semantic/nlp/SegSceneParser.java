@@ -10,9 +10,9 @@ public class SegSceneParser {
 	  * @param text
 	  * @return :场景或null(此时无实体词)
 	  */
-	 public static  String parse(String text) {
+	 public static  String parse(String text, String... forestNames) {
 		 String service = null;
-		 List<WordTerm> terms = NLPFactory.segment(text);
+		 List<WordTerm> terms = NLPFactory.segment(text, forestNames);
 		 
 		 Map<String,Integer> services = new HashMap<String,Integer>();
 		 for(WordTerm term:terms) {		

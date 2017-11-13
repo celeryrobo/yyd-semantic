@@ -1,9 +1,7 @@
 package com.yyd.semantic.services.impl.test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -13,20 +11,12 @@ import com.yyd.semantic.nlp.WordTerm;
 
 @Component
 public class TestCallable implements SemanticCallable {
-	private Map<Object, Object> map;
-	
-	public TestCallable() {
-		map = new HashMap<Object, Object>();
-		map.put("title", "npoem");
-		map.put("sentence", "npoemse");
-		map.put("author", "npoet");
-	}
 
 	@Override
 	public String call(String text, Object callName, Object... args) {
 		List<WordTerm> list = new ArrayList<WordTerm>();
-		for (WordTerm wordTerm : NLPFactory.segment(text)) {
-			if(wordTerm.getNature().equals(map.get(args[0]))) {
+		for (WordTerm wordTerm : NLPFactory.segment(text, (String) args[0])) {
+			if(wordTerm.getNature().equals(args[0])) {
 				list.add(wordTerm);
 			}
 		}

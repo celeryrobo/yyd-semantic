@@ -1,15 +1,12 @@
 package com.yyd.semantic;
 
-import java.util.List;
-
-import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.seg.common.Term;
+import com.yyd.semantic.nlp.SegSceneParser;
 
 public class Test {
 
 	public static void main(String[] args) {
-		List<Term> terms = HanLP.segment("姑苏城外寒山寺");
-		System.out.println(terms);
+		String service = SegSceneParser.parse("我想听李白的静夜思", "author", "title", "sentence");
+		System.out.println(service);
 	}
 
 }

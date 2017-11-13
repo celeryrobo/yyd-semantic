@@ -1,6 +1,5 @@
 #YBNF 1.0 utf8;
-callable @poetry(author);
-$songer{songer} = $_call_poetry_author_;
+$songer{songer} = 刘德华|张学友|梁朝伟;
 $song_name{songName} = $_yyd_string_;
 $song_case1 = $song_case2 | $song_case3 | $song_case4;
 $song_case2{action%song} = (我想听 [[一] 首] 歌) | (唱 [[一] 首] 歌 [曲]);

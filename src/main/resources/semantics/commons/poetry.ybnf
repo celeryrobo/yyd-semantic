@@ -3,9 +3,9 @@ callable @poetry(title), @poetry(sentence), @poetry(author);
 
 $author{author} = $_call_poetry_author_;
 $title{title} = $_call_poetry_title_;
-
-$dynasty{dynasty}=晋代|唐代|宋代|元代|明代|清代;
 $sentence{sentence} = $_call_poetry_sentence_;
+
+$dynasty{dynasty}=唐代|宋代|元代|明代|清代;
 
 $poetry_case1{action%queryPoetry} = [我想听|来首|背一首] [$dynasty|$author] [的] (词|诗|$title);
 $poetry_case2{action%next} = [$sentence] [的] 下一句;

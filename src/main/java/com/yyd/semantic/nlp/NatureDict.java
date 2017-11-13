@@ -11,6 +11,8 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.yyd.semantic.common.FileUtils;
+
 public class NatureDict {
 	private static Map<String,ArrayList<String>> natures = new HashMap<String,ArrayList<String>>();
 
@@ -27,7 +29,7 @@ public class NatureDict {
 		
 	private static void load() {
 		String filePath = null;		
-		String classRootPath = Thread.currentThread().getContextClassLoader ().getResource("").getPath();
+		String classRootPath = FileUtils.getResourcePath();
 		filePath = classRootPath +"nlp/natures.xml";
 			
 		Element root = null;
