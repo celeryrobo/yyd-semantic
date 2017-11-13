@@ -5,4 +5,4 @@
 service poetry;
 root $main;
 $main = $poetry_main;
-$poetry_main{service%poetry} = $poetry_case1|$poetry_case2|$poetry_case3|$poetry_case4|$poetry_case5|$poetry_case6;
+$poetry_main{service%poetry} = $poetry_case1|$poetry_case2|$poetry_case3|$poetry_case4|$poetry_case5|$poetry_case6|$poetry_case7|$poetry_case8;

@@ -1,6 +1,5 @@
 package com.yyd.semantic.services.impl.poetry;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +9,9 @@ import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.db.bean.Author;
-import com.yyd.semantic.db.bean.Poetry;
-import com.yyd.semantic.db.bean.PoetrySentence;
 import com.yyd.semantic.db.service.AuthorService;
 import com.yyd.semantic.db.service.PoetrySentenceService;
 import com.yyd.semantic.db.service.PoetryService;
-import com.yyd.semantic.nlp.NLPFactory;
-import com.yyd.semantic.nlp.SegSceneParser;
-import com.yyd.semantic.nlp.WordTerm;
 
 @Service
 public class PoetrySemantic implements Semantic<PoetryBean>{
@@ -47,12 +41,12 @@ public class PoetrySemantic implements Semantic<PoetryBean>{
 				result = queryPoetry(objects,semanticContext);
 				break;
 			}
-			case PoetryIntent.LAST:
+			case PoetryIntent.PREV_SENTENCE:
 			{
 				result = queryLastSent(objects,semanticContext);
 				break;
 			}
-			case PoetryIntent.NEXT:
+			case PoetryIntent.NEXT_SENTENCE:
 			{
 				result = queryNextSent(objects,semanticContext);
 				break;
@@ -108,12 +102,11 @@ public class PoetrySemantic implements Semantic<PoetryBean>{
 			String entireSentence =(String)semanticContext.getParams().get(PoetrySlot.POEM_CONTEXT);
 			SentenceResult lastSentence = getLastSentence(entireSentence,currentSentence);
 			
-			serviceResult = lastSentence.get();
 			if(null != lastSentence) {
+				serviceResult = lastSentence.get();
 				if(lastSentence.isSentence()) {
-					semanticContext.getParams().put(PoetrySlot.POEM_CUR_SENTENCE, lastSentence.get());
+					semanticContext.getParams().put(PoetrySlot.POEM_CUR_SENTENCE, serviceResult);
 				}				
-				
 			}
 			
 		}
@@ -123,7 +116,8 @@ public class PoetrySemantic implements Semantic<PoetryBean>{
 			String currentSentence = sentence;
 			Poem poem = PoetryCommonService.getBySent(this.authorService,this.poetryService,this.poetrySentenceService,sentence);
 			
-			if(null != poem) {				
+			if(null != poem) {
+				PoetryCommonService.buildContext(semanticContext, poem);
 				String entireSentence = poem.getSentence();				
 				SentenceResult lastSentence = getLastSentence(entireSentence,currentSentence);			
 				serviceResult =lastSentence.get();				
@@ -209,10 +203,10 @@ public class PoetrySemantic implements Semantic<PoetryBean>{
 			//获取古诗的所有内容
 			String currentSentence = (String)semanticContext.getParams().get(PoetrySlot.POEM_CUR_SENTENCE);
 			String entireSentence = (String)semanticContext.getParams().get(PoetrySlot.POEM_CONTEXT);
-			SentenceResult nextSentence = getNextSentence(entireSentence,currentSentence);		
+			SentenceResult nextSentence = getNextSentence(entireSentence,currentSentence);
 			
-			serviceResult = nextSentence.get();
 			if(null != nextSentence) {
+				serviceResult = nextSentence.get();
 				if(nextSentence.isSentence()) {
 					semanticContext.getParams().put(PoetrySlot.POEM_CUR_SENTENCE, serviceResult);
 				}	
@@ -226,6 +220,7 @@ public class PoetrySemantic implements Semantic<PoetryBean>{
 			Poem poem = PoetryCommonService.getBySent(this.authorService,this.poetryService,this.poetrySentenceService,sentence);
 			
 			if(null != poem) {
+				PoetryCommonService.buildContext(semanticContext, poem);
 				String entireSentence = poem.getSentence();				
 				SentenceResult nextSentence = getNextSentence(entireSentence,currentSentence);			
 				serviceResult = nextSentence.get();				
