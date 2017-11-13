@@ -1,8 +1,8 @@
-package com.yyd.semantic.db.service;
+package com.yyd.semantic.db.service.poetry;
 
 import java.util.List;
 
-import com.yyd.semantic.db.bean.Poetry;
+import com.yyd.semantic.db.bean.poetry.Poetry;
 
 public interface PoetryService {
 	public List<Integer> getIdList();

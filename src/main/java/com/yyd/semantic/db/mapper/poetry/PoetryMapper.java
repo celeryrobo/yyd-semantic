@@ -1,4 +1,4 @@
-package com.yyd.semantic.db.mapper;
+package com.yyd.semantic.db.mapper.poetry;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
-import com.yyd.semantic.db.bean.Poetry;
+import com.yyd.semantic.db.bean.poetry.Poetry;
 
 @Mapper
 public interface PoetryMapper {

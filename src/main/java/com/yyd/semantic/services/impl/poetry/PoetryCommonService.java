@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Random;
 
 import com.ybnf.semantic.SemanticContext;
-import com.yyd.semantic.db.bean.Author;
-import com.yyd.semantic.db.bean.Poetry;
-import com.yyd.semantic.db.bean.PoetrySentence;
-import com.yyd.semantic.db.service.AuthorService;
-import com.yyd.semantic.db.service.PoetrySentenceService;
-import com.yyd.semantic.db.service.PoetryService;
+import com.yyd.semantic.db.bean.poetry.Author;
+import com.yyd.semantic.db.bean.poetry.Poetry;
+import com.yyd.semantic.db.bean.poetry.PoetrySentence;
+import com.yyd.semantic.db.service.poetry.AuthorService;
+import com.yyd.semantic.db.service.poetry.PoetrySentenceService;
+import com.yyd.semantic.db.service.poetry.PoetryService;
 
 public class PoetryCommonService {
 	public static void buildContext(SemanticContext semanticContext,Poem poem) {

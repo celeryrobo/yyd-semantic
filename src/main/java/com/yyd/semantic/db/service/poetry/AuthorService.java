@@ -1,8 +1,8 @@
-package com.yyd.semantic.db.service;
+package com.yyd.semantic.db.service.poetry;
 
 import java.util.List;
 
-import com.yyd.semantic.db.bean.Author;
+import com.yyd.semantic.db.bean.poetry.Author;
 
 public interface AuthorService {
 

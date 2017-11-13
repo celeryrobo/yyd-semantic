@@ -1,13 +1,13 @@
-package com.yyd.semantic.db.service.impl;
+package com.yyd.semantic.db.service.impl.poetry;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yyd.semantic.db.bean.Poetry;
-import com.yyd.semantic.db.mapper.PoetryMapper;
-import com.yyd.semantic.db.service.PoetryService;
+import com.yyd.semantic.db.bean.poetry.Poetry;
+import com.yyd.semantic.db.mapper.poetry.PoetryMapper;
+import com.yyd.semantic.db.service.poetry.PoetryService;
 
 @Service
 public class PoetryServiceImpl implements PoetryService{

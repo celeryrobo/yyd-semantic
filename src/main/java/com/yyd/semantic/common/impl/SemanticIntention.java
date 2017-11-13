@@ -2,33 +2,45 @@ package com.yyd.semantic.common.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import com.ybnf.compiler.Compiler;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.compiler.impl.YbnfCompiler;
 import com.ybnf.semantic.SemanticCallable;
+import com.yyd.semantic.common.FileUtils;
 import com.yyd.semantic.common.SemanticMatching;
-import com.yyd.semantic.services.SemanticService;
 
 public class SemanticIntention implements SemanticMatching {
-	private static Map<String, Compiler> compilerMap = new HashMap<String, Compiler>();
+	private static Map<String, Compiler> compilerMap = new HashMap<>();
 	private Compiler compiler;
+	
+	static {
+		try {
+			Properties properties = FileUtils.buildProperties("semantics/semantic.properties");
+			String intentionBaseDirname = FileUtils.getResourcePath() + "semantics/intentions/";
+			for (Object service : properties.keySet()) {
+				String langFilename = intentionBaseDirname + service + ".ybnf";
+				String lang = FileUtils.readFile(langFilename);
+				Compiler comp = new YbnfCompiler(lang);
+				compilerMap.put((String) service, comp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-	public SemanticIntention(SemanticService semanticService, String service, SemanticCallable semanticCallable)
+	public SemanticIntention(String service, SemanticCallable semanticCallable)
 			throws Exception {
 		if (compilerMap.containsKey(service)) {
 			compiler = compilerMap.get(service);
-		} else {
-			String semanticBaseDirname = this.getClass().getResource("/semantics/").getPath();
-			String langFilename = String.format("%sintentions/%s.ybnf", semanticBaseDirname, service);
-			String ybnf = semanticService.getSemanticLang(langFilename);
-			compiler = new YbnfCompiler(ybnf);
 			if (compiler.isFailure()) {
 				throw new Exception(compiler.getFailure());
 			}
 			compiler.setSemanticCallable(semanticCallable);
 			System.out.println(compiler.getGrammar());
-			compilerMap.put(service, compiler);
+		} else {
+			throw new Exception("场景：" + service + "，不存在！");
 		}
 	}
 

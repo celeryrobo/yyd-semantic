@@ -1,8 +1,5 @@
 package com.yyd.semantic.services.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticCallable;
 import com.ybnf.semantic.SemanticContext;
-import com.yyd.semantic.common.FileUtils;
 import com.yyd.semantic.common.SemanticFactory;
 import com.yyd.semantic.common.SemanticResult;
 import com.yyd.semantic.common.impl.SemanticIntention;
@@ -25,42 +21,12 @@ import com.yyd.semantic.services.SemanticService;
 @Service
 @Scope("prototype")
 public class SemanticServiceImpl implements SemanticService {
-	private static Map<String, String> fileLangMap;
-	private static String semanticBaseDirname;
-	private static String semanticLang;
 	@Autowired
 	private SemanticFactory semanticFactory;
 	@Autowired
 	private SemanticContext semanticContext;
 	@Resource(name = "GlobalSemanticCallable")
 	private SemanticCallable semanticCallable;
-
-	public SemanticServiceImpl() throws Exception {
-		fileLangMap = new HashMap<String, String>();
-		if (semanticBaseDirname == null) {
-			semanticBaseDirname = this.getClass().getResource("/semantics/").getPath();
-		}
-		if (semanticLang == null) {
-			semanticLang = FileUtils.readFile(semanticBaseDirname + "main.ybnf");
-		}
-	}
-
-	@Override
-	public String getSemanticLang() {
-		return semanticLang;
-	}
-
-	@Override
-	public String getSemanticLang(String langFilename) throws Exception {
-		String lang = "";
-		if (fileLangMap.containsKey(langFilename)) {
-			lang = fileLangMap.get(langFilename);
-		} else {
-			lang = FileUtils.readFile(langFilename);
-			fileLangMap.put(langFilename, lang);
-		}
-		return lang;
-	}
 
 	@Override
 	public SemanticResult handleSemantic(String text, String userIdentify) throws Exception {
@@ -97,7 +63,7 @@ public class SemanticServiceImpl implements SemanticService {
 		YbnfCompileResult result;
 		if (service == null || "".equals(service)) {
 			// 场景为空时表示场景匹配，场景不为空表示意图匹配
-			result = new SemanticScene(this, semanticCallable).matching(text);
+			result = new SemanticScene(semanticCallable).matching(text);
 			// 如果匹配失败则进入分词实体识别，否则进入意图匹配
 			if (result == null) {
 				String serv = cutWord(text);
@@ -111,7 +77,7 @@ public class SemanticServiceImpl implements SemanticService {
 			}
 		} else {
 			// 根据场景名进行意图匹配
-			result = new SemanticIntention(this, service, semanticCallable).matching(text);
+			result = new SemanticIntention(service, semanticCallable).matching(text);
 			// 意图匹配失败后，则进入场景匹配
 			if (result == null) {
 				result = parseSemantic(text, null, loopCount + 1);

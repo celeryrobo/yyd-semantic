@@ -1,6 +1,5 @@
 package com.yyd.semantic.common;
 
-import java.io.FileInputStream;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,7 @@ public class SemanticFactory {
 	private SpringContext springContext;
 
 	public SemanticFactory() throws Exception {
-		String semanticPropertiesPath = this.getClass().getResource("/semantics/semantic.properties").getPath();
-		properties = new Properties();
-		FileInputStream fis = new FileInputStream(semanticPropertiesPath);
-		properties.load(fis);
-		fis.close();
+		properties = FileUtils.buildProperties("semantics/semantic.properties");
 	}
 
 	public Semantic<?> build(String serviceName) throws Exception {

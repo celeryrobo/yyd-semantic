@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
-import com.yyd.semantic.db.bean.Author;
-import com.yyd.semantic.db.service.AuthorService;
-import com.yyd.semantic.db.service.PoetrySentenceService;
-import com.yyd.semantic.db.service.PoetryService;
+import com.yyd.semantic.db.bean.poetry.Author;
+import com.yyd.semantic.db.service.poetry.AuthorService;
+import com.yyd.semantic.db.service.poetry.PoetrySentenceService;
+import com.yyd.semantic.db.service.poetry.PoetryService;
 
 @Service
 public class PoetrySemantic implements Semantic<PoetryBean>{

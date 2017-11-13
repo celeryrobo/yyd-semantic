@@ -1,4 +1,4 @@
-package com.yyd.semantic.db.bean;
+package com.yyd.semantic.db.bean.poetry;
 
 public class PoetrySentence {
 	private Integer id;
