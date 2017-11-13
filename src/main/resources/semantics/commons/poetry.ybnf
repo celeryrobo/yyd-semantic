@@ -1,16 +1,16 @@
 #YBNF 1.0 utf8;
 callable @poetry(title), @poetry(sentence), @poetry(author);
 
-$author{author} = $_call_poetry_author_;
-$title{title} = $_call_poetry_title_;
-$sentence{sentence} = $_call_poetry_sentence_;
+$poetry_author{author} = $_call_poetry_author_;
+$poetry_title{title} = $_call_poetry_title_;
+$poetry_sentence{sentence} = $_call_poetry_sentence_;
 
-$poetry_case1{action%queryPoetry} = (我要听 | 我想听 | 来 | 背) [[一] 首] [$author 的] ($sentence | $title | ([唐] 诗));
-$poetry_case2{action%prevSentence} = $sentence [的] (上 | 前) [面] 一句 [是 [什么]];
-$poetry_case3{action%nextSentence} = $sentence [的] (下 | 后) [面] 一句 [是 [什么]];
-$poetry_case4{action%queryAuthor} = ($sentence | $title) [的] 作者  [是 (谁 | 哪个 | 哪位)];
-$poetry_case5{action%queryAuthor} = ($sentence | $title) 是 (谁 | 哪个 | 哪位) (写 | 创作) 的;
-$poetry_case6{action%queryAuthor} = [是] (谁 | 哪个 | 哪位) (写 | 创作) 的 ($sentence | $title);
-$poetry_case7{action%queryTitle} = $sentence (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里 | 中] 的] [诗句 | 句子];
-$poetry_case8{action%queryDynasty} = ($sentence | $title | $author) [是] [属于] (哪个 | 什么) 朝代 [的];
+$poetry_case1{action%queryPoetry} = (我要听 | 我想听 | 来 | 背) [[一] 首] [$poetry_author 的] ($poetry_sentence | $poetry_title | ([唐] 诗));
+$poetry_case2{action%prevSentence} = $poetry_sentence [的] (上 | 前) [面] 一句 [是 [什么]];
+$poetry_case3{action%nextSentence} = $poetry_sentence [的] (下 | 后) [面] 一句 [是 [什么]];
+$poetry_case4{action%queryAuthor} = ($poetry_sentence | $poetry_title) [的] 作者  [是 (谁 | 哪个 | 哪位)];
+$poetry_case5{action%queryAuthor} = ($poetry_sentence | $poetry_title) 是 (谁 | 哪个 | 哪位) (写 | 创作) 的;
+$poetry_case6{action%queryAuthor} = [是] (谁 | 哪个 | 哪位) (写 | 创作) 的 ($poetry_sentence | $poetry_title);
+$poetry_case7{action%queryTitle} = $poetry_sentence (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里 | 中] 的] [诗句 | 句子];
+$poetry_case8{action%queryDynasty} = ($poetry_sentence | $poetry_title | $poetry_author) [是] [属于] (哪个 | 什么) 朝代 [的];
 

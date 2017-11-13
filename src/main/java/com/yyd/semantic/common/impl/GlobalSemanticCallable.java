@@ -28,6 +28,9 @@ public class GlobalSemanticCallable implements SemanticCallable {
 		String result = "null";
 		try {
 			String className = properties.getProperty((String) callName);
+			if(null == className) {
+				return result;
+			}
 			Class<?> clazz = Class.forName(className);
 			SemanticCallable semanticCallable = (SemanticCallable) springContext.getBean(clazz);
 			String rs = semanticCallable.call(text, callName, args);

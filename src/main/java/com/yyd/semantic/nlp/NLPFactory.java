@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.ansj.domain.Result;
 import org.ansj.domain.Term;
@@ -26,10 +25,12 @@ public class NLPFactory {
 	static {
 		forests = new HashMap<>();
 		try {
-			Properties properties = FileUtils.buildProperties("/semantics/words.properties");
-			String path = FileUtils.getResourcePath();
-			for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-				forests.put(entry.getKey(), Library.makeForest(path + entry.getValue()));
+			String path = FileUtils.getResourcePath() + "nlp";
+			List<String> filenames = FileUtils.listFilenames(path, ".dic");
+			for (String filename : filenames) {
+				String name = filename.substring(path.length()).replaceAll("\\\\", "_");
+				String key = name.split("\\.")[0];
+				forests.put(key, Library.makeForest(filename));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,11 +45,15 @@ public class NLPFactory {
 	 */
 	public static List<WordTerm> segment(String text, String... forestNames) {
 		ArrayList<Forest> forestList = new ArrayList<>();
-		for (int idx = 0; idx < forestNames.length; idx++) {
-			String key = forestNames[idx];
-			if (forests.containsKey(key)) {
-				forestList.add(forests.get(key));
+		if(forestNames.length > 0) {
+			for (int idx = 0; idx < forestNames.length; idx++) {
+				String key = forestNames[idx];
+				if (forests.containsKey(key)) {
+					forestList.add(forests.get(key));
+				}
 			}
+		} else {
+			forestList.addAll(forests.values());
 		}
 		Forest[] forestArr = new Forest[forestList.size()];
 		forestList.toArray(forestArr);

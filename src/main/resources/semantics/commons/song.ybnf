@@ -1,7 +1,10 @@
 #YBNF 1.0 utf8;
-$songer{songer} = 刘德华|张学友|梁朝伟;
-$song_name{songName} = $_yyd_string_;
-$song_case1 = $song_case2 | $song_case3 | $song_case4;
-$song_case2{action%song} = (我想听 [[一] 首] 歌) | (唱 [[一] 首] 歌 [曲]);
-$song_case3{action%song} = (我想听 | 来 | 唱 | 播 | 放) [[一] 首] $songer 的 ($song_name | (歌 [曲]));
-$song_case4{action%song} = (唱 $song_name 的歌手[是谁]) | ($song_name 是谁唱的);
+callable @song(songer), @song(songName);
+
+$songer{songer} = $_call_song_songer_;
+$song_name{songName} = $_call_song_songName_;
+
+$song_case1{action%querySong} = (([我] (想 | 要 | 想要) 听) | ([给我] (唱 | 播 | 放))) [[一] 首] [$songer 的] ($song_name | (歌 [曲]));
+$song_case2{action%querySong} = (可以 | 能) 给我 (播放 | 播 | 放) 一首 ($song_name | (歌 [曲])) 吗;
+
+$song_case3{action%querySonger} = $song_name 是谁 ((唱的 [歌 [曲]]) | (的歌 [曲]));
