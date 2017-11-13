@@ -27,6 +27,7 @@ public class NatureDict {
 		return natures.get(nature);
 	}
 		
+	@SuppressWarnings("unchecked")
 	private static void load() {
 		String filePath = null;		
 		String classRootPath = FileUtils.getResourcePath();
@@ -37,7 +38,6 @@ public class NatureDict {
 		try {
 			root = LoadFile(filePath);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -60,7 +60,8 @@ public class NatureDict {
         return root;
 	 }
 	 
-	 private static void ParseNature(Element node){
+	 @SuppressWarnings("unchecked")
+	private static void ParseNature(Element node){
 		if(null == node){
 			return;
 		}
