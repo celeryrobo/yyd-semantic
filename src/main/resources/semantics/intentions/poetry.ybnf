@@ -22,7 +22,7 @@ $poetry_case8{action%queryAuthor} = [(这 (首|句) 诗) | $sentence | $title] [
 $poetry_case9{action%queryAuthor} = [(这 (首|句) 诗) | $sentence | $title] 是 (谁 | 哪个 | 哪位) (写 | 创作) 的;
 $poetry_case10{action%queryAuthor} = [是] (谁 | 哪个 | 哪位) (写 | 创作) 的 ($sentence | $title | 这首诗);
 
-$poetry_case11{action%queryTitle} = ((这句 [诗]) | $sentence) (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里] 的] [诗句 | 句子];
+$poetry_case11{action%queryTitle} = ((这句 [诗]) | $sentence) (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里 | 中] 的] [诗句 | 句子];
 $poetry_case12{action%queryDynasty} = ((这 (首|句) [诗]) | $sentence | $title | $author) [是] [属于] (哪个 | 什么) 朝代 [的];
 $poetry_case13{action%queryDynasty} = ((这 (首|句) [诗]) | $sentence | $title | $author) 的朝代 [是 (哪个 | 什么)];
 

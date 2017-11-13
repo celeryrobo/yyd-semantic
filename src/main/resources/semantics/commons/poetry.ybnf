@@ -11,6 +11,6 @@ $poetry_case3{action%nextSentence} = $sentence [的] (下 | 后) [面] 一句 [�
 $poetry_case4{action%queryAuthor} = ($sentence | $title) [的] 作者  [是 (谁 | 哪个 | 哪位)];
 $poetry_case5{action%queryAuthor} = ($sentence | $title) 是 (谁 | 哪个 | 哪位) (写 | 创作) 的;
 $poetry_case6{action%queryAuthor} = [是] (谁 | 哪个 | 哪位) (写 | 创作) 的 ($sentence | $title);
-$poetry_case7{action%queryTitle} = $sentence (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里] 的] [诗句 | 句子];
+$poetry_case7{action%queryTitle} = $sentence (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里 | 中] 的] [诗句 | 句子];
 $poetry_case8{action%queryDynasty} = ($sentence | $title | $author) [是] [属于] (哪个 | 什么) 朝代 [的];
 
