@@ -71,9 +71,6 @@ public class SemanticServiceImpl implements SemanticService {
 					// 表示匹配到了场景，否则没有匹配到场景
 					result = parseSemantic(text, serv, loopCount + 1);
 				}
-			} else {
-				YbnfCompileResult rs = parseSemantic(text, result.getService(), loopCount + 1);
-				result = (rs == null ? result : rs);
 			}
 		} else {
 			// 根据场景名进行意图匹配

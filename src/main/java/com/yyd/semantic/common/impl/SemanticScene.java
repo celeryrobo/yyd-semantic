@@ -28,6 +28,7 @@ public class SemanticScene implements SemanticMatching {
 				throw new Exception(compiler.getFailure());
 			}
 			compiler.setSemanticCallable(semanticCallable);
+			System.out.println(compiler.getGrammar());
 		}
 	}
 
