@@ -23,7 +23,8 @@ $poetry_case9{action%queryAuthor} = [(这 (首|句) 诗) | $title | $sentence] �
 $poetry_case10{action%queryAuthor} = [是] (谁 | 哪个 | 哪位) (写 | 创作) 的 ($title | $sentence | 这首诗);
 
 $poetry_case11{action%queryTitle} = ((这句 [诗]) | $sentence) (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里] 的] [诗句 | 句子];
-$poetry_case12{action%queryDynasty} = ((这 (首|句) [诗]) | $title | $sentence | $author) [是] [属于] (哪个 | 什么) 朝代 [的];
+$poetry_case12{action%queryDynasty} = ((这 (首|句) [诗]) | $sentence | $title | $author) [是] [属于] (哪个 | 什么) 朝代 [的];
+$poetry_case13{action%queryDynasty} = ((这 (首|句) [诗]) | $sentence | $title | $author) 的朝代 [是 (哪个 | 什么)];
 
-$poetry_main{service%poetry} = $poetry_case1|$poetry_case2|$poetry_case3|$poetry_case4|$poetry_case5|$poetry_case6
-|$poetry_case7|$poetry_case8|$poetry_case9|$poetry_case10|$poetry_case11|$poetry_case12;
+$poetry_main{service%poetry} = $poetry_case13|$poetry_case12|$poetry_case11|$poetry_case10|$poetry_case9|$poetry_case8
+|$poetry_case7|$poetry_case6|$poetry_case5|$poetry_case4|$poetry_case3|$poetry_case2|$poetry_case1;

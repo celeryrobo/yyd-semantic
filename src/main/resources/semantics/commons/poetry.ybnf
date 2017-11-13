@@ -5,7 +5,7 @@ $author{author} = $_call_poetry_author_;
 $title{title} = $_call_poetry_title_;
 $sentence{sentence} = $_call_poetry_sentence_;
 
-$poetry_case1{action%queryPoetry} = (我要听 | 我想听 | 来 | 背) [[一] 首] [$author 的] ($title | $sentence | ([唐] 诗));
+$poetry_case1{action%queryPoetry} = (我要听 | 我想听 | 来 | 背) [[一] 首] [$author 的] ($sentence | $title | ([唐] 诗));
 $poetry_case2{action%prevSentence} = $sentence [的] (上 | 前) [面] 一句 [是 [什么]];
 $poetry_case3{action%nextSentence} = $sentence [的] (下 | 后) [面] 一句 [是 [什么]];
 $poetry_case4{action%queryAuthor} = ($title | $sentence) [的] 作者  [是 (谁 | 哪个 | 哪位)];
