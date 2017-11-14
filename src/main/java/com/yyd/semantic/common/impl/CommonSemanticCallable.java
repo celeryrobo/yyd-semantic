@@ -3,6 +3,7 @@ package com.yyd.semantic.common.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nlpcn.commons.lang.util.StringUtil;
 import org.springframework.stereotype.Component;
 
 import com.ybnf.semantic.SemanticCallable;
@@ -14,23 +15,13 @@ public class CommonSemanticCallable implements SemanticCallable {
 
 	@Override
 	public String call(String text, Object callName, Object... args) {
-		List<WordTerm> list = new ArrayList<WordTerm>();
+		List<String> list = new ArrayList<String>();
 		for (WordTerm wordTerm : NLPFactory.segment(text, callName + "_" + args[0])) {
 			if (wordTerm.getNature().equals(args[0])) {
-				list.add(wordTerm);
+				list.add(wordTerm.getRealWord());
 			}
 		}
-		int size = list.size();
-		String result = "null";
-		if (size > 0) {
-			WordTerm term = list.get(0);
-			StringBuilder sb = new StringBuilder(term.getRealWord());
-			for (int i = 1; i < size; i++) {
-				sb.append("|").append(list.get(i).getRealWord());
-			}
-			result = sb.toString();
-		}
-		return result;
+		return list.isEmpty() ? "null" : StringUtil.joiner(list, "|");
 	}
 
 }
