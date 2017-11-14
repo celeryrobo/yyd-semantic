@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serviceconf>
+	<!-- 诗句场景 -->
 	<nature>
 		<name>author</name>
 		<desc>诗人</desc>
@@ -15,6 +16,7 @@
 		<desc>一句诗</desc>
 		<service>poetry</service>
 	</nature>
+	<!-- 歌曲场景 -->
 	<nature>
 		<name>song</name>
 		<desc>一首歌</desc>
@@ -25,7 +27,7 @@
 		<desc>歌手</desc>
 		<service>song</service>
 	</nature>
-	
+	<!-- 故事场景 -->
 	<nature>
 		<name>resource</name>
 		<desc>故事</desc>
