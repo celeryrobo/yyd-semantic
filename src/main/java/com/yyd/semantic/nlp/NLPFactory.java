@@ -44,7 +44,6 @@ public class NLPFactory {
 	 * @return
 	 */
 	public static List<WordTerm> segment(String text, String... forestNames) {
-		System.out.println(forests.keySet());
 		ArrayList<Forest> forestList = new ArrayList<>();
 		if(forestNames.length > 0) {
 			for (int idx = 0; idx < forestNames.length; idx++) {
