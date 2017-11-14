@@ -12,8 +12,8 @@ public class SemanticScene implements SemanticMatching {
 	
 	static {
 		try {
-			String semanticBaseDirname = FileUtils.getResourcePath() + "semantics/";
-			String semanticLang = FileUtils.readFile(semanticBaseDirname + "main.ybnf");
+			String semanticFilename = FileUtils.getResourcePath() + "semantics/main.ybnf";
+			String semanticLang = FileUtils.readFile(semanticFilename);
 			compiler = new YbnfCompiler(semanticLang);
 		} catch (Exception e) {
 			e.printStackTrace();
