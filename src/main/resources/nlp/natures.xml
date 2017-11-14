@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<serviceconf> 
+<?xml version="1.0" encoding="UTF-8"?>
+<serviceconf>
 	<nature>
 		<name>author</name>
 		<desc>诗人</desc>
@@ -14,5 +14,15 @@
 		<name>sentence</name>
 		<desc>一句诗</desc>
 		<service>poetry</service>
-	</nature>	
+	</nature>
+	<nature>
+		<name>song</name>
+		<desc>一首歌</desc>
+		<service>song</service>
+	</nature>
+	<nature>
+		<name>songer</name>
+		<desc>歌手</desc>
+		<service>song</service>
+	</nature>
 </serviceconf> 

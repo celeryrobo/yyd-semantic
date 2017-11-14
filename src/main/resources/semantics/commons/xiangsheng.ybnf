@@ -1,3 +1,3 @@
 #YBNF 1.0 utf8;
-$yanyuan{yanyuan} = $_yyd_string_;
+$yanyuan{yanyuan} = 郭德纲|大兵;
 $xiangsheng_case1{action%xiangsheng} = $yanyuan 的相声;

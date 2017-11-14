@@ -4,4 +4,4 @@
 #include classpath:semantics/commons/song.ybnf;
 service song;
 root $main;
-$main{action%song} = ($songer 的)|$song_case1;
+$main{action%song} = ($songer 的)|$song_case3|$song_case2|$song_case1;
