@@ -1,0 +1,8 @@
+#YBNF 1.0 utf8;
+callable @story(resource), @story(category);
+
+$story_resource{story_resource} = $_call_story_resource_;
+$story_category{story_category} = $_call_story_category_;
+
+$story_case1{action%queryStory} = (([我] (想 | 要 | 想要) 听) | ([给我] (说 |讲 |放|念))) [[一] 个] $story_resource [的][故事];
+$story_case2{action%queryCategory} = (([我] (想 | 要 | 想要) 听) | ([给我] (说 |讲 |放|念))) [[一] 个] $story_category [的][故事];

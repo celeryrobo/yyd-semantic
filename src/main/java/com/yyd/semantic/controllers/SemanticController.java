@@ -21,7 +21,7 @@ public class SemanticController {
 	public SemanticResult get(@RequestParam String lang) {
 		SemanticResult sr = null;
 		try {
-			sr = semanticService.handleSemantic(lang, "11");
+			sr = semanticService.handleSemantic(lang, "12");
 		} catch (Exception e) {
 			sr = new SemanticResult(500, e.getMessage(), null);
 			e.printStackTrace();

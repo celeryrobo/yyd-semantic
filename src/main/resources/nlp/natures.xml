@@ -25,4 +25,15 @@
 		<desc>歌手</desc>
 		<service>song</service>
 	</nature>
+	
+	<nature>
+		<name>resource</name>
+		<desc>故事</desc>
+		<service>story</service>
+	</nature>
+	<nature>
+		<name>category</name>
+		<desc>故事类型</desc>
+		<service>story</service>
+	</nature>
 </serviceconf> 

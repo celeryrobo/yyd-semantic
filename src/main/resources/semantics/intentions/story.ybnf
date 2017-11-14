@@ -1,0 +1,9 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/story.ybnf;
+service story;
+root $main;
+
+
+$main{action%song} = $story_case1|$story_case2;

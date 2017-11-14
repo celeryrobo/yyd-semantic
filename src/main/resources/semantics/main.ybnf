@@ -4,11 +4,13 @@
 #include classpath:semantics/commons/poetry.ybnf;
 #include classpath:semantics/commons/song.ybnf;
 #include classpath:semantics/commons/xiangsheng.ybnf;
+#include classpath:semantics/commons/story.ybnf;
 service common;
 root $main;
 
 $poetry_main{service%poetry} = $poetry_case1|$poetry_case2|$poetry_case3|$poetry_case4|$poetry_case5|$poetry_case6|$poetry_case7|$poetry_case8;
 $song_main{service%song} = $song_case1|$song_case2|$song_case3;
-
+$story_main{service%story} = $story_case1|$story_case2;
 $xiangsheng_main{service%xiangsheng} = $xiangsheng_case1;
-$main = $poetry_main|$song_main|$xiangsheng_main;
+
+$main = $poetry_main|$song_main|$xiangsheng_main|$story_main;
