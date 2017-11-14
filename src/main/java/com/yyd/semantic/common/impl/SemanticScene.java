@@ -9,12 +9,11 @@ import com.yyd.semantic.common.SemanticMatching;
 
 public class SemanticScene implements SemanticMatching {
 	private static Compiler compiler = null;
-	private static String semanticLang;
 	
 	static {
-		String semanticBaseDirname = FileUtils.getResourcePath() + "semantics/";
 		try {
-			semanticLang = FileUtils.readFile(semanticBaseDirname + "main.ybnf");
+			String semanticBaseDirname = FileUtils.getResourcePath() + "semantics/";
+			String semanticLang = FileUtils.readFile(semanticBaseDirname + "main.ybnf");
 			compiler = new YbnfCompiler(semanticLang);
 		} catch (Exception e) {
 			e.printStackTrace();
