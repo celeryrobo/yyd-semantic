@@ -14,7 +14,7 @@ import com.yyd.semantic.common.SemanticMatching;
 public class SemanticIntention implements SemanticMatching {
 	private static Map<String, Compiler> compilerMap = new HashMap<>();
 	private Compiler compiler;
-	
+
 	static {
 		try {
 			Properties properties = FileUtils.buildProperties("semantics/semantic.properties");
@@ -30,8 +30,7 @@ public class SemanticIntention implements SemanticMatching {
 		}
 	}
 
-	public SemanticIntention(String service, SemanticCallable semanticCallable)
-			throws Exception {
+	public SemanticIntention(String service, SemanticCallable semanticCallable) throws Exception {
 		if (compilerMap.containsKey(service)) {
 			compiler = compilerMap.get(service);
 			if (compiler.isFailure()) {
