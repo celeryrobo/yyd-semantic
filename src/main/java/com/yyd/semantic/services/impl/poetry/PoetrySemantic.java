@@ -160,7 +160,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				ps.setPoemId(poemId);
 			}
 		}
-		return new PoetryBean(1, result);
+		return new PoetryBean(poemId, result);
 	}
 
 	private PoetryBean queryAuthor(Map<String, String> slots, SemanticContext semanticContext) {
@@ -198,7 +198,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				ps.setPoemId(poemId);
 			}
 		}
-		return new PoetryBean(1, result);
+		return new PoetryBean(poemId, result);
 	}
 
 	private PoetryBean queryDynasty(Map<String, String> slots, SemanticContext semanticContext) {
