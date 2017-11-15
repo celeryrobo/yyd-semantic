@@ -271,6 +271,16 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			if (!sentences.isEmpty()) {
 				poemId = sentences.get(0).getPoetryId();
 				sentenceIndex = 0;
+				// 根据诗的id获取所有诗句
+				sentences = poetrySentenceService.getByPoetryId(poemId);
+				if (!sentences.isEmpty()) {
+					for (int i = 0; i < sentences.size(); i++) {
+						if (sentence.equals(sentences.get(i).getSentence())) {
+							sentenceIndex = i;
+							break;
+						}
+					}
+				}
 			}
 		}
 		if (poemId != null) {
@@ -281,6 +291,12 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			}
 			if (sentenceIndex >= endIndex) {
 				result = "这已经是最后一句了";
+				if (slots.containsKey(PoetrySlot.POEM_SENTENCE)) {
+					Poetry poetry = poetryService.getById(poemId);
+					if (poetry != null) {
+						result = "这是诗人" + poetry.getAuthorName() + "所写的" + poetry.getTitle() + "的最后一句";
+					}
+				}
 				sentenceIndex = endIndex;
 			} else {
 				sentenceIndex += 1;
@@ -310,6 +326,16 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			List<PoetrySentence> sentences = poetrySentenceService.getBySent(sentence);
 			if (!sentences.isEmpty()) {
 				poemId = sentences.get(0).getPoetryId();
+				// 根据诗的id获取所有诗句
+				sentences = poetrySentenceService.getByPoetryId(poemId);
+				if (!sentences.isEmpty()) {
+					for (int i = 0; i < sentences.size(); i++) {
+						if (sentence.equals(sentences.get(i).getSentence())) {
+							sentenceIndex = i;
+							break;
+						}
+					}
+				}
 			}
 		}
 		if (poemId != null) {
