@@ -8,7 +8,6 @@ public class Author {
 	private String chaodai;
 	
 	public Author() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Author(Integer id, String name, String description, String sourceUrl, String chaodai) {

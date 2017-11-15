@@ -4,9 +4,8 @@ public class PoetrySentence {
 	private Integer id;
 	private String sentence;
 	private Integer poetryId;
-	
+
 	public PoetrySentence() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public PoetrySentence(Integer id, String sentence, Integer poetryId) {

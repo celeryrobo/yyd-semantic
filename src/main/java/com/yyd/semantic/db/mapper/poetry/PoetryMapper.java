@@ -14,7 +14,7 @@ public interface PoetryMapper {
 	@Select("SELECT id FROM tb_poetry")
 	public List<Integer> getIdList();
 	
-	@Select("SELECT id, title, author_name, author_id, content FROM tb_poetry WHERE id = #{id}")
+	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE id = #{id}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "title", column = "title"),
@@ -24,7 +24,7 @@ public interface PoetryMapper {
 	})
 	public Poetry getById(int id);
 
-	@Select("SELECT id, title, author_name, author_id, content FROM tb_poetry WHERE title = #{title}")
+	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE title = #{title}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "title", column = "title"),
@@ -34,7 +34,7 @@ public interface PoetryMapper {
 	})
 	public List<Poetry> getByTitle(String title);
 
-	@Select("SELECT id, title, author_name, author_id, content FROM tb_poetry WHERE author_name = #{author}")
+	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE author_name = #{author}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "title", column = "title"),
@@ -44,7 +44,7 @@ public interface PoetryMapper {
 	})
 	public List<Poetry> getByAuthor(String author);
 
-	@Select("SELECT id, title, author_name, author_id, content FROM tb_poetry WHERE author_id = #{authorId}")
+	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE author_id = #{authorId}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "title", column = "title"),

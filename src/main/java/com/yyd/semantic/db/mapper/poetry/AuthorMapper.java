@@ -11,7 +11,7 @@ import com.yyd.semantic.db.bean.poetry.Author;
 
 @Mapper
 public interface AuthorMapper {
-	@Select("SELECT id, name, caodai FROM tb_author WHERE id = #{id}")
+	@Select("SELECT id, name, caodai FROM poetry.tb_author WHERE id = #{id}")
 	@Results({
         @Result(property = "id",  column = "id"),
         @Result(property = "name", column = "name"),
@@ -19,7 +19,7 @@ public interface AuthorMapper {
     })
 	public Author getAuthorById(Integer id);
 	
-	@Select("SELECT id, name, caodai FROM tb_author WHERE name = #{name}")
+	@Select("SELECT id, name, caodai FROM poetry.tb_author WHERE name = #{name}")
 	@Results({
 		@Result(property = "id",  column = "id"),
         @Result(property = "name", column = "name"),

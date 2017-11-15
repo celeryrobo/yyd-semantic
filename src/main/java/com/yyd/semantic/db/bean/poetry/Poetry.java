@@ -9,7 +9,6 @@ public class Poetry {
 	private Integer authorId;
 	
 	public Poetry() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Poetry(Integer id, String title, String content, String sourceUrl, String authorName,Integer authorId) {
