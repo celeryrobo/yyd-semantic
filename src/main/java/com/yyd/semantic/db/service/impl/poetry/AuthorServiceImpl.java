@@ -15,11 +15,6 @@ public class AuthorServiceImpl implements AuthorService{
 	private AuthorMapper authorMapper;
 	
 	@Override
-	public List<Author> getAuthorList(){
-		return authorMapper.getAuthorList();
-	}
-	
-	@Override
 	public Author getAuthorById(Integer id) {
 		return authorMapper.getAuthorById(id);
 	}
@@ -27,10 +22,5 @@ public class AuthorServiceImpl implements AuthorService{
 	@Override
 	public List<Author> getByName(String name){
 		return authorMapper.findByName(name);
-	}
-		
-	@Override
-	public List<Author> getByDynasty(String dynasty){
-		return authorMapper.findByDynasty(dynasty);
 	}
 }

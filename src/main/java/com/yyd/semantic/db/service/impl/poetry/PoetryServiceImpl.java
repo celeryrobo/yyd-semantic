@@ -15,11 +15,6 @@ public class PoetryServiceImpl implements PoetryService{
 	private PoetryMapper poetryMapper;
 	
 	@Override
-	public List<Integer> getIdList(){
-		return poetryMapper.getIdList();
-	}
-	
-	@Override
 	public Poetry getById(int id) {
 		return poetryMapper.getById(id);
 	}
@@ -37,5 +32,10 @@ public class PoetryServiceImpl implements PoetryService{
 	@Override
 	public List<Poetry> getByAuthorId(int authorId){
 		return poetryMapper.getByAuthorId(authorId);
+	}
+
+	@Override
+	public List<Integer> getIdList() {
+		return poetryMapper.getIdList();
 	}
 }

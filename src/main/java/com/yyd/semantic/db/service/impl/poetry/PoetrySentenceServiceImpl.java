@@ -16,6 +16,11 @@ public class PoetrySentenceServiceImpl implements PoetrySentenceService{
 	
 	@Override
 	public List<PoetrySentence> getBySent(String sentence){
-		return this.poetrySentenceMapper.getBySent(sentence);
+		return poetrySentenceMapper.getBySent(sentence);
+	}
+
+	@Override
+	public List<PoetrySentence> getByPoetryId(Integer poetryId) {
+		return poetrySentenceMapper.getByPoetryId(poetryId);
 	}
 }

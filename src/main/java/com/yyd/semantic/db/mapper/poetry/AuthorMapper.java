@@ -11,31 +11,19 @@ import com.yyd.semantic.db.bean.poetry.Author;
 
 @Mapper
 public interface AuthorMapper {
-	@Select("SELECT * FROM tb_author")
+	@Select("SELECT id, name, caodai FROM tb_author WHERE id = #{id}")
 	@Results({
-        @Result(property = "sourceUrl",  column = "source_url"),
-        @Result(property = "chaodai", column = "caodai")
-    })
-	public List<Author> getAuthorList();
-	
-	@Select("SELECT * FROM tb_author WHERE id = #{id}")
-	@Results({
-        @Result(property = "sourceUrl",  column = "source_url"),
+        @Result(property = "id",  column = "id"),
+        @Result(property = "name", column = "name"),
         @Result(property = "chaodai", column = "caodai")
     })
 	public Author getAuthorById(Integer id);
 	
-	@Select("SELECT * FROM tb_author WHERE name = #{name}")
+	@Select("SELECT id, name, caodai FROM tb_author WHERE name = #{name}")
 	@Results({
-        @Result(property = "sourceUrl",  column = "source_url"),
+		@Result(property = "id",  column = "id"),
+        @Result(property = "name", column = "name"),
         @Result(property = "chaodai", column = "caodai")
     })
 	public List<Author> findByName(String name);
-	
-	@Select("SELECT * FROM tb_author WHERE caodai = #{dynasty}")
-	@Results({
-        @Result(property = "sourceUrl",  column = "source_url"),
-        @Result(property = "chaodai", column = "caodai")
-    })
-	public List<Author> findByDynasty(String dynasty);
 }

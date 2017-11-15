@@ -14,35 +14,43 @@ public interface PoetryMapper {
 	@Select("SELECT id FROM tb_poetry")
 	public List<Integer> getIdList();
 	
-	@Select("SELECT * FROM tb_poetry WHERE id = #{id}")
+	@Select("SELECT id, title, author_name, author_id, content FROM tb_poetry WHERE id = #{id}")
 	@Results({
-        @Result(property = "sourceUrl",  column = "source_url"),
-        @Result(property = "authorName", column = "author_name"),
-        @Result(property = "authorId", column = "author_id")
-    })
+		@Result(property = "id", column = "id"),
+		@Result(property = "title", column = "title"),
+		@Result(property = "authorName", column = "author_name"),
+		@Result(property = "authorId", column = "author_id"),
+		@Result(property = "content", column = "content")
+	})
 	public Poetry getById(int id);
-	
-	@Select("SELECT * FROM tb_poetry WHERE title = #{title}")
+
+	@Select("SELECT id, title, author_name, author_id, content FROM tb_poetry WHERE title = #{title}")
 	@Results({
-        @Result(property = "sourceUrl",  column = "source_url"),
-        @Result(property = "authorName", column = "author_name"),
-        @Result(property = "authorId", column = "author_id")
-    })
+		@Result(property = "id", column = "id"),
+		@Result(property = "title", column = "title"),
+		@Result(property = "authorName", column = "author_name"),
+		@Result(property = "authorId", column = "author_id"),
+		@Result(property = "content", column = "content")
+	})
 	public List<Poetry> getByTitle(String title);
-	
-	@Select("SELECT * FROM tb_poetry WHERE author_name = #{author}")
+
+	@Select("SELECT id, title, author_name, author_id, content FROM tb_poetry WHERE author_name = #{author}")
 	@Results({
-        @Result(property = "sourceUrl",  column = "source_url"),
-        @Result(property = "authorName", column = "author_name"),
-        @Result(property = "authorId", column = "author_id")
-    })
+		@Result(property = "id", column = "id"),
+		@Result(property = "title", column = "title"),
+		@Result(property = "authorName", column = "author_name"),
+		@Result(property = "authorId", column = "author_id"),
+		@Result(property = "content", column = "content")
+	})
 	public List<Poetry> getByAuthor(String author);
-	
-	@Select("SELECT * FROM tb_poetry WHERE author_id = #{authorId}")
+
+	@Select("SELECT id, title, author_name, author_id, content FROM tb_poetry WHERE author_id = #{authorId}")
 	@Results({
-        @Result(property = "sourceUrl",  column = "source_url"),
-        @Result(property = "authorName", column = "author_name"),
-        @Result(property = "authorId", column = "author_id")
-    })
+		@Result(property = "id", column = "id"),
+		@Result(property = "title", column = "title"),
+		@Result(property = "authorName", column = "author_name"),
+		@Result(property = "authorId", column = "author_id"),
+		@Result(property = "content", column = "content")
+	})
 	public List<Poetry> getByAuthorId(int authorId);
 }

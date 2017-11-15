@@ -24,8 +24,7 @@ public class Poetry {
 
 	@Override
 	public String toString() {
-		return "Poetry [id=" + id + ", title=" + title + ", content=" + content + ", sourceUrl=" + sourceUrl
-				+ ",authorName="+authorName+", authorId=" + authorId + "]";
+		return title + "," + authorName + ";" + content;
 	}
 
 	public Integer getId() {
