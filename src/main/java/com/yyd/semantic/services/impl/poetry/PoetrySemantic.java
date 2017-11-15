@@ -129,6 +129,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			}
 		}
 		if (poemId != null) {
+			ps.clear();
 			ps.setPoemId(poemId);
 		}
 		return new PoetryBean(poemId, result);
@@ -157,6 +158,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				}
 			}
 			if (poemId != null) {
+				ps.clear();
 				ps.setPoemId(poemId);
 			}
 		}
@@ -195,6 +197,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				}
 			}
 			if (poemId != null) {
+				ps.clear();
 				ps.setPoemId(poemId);
 			}
 		}
@@ -246,6 +249,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				}
 			}
 			if (poemId != null) {
+				ps.clear();
 				ps.setPoemId(poemId);
 			}
 		}
