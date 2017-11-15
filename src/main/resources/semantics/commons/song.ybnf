@@ -4,7 +4,7 @@ callable @song(songer), @song(song);
 $songer{songer} = $_call_song_songer_;
 $song_name{song} = $_call_song_song_;
 
-$song_case1{action%playSong} = (([我] (想 | 要 | 想要) 听) | ([那] [你] [就] [给我] (唱 | 播 | 放))) [[一] 首] [$songer 的] ($song_name | (歌 [曲])) [吧];
-$song_case2{action%playSong} = (可以 | 能) 给我 (播放 | 播 | 放) 一首 ($song_name | (歌 [曲])) 吗;
+$song_case1{action%querySong} = (([我] (想 | 要 | 想要) 听) | ([那] [你] [就] [给我] (唱 | 播 | 放))) [[一] 首] [$songer 的] ($song_name | (歌 [曲])) [吧];
+$song_case2{action%querySong} = (可以 | 能) 给我 (播放 | 播 | 放) 一首 ($song_name | (歌 [曲])) 吗;
 
-$song_case3{action%querySonger} = $song_name 是谁 ((唱的 [歌 [曲]]) | (的歌 [曲]));
+$song_case3{action%querySong} = $song_name 是谁 ((唱的 [歌 [曲]]) | (的歌 [曲]));

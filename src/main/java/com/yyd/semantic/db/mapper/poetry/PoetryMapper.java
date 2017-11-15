@@ -11,7 +11,7 @@ import com.yyd.semantic.db.bean.poetry.Poetry;
 
 @Mapper
 public interface PoetryMapper {
-	@Select("SELECT id FROM tb_poetry")
+	@Select("SELECT id FROM poetry.tb_poetry")
 	public List<Integer> getIdList();
 	
 	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE id = #{id}")

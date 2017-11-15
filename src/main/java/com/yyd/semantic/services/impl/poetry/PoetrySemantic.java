@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
@@ -17,7 +17,7 @@ import com.yyd.semantic.db.service.poetry.AuthorService;
 import com.yyd.semantic.db.service.poetry.PoetrySentenceService;
 import com.yyd.semantic.db.service.poetry.PoetryService;
 
-@Service
+@Component
 public class PoetrySemantic implements Semantic<PoetryBean> {
 	@Autowired
 	private AuthorService authorService;
