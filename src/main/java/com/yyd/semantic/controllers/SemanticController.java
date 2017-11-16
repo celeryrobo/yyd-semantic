@@ -18,10 +18,10 @@ public class SemanticController {
 	private SemanticService semanticService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public SemanticResult get(@RequestParam String lang) {
+	public SemanticResult get(@RequestParam String userIdentify, @RequestParam String lang) {
 		SemanticResult sr = null;
 		try {
-			sr = semanticService.handleSemantic(lang, "11");
+			sr = semanticService.handleSemantic(lang, userIdentify);
 		} catch (Exception e) {
 			sr = new SemanticResult(500, e.getMessage(), null);
 			e.printStackTrace();

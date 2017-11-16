@@ -58,6 +58,7 @@ public class SemanticServiceImpl implements SemanticService {
 
 	private YbnfCompileResult parseSemantic(String text, String service, int loopCount) throws Exception {
 		if (loopCount > 2) {
+			// 确保无法识别的语料不会导致方法陷入循环递归
 			return null;
 		}
 		YbnfCompileResult result;
@@ -84,7 +85,7 @@ public class SemanticServiceImpl implements SemanticService {
 	}
 
 	/**
-	 * 分词意图识别方法
+	 * 分词场景识别方法
 	 * 
 	 * @param text
 	 *            语料
