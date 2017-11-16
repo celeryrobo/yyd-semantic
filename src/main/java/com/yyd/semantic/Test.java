@@ -9,9 +9,9 @@ import com.yyd.semantic.nlp.WordTerm;
 public class Test {
 
 	public static void main(String[] args) {
-		String service = SegSceneParser.parse("说一个万圣节历险故事");
+		String service = SegSceneParser.parse("我要听故事");
 		System.out.println(service);
-		List<WordTerm> result = NLPFactory.segment("说一个万圣节历险故事");
+		List<WordTerm> result = NLPFactory.segment("我要听故事");
 		System.out.println(result);
 	}
 

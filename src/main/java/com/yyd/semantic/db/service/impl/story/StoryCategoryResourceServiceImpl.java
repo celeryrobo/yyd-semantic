@@ -10,9 +10,10 @@ import com.yyd.semantic.db.mapper.story.StoryCategoryResourceMapper;
 import com.yyd.semantic.db.service.story.StoryCategoryResourceService;
 
 @Service
-public class StoryCategoryResourceServiceImpl implements StoryCategoryResourceService{
+public class StoryCategoryResourceServiceImpl implements StoryCategoryResourceService {
 	@Autowired
 	private StoryCategoryResourceMapper scrm;
+
 	@Override
 	public List<StoryCategoryResource> getByCategoryId(int categoryId) {
 		return scrm.getByCategoryId(categoryId);

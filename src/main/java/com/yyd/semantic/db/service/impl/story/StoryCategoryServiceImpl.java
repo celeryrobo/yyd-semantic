@@ -8,9 +8,10 @@ import com.yyd.semantic.db.mapper.story.StoryCategoryMapper;
 import com.yyd.semantic.db.service.story.StoryCategoryService;
 
 @Service
-public class StoryCategoryServiceImpl implements StoryCategoryService{
+public class StoryCategoryServiceImpl implements StoryCategoryService {
 	@Autowired
 	private StoryCategoryMapper scm;
+
 	@Override
 	public StoryCategory getById(int id) {
 		return scm.getById(id);

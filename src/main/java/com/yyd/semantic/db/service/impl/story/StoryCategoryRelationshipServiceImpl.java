@@ -10,10 +10,11 @@ import com.yyd.semantic.db.mapper.story.StoryCategoryRelationshipMapper;
 import com.yyd.semantic.db.service.story.StoryCategoryRelationshipService;
 
 @Service
-public class StoryCategoryRelationshipServiceImpl implements StoryCategoryRelationshipService{
-	
+public class StoryCategoryRelationshipServiceImpl implements StoryCategoryRelationshipService {
+
 	@Autowired
 	private StoryCategoryRelationshipMapper scrm;
+
 	@Override
 	public List<StoryCategoryRelationship> getByParentId(int parentId) {
 		return scrm.getByParentId(parentId);
