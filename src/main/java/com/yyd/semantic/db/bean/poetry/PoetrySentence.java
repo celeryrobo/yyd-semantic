@@ -5,16 +5,6 @@ public class PoetrySentence {
 	private String sentence;
 	private Integer poetryId;
 
-	public PoetrySentence() {
-	}
-
-	public PoetrySentence(Integer id, String sentence, Integer poetryId) {
-		super();
-		this.id = id;
-		this.sentence = sentence;
-		this.poetryId = poetryId;
-	}
-
 	@Override
 	public String toString() {
 		return "PotrySentence [id=" + id + ", sentence=" + sentence + ", poetryId=" + poetryId + "]";

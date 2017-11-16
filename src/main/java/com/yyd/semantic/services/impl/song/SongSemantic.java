@@ -95,7 +95,7 @@ public class SongSemantic implements Semantic<SongBean> {
 		}
 		if (songEntity != null) {
 			ss.setSongId(songEntity.getId());
-			result = songEntity.getSourceUrl();
+			result = songEntity.getId() + "," + songEntity.getName() + " : " + songEntity.getSourceUrl();
 		}
 		return new SongBean(result);
 	}
@@ -109,7 +109,7 @@ public class SongSemantic implements Semantic<SongBean> {
 			songEntity = songService.getById(songId);
 		}
 		if (songEntity != null) {
-			result = songEntity.getSourceUrl();
+			result = songEntity.getId() + "," + songEntity.getName() + " : " + songEntity.getSourceUrl();
 		}
 		return new SongBean(result);
 	}

@@ -6,18 +6,6 @@ public class Author {
 	private String description;
 	private String sourceUrl;
 	private String chaodai;
-	
-	public Author() {
-	}
-
-	public Author(Integer id, String name, String description, String sourceUrl, String chaodai) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.sourceUrl = sourceUrl;
-		this.chaodai = chaodai;
-	}
 
 	@Override
 	public String toString() {

@@ -7,19 +7,6 @@ public class Poetry {
 	private String sourceUrl;
 	private String authorName;
 	private Integer authorId;
-	
-	public Poetry() {
-	}
-
-	public Poetry(Integer id, String title, String content, String sourceUrl, String authorName,Integer authorId) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.content = content;
-		this.sourceUrl = sourceUrl;
-		this.authorName = authorName;
-		this.authorId = authorId;
-	}
 
 	@Override
 	public String toString() {
