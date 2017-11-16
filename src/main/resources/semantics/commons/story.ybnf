@@ -4,7 +4,8 @@ callable @story(resource), @story(category);
 $story_resource{storyResource} = $_call_story_resource_;
 $story_category{storyCategory} = $_call_story_category_;
 
-$story_common_case1{action%queryStory} = (([我] (想 | 要 | 想要) 听) | ([给我] (说 |讲 |放|念))) [[一] 个] $story_resource [的][故事];
+$story_common_case1{action%queryResource} = (([我] (想 | 要 | 想要) 听) | ([给我] (说 |讲 |放|念))) [[一] 个] $story_resource [的][故事];
 $story_common_case2{action%queryCategory} = (([我] (想 | 要 | 想要) 听) | ([给我] (说 |讲 |放|念))) [[一] 个] $story_category;
-
-$story_common = $story_common_case1|$story_common_case2;
+$story_common_case3{action%queryResource} = [我] [可以|能不能](换|在讲)(一个)$story_resource[的][故事][吗];
+$story_common_case4{action%queryResource} = [我] [可以|能不能](换|在讲)(一个)$story_category[的][故事][吗];
+$story_common = $story_common_case1|$story_common_case2|$story_common_case3|$story_common_case4;

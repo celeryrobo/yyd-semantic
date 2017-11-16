@@ -39,14 +39,14 @@ public class StorySemantic implements Semantic<StoryBean> {
 		Map<String, String> slots = ybnfCompileResult.getSlots();
 		String action = slots.get("action");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
-
+		System.out.println("---action---->"+action);
 		switch (action) {
 		case StoryIntent.QUERY_CATEGORY: {
 			result = queryCategory(objects, semanticContext);
 			break;
 		}
 
-		case StoryIntent.QUERY_STORY: {
+		case StoryIntent.QUERY_RESOURCE: {
 			result = queryResource(objects, semanticContext);
 			break;
 		}
@@ -62,7 +62,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 	private StoryBean queryResource(Map<String, String> slots, SemanticContext semanticContext) {
 		String result = "听不懂你说的是什么";
 		Integer storyId = null;
-
+		System.out.println("------->"+slots.isEmpty());
 		if (slots.isEmpty()) {
 			// 换一个故事，没有slot
 			List<Integer> ids = resourceService.getIdList();
