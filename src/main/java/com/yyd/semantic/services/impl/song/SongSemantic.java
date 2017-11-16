@@ -57,7 +57,11 @@ public class SongSemantic implements Semantic<SongBean> {
 		String result = "我听不懂你在说什么";
 		SongSlot ss = new SongSlot(semanticContext.getParams());
 		Song songEntity = null;
-		if (!slots.isEmpty()) {
+		if (slots.isEmpty()) {
+			List<Integer> songIds = songService.getIdList();
+			int idx = CommonUtils.randomInt(songIds.size());
+			songEntity = songService.getById(songIds.get(idx));
+		}else {
 			// 查找歌曲不能获取当前上下文中的歌曲，由于存在随机播放的问题
 			String songer = slots.get(SongSlot.SONG_SONGER);
 			String song = slots.get(SongSlot.SONG_SONG_NAME);

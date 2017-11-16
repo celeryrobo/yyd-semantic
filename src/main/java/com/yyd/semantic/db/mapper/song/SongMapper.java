@@ -11,7 +11,7 @@ import com.yyd.semantic.db.bean.song.Song;
 
 @Mapper
 public interface SongMapper {
-	@Select("SELECT id FROM music.song")
+	@Select("SELECT id FROM music.song ORDER BY RAND() LIMIT 10")
 	public List<Integer> getIdList();
 	
 	@Select("SELECT id, name, artistId, sourceUrl FROM music.song WHERE id = #{id}")
