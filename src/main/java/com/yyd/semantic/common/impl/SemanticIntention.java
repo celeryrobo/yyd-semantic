@@ -1,8 +1,9 @@
 package com.yyd.semantic.common.impl;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import com.ybnf.compiler.Compiler;
 import com.ybnf.compiler.beans.YbnfCompileResult;
@@ -17,13 +18,13 @@ public class SemanticIntention implements SemanticMatching {
 
 	static {
 		try {
-			Properties properties = FileUtils.buildProperties("semantics/semantic.properties");
 			String intentionBaseDirname = FileUtils.getResourcePath() + "semantics/intentions/";
-			for (Object service : properties.keySet()) {
-				String langFilename = intentionBaseDirname + service + ".ybnf";
-				String lang = FileUtils.readFile(langFilename);
+			List<File> files = FileUtils.listFiles(intentionBaseDirname, ".ybnf");
+			for (File file : files) {
+				String lang = FileUtils.readFile(file);
+				String service = file.getName().split("\\.")[0];
 				Compiler comp = new YbnfCompiler(lang);
-				compilerMap.put((String) service, comp);
+				compilerMap.put(service, comp);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

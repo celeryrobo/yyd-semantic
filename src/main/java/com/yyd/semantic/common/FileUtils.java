@@ -75,6 +75,23 @@ public class FileUtils {
 		return sb.toString();
 	}
 	
+	public static String readFile(File file) throws Exception {
+		StringBuilder sb = new StringBuilder("");
+		if(file.exists()) {
+			FileInputStream fis = new FileInputStream(file);
+			InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+			BufferedReader br = new BufferedReader(isr);
+			String line;
+			while ((line = br.readLine()) != null) {
+				sb.append(line).append("\n");
+			}
+			br.close();
+			isr.close();
+			fis.close();
+		}
+		return sb.toString();
+	}
+	
 	public static String getResourcePath() {
 		return Thread.currentThread().getContextClassLoader().getResource("").getPath();
 	}
