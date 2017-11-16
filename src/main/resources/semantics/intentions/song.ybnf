@@ -6,5 +6,9 @@ service song;
 root $main;
 
 $song_case_1{action%querySong} = $songer 的;
+$song_case_2{action%queryCurrSong} = ([播] [放] 这首 [歌]) | ([我] 想听这首 [歌]);
+$song_case_3{action%querySongName} = [这 [首]] [歌的] (歌名 | 名称 | 名字) [是什么];
+$song_case_4{action%querySonger} = [这 [首]] 歌 [曲] (是谁唱的 | (的歌手 [是谁]));
 
-$main = $song_case_1|$song_case3|$song_case2|$song_case1;
+$song_main = $song_case_1|$song_case_2|$song_case_3|$song_case_4;
+$main = $song_main|$song_case4|$song_case3|$song_case2|$song_case1;

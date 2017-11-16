@@ -2,25 +2,15 @@ package com.yyd.semantic.services.impl.poetry;
 
 import com.ybnf.compiler.beans.AbstractSemanticResult;
 
-public class PoetryBean extends AbstractSemanticResult{
-	private Integer id;
+public class PoetryBean extends AbstractSemanticResult {
 	private String text;
 
 	public PoetryBean() {
-		
+
 	}
-	
-	public PoetryBean(Integer id, String text) {
-		this.id = id;
+
+	public PoetryBean(String text) {
 		this.text = text;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getText() {

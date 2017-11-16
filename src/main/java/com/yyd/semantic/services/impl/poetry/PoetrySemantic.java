@@ -60,7 +60,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			break;
 		}
 		default: {
-			result = new PoetryBean(0, "这句话太复杂了，我还不能理解");
+			result = new PoetryBean("这句话太复杂了，我还不能理解");
 			break;
 		}
 		}
@@ -132,7 +132,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			ps.clear();
 			ps.setPoemId(poemId);
 		}
-		return new PoetryBean(poemId, result);
+		return new PoetryBean(result);
 	}
 
 	private PoetryBean queryTitle(Map<String, String> slots, SemanticContext semanticContext) {
@@ -162,7 +162,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				ps.setPoemId(poemId);
 			}
 		}
-		return new PoetryBean(poemId, result);
+		return new PoetryBean(result);
 	}
 
 	private PoetryBean queryAuthor(Map<String, String> slots, SemanticContext semanticContext) {
@@ -201,7 +201,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				ps.setPoemId(poemId);
 			}
 		}
-		return new PoetryBean(poemId, result);
+		return new PoetryBean(result);
 	}
 
 	private PoetryBean queryDynasty(Map<String, String> slots, SemanticContext semanticContext) {
@@ -253,7 +253,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				ps.setPoemId(poemId);
 			}
 		}
-		return new PoetryBean(poemId, result);
+		return new PoetryBean(result);
 	}
 
 	private PoetryBean nextSentence(Map<String, String> slots, SemanticContext semanticContext) {
@@ -306,7 +306,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			ps.setPoemId(poemId);
 			ps.setPoemCurSentenceIndex(sentenceIndex);
 		}
-		return new PoetryBean(poemId, result);
+		return new PoetryBean(result);
 	}
 
 	private PoetryBean prevSentence(Map<String, String> slots, SemanticContext semanticContext) {
@@ -318,7 +318,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			poemId = ps.getPoemId();
 			sentenceIndex = ps.getPoemCurSentenceIndex();
 			if (sentenceIndex == null) {
-				return new PoetryBean(poemId, result);
+				return new PoetryBean(result);
 			}
 		} else {
 			// 存在语义分析实体的情况
@@ -354,6 +354,6 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			ps.setPoemId(poemId);
 			ps.setPoemCurSentenceIndex(sentenceIndex);
 		}
-		return new PoetryBean(poemId, result);
+		return new PoetryBean(result);
 	}
 }

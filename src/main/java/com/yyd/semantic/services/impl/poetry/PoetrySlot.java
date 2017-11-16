@@ -7,8 +7,8 @@ public class PoetrySlot {
 	public static final String POEM_TITLE = "title";
 	public static final String POEM_AUTHOR = "author";
 	
-	public static final String POEM_ID = "poemId"; // 诗id
-	public static final String POEM_CUR_SENTENCE_INDEX = "poemSentenceIndex";
+	private static final String POEM_ID = "poemId"; // 诗id
+	private static final String POEM_CUR_SENTENCE_INDEX = "poemSentenceIndex";
 
 	private Map<Object, Object> params;
 
