@@ -35,7 +35,9 @@ public class SemanticScene implements SemanticMatching {
 	public YbnfCompileResult matching(String text) {
 		YbnfCompileResult result = null;
 		try {
+			long startTs = System.currentTimeMillis();
 			result = compiler.compile(text);
+			System.out.println("Semantic Scene Run Time :" + (System.currentTimeMillis() - startTs));
 			if (result.getSlots().containsKey("service")) {
 				result.setService(result.getSlots().get("service"));
 			}

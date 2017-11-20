@@ -8,4 +8,6 @@ public interface ArtistService {
 	public Artist getById(Integer id);
 
 	public List<Integer> getIdsByName(String name);
+
+	List<String> getAllNames();
 }

@@ -23,4 +23,9 @@ public class PoetrySentenceServiceImpl implements PoetrySentenceService{
 	public List<PoetrySentence> getByPoetryId(Integer poetryId) {
 		return poetrySentenceMapper.getByPoetryId(poetryId);
 	}
+
+	@Override
+	public List<String> getAllSentences() {
+		return poetrySentenceMapper.getAllSentences();
+	}
 }

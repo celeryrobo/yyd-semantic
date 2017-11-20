@@ -13,11 +13,12 @@ import com.yyd.semantic.common.FileUtils;
 import com.yyd.semantic.common.SemanticMatching;
 
 public class SemanticIntention implements SemanticMatching {
-	private static Map<String, Compiler> compilerMap = new HashMap<>();
+	private static Map<String, Compiler> compilerMap;
 	private Compiler compiler;
 
 	static {
 		try {
+			compilerMap = new HashMap<>();
 			String intentionBaseDirname = FileUtils.getResourcePath() + "semantics/intentions/";
 			List<File> files = FileUtils.listFiles(intentionBaseDirname, ".ybnf");
 			for (File file : files) {
@@ -48,7 +49,9 @@ public class SemanticIntention implements SemanticMatching {
 	public YbnfCompileResult matching(String text) {
 		YbnfCompileResult result = null;
 		try {
+			long startTs = System.currentTimeMillis();
 			result = compiler.compile(text);
+			System.out.println("Semantic Intention Run Time :" + (System.currentTimeMillis() - startTs));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

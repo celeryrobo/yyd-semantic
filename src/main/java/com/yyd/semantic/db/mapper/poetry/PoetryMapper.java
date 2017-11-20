@@ -14,6 +14,9 @@ public interface PoetryMapper {
 	@Select("SELECT id FROM poetry.tb_poetry")
 	public List<Integer> getIdList();
 	
+	@Select("SELECT title FROM poetry.tb_poetry")
+	public List<String> getAllTitles();
+	
 	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE id = #{id}")
 	@Results({
 		@Result(property = "id", column = "id"),

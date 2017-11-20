@@ -9,9 +9,6 @@ import org.ansj.domain.Result;
 import org.ansj.domain.Term;
 import org.ansj.splitWord.analysis.DicAnalysis;
 import org.nlpcn.commons.lang.tire.domain.Forest;
-import org.nlpcn.commons.lang.tire.library.Library;
-
-import com.yyd.semantic.common.FileUtils;
 
 /**
  * nlp处理工具类,无状态，可以多线程使用
@@ -20,22 +17,7 @@ import com.yyd.semantic.common.FileUtils;
  *
  */
 public class NLPFactory {
-	private static Map<Object, Forest> forests;
-
-	static {
-		forests = new HashMap<>();
-		try {
-			String path = FileUtils.getResourcePath() + "nlp";
-			List<String> filenames = FileUtils.listFilenames(path, ".dic");
-			for (String filename : filenames) {
-				String name = filename.substring(path.length()).replaceAll("\\\\", "_");
-				String key = name.split("\\.")[0];
-				forests.put(key, Library.makeForest(filename));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	public static Map<Object, Forest> forests = new HashMap<>();
 
 	/**
 	 * 分词
@@ -45,7 +27,7 @@ public class NLPFactory {
 	 */
 	public static List<WordTerm> segment(String text, String... forestNames) {
 		ArrayList<Forest> forestList = new ArrayList<>();
-		if(forestNames.length > 0) {
+		if (forestNames.length > 0) {
 			for (int idx = 0; idx < forestNames.length; idx++) {
 				String key = forestNames[idx];
 				if (forests.containsKey(key)) {

@@ -26,4 +26,7 @@ public interface PoetrySentenceMapper {
         @Result(property = "poetryId", column = "poetry_id")
     })
 	public List<PoetrySentence> getByPoetryId(Integer poetryId);
+	
+	@Select("SELECT sentence FROM poetry.tb_sentence")
+	public List<String> getAllSentences();
 }

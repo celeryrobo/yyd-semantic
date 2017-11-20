@@ -38,4 +38,9 @@ public class PoetryServiceImpl implements PoetryService{
 	public List<Integer> getIdList() {
 		return poetryMapper.getIdList();
 	}
+
+	@Override
+	public List<String> getAllTitles() {
+		return poetryMapper.getAllTitles();
+	}
 }

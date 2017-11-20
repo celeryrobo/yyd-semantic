@@ -6,6 +6,8 @@ import com.yyd.semantic.db.bean.song.Song;
 
 public interface SongService {
 	public List<Integer> getIdList();
+	
+	public List<String> getAllNames();
 
 	public Song getById(Integer id);
 

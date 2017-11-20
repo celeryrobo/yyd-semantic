@@ -34,4 +34,9 @@ public class SongServiceImpl implements SongService {
 		return songMapper.getByArtistId(artistId);
 	}
 
+	@Override
+	public List<String> getAllNames() {
+		return songMapper.getAllName();
+	}
+
 }

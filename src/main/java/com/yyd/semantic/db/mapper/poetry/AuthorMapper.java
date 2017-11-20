@@ -26,4 +26,7 @@ public interface AuthorMapper {
         @Result(property = "chaodai", column = "caodai")
     })
 	public List<Author> findByName(String name);
+	
+	@Select("SELECT name FROM poetry.tb_author")
+	public List<String> getAllNames();
 }

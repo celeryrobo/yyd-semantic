@@ -23,4 +23,9 @@ public class AuthorServiceImpl implements AuthorService{
 	public List<Author> getByName(String name){
 		return authorMapper.findByName(name);
 	}
+
+	@Override
+	public List<String> getAllNames() {
+		return authorMapper.getAllNames();
+	}
 }

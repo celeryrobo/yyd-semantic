@@ -14,6 +14,9 @@ public interface SongMapper {
 	@Select("SELECT id FROM music.song ORDER BY RAND() LIMIT 10")
 	public List<Integer> getIdList();
 	
+	@Select("SELECT name FROM music.song")
+	public List<String> getAllName();
+	
 	@Select("SELECT id, name, artistId, sourceUrl FROM music.song WHERE id = #{id}")
 	@Results({
 		@Result(property = "id", column = "id"),

@@ -20,4 +20,7 @@ public interface ArtistMapper {
 	
 	@Select("SELECT id FROM music.artist WHERE name = #{name}")
 	public List<Integer> getIdsByName(String name);
+	
+	@Select("SELECT name FROM music.artist")
+	public List<String> getAllNames();
 }

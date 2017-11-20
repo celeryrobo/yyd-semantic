@@ -28,7 +28,7 @@ public class NatureDict {
 	private static void load() {
 		String filePath = null;
 		String classRootPath = FileUtils.getResourcePath();
-		filePath = classRootPath + "nlp/natures.xml";
+		filePath = classRootPath + "semantics/natures.xml";
 
 		Element root = null;
 		// 加载文件

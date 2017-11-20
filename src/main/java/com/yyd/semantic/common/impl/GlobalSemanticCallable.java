@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ybnf.semantic.SemanticCallable;
+import com.yyd.semantic.common.DbSegLoader;
 import com.yyd.semantic.common.FileUtils;
 import com.yyd.semantic.common.SpringContext;
 
@@ -19,8 +20,10 @@ public class GlobalSemanticCallable implements SemanticCallable {
 	private SemanticCallable semanticCallable;
 	private Properties properties;
 
-	public GlobalSemanticCallable() throws Exception {
+	@Autowired
+	public GlobalSemanticCallable(DbSegLoader dbSegLoader) throws Exception {
 		properties = FileUtils.buildProperties("semantics/callable.properties");
+		dbSegLoader.loads();
 	}
 
 	@Override

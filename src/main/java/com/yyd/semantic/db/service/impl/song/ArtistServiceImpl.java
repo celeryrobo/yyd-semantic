@@ -23,5 +23,10 @@ public class ArtistServiceImpl implements ArtistService {
 	public List<Integer> getIdsByName(String name) {
 		return artistMapper.getIdsByName(name);
 	}
+	
+	@Override
+	public List<String> getAllNames() {
+		return artistMapper.getAllNames();
+	}
 
 }
