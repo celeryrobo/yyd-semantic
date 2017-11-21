@@ -9,5 +9,5 @@ $song_case1{action%querySong} = (([我] (想 | 要 | 想要) 听) | ([那] [你]
 $song_case2{action%querySong} = (可以 | 能) 给我 (播放 | 播 | 放) [[一] 首] [($song_category | $songer) 的] ($song_name | (歌 [曲])) 吗;
 $song_case3{action%querySong} = ($song_category | $songer) 的歌 [曲];
 $song_case4{action%querySonger} = $song_name 是谁 ((唱的 [歌 [曲]]) | (的歌 [曲]));
-$song_case5{action%querySong} = (([我] (想 | 要 | 想要) 听) | ([那] [你] [就] [给我] (唱 | 播 | 放 | 来))) [[一] 首] $song_category [的 [歌 [曲]]];
+$song_case5{action%querySong} = (([我] (想 | 要 | 想要) 听) | ([那] [你] [就] [给我] (唱 | 播 | 放 | 来))) [[一] 首] $song_category [的] [歌 [曲]];
 
