@@ -37,4 +37,9 @@ public class Song {
 	public void setArtistId(Integer artistId) {
 		this.artistId = artistId;
 	}
+
+	@Override
+	public String toString() {
+		return "Song [id=" + id + ", name=" + name + ", songUrl=" + songUrl + ", artistId=" + artistId + "]";
+	}
 }

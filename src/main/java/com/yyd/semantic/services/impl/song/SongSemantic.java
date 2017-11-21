@@ -115,11 +115,25 @@ public class SongSemantic implements Semantic<SongBean> {
 					Category categoryEntity = categories.get(idx);
 					// 根据该类型获取到其下所有子类型
 					categories = categoryService.getByParentId(categoryEntity.getId());
-					// 从所有子类型与本类型中抽取出一个类型
-					idx = CommonUtils.randomInt(categories.size());
-					categoryEntity = categories.get(idx);
-					// 根据类型获取该类型下的歌曲
-					List<Song> songs = songService.findByCategoryId(categoryEntity.getId());
+					List<Song> songs = null;
+					int loopCount = -1;
+					do {
+						// 从所有子类型与本类型中抽取出一个类型
+						if (loopCount >= categories.size()) {
+							result = "我还没听过这个类型的歌";
+							break;
+						} else {
+							if (loopCount == -1) {
+								idx = CommonUtils.randomInt(categories.size());
+							} else {
+								idx = loopCount;
+							}
+							loopCount += 1;
+						}
+						categoryEntity = categories.get(idx);
+						// 根据类型获取该类型下的歌曲
+						songs = songService.findByCategoryId(categoryEntity.getId());
+					} while (songs == null || songs.isEmpty());
 					// 随机获取该类型下的一首歌
 					idx = CommonUtils.randomInt(songs.size());
 					songEntity = songs.get(idx);

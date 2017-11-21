@@ -1,8 +1,8 @@
 package com.yyd.semantic.db.service.impl.song;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.nlpcn.commons.lang.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,8 +46,14 @@ public class SongServiceImpl implements SongService {
 	@Override
 	public List<Song> findByCategoryId(Integer categoryId) {
 		List<Integer> songIds = categorySongMapper.getSongIdsByCategoryId(categoryId);
-		String ids = StringUtil.joiner(songIds, ",");
-		return songMapper.findByIds(ids);
+		List<Song> songs = new ArrayList<>();
+		for (Integer songId : songIds) {
+			Song song = getById(songId);
+			if(song!=null) {
+				songs.add(song);
+			}
+		}
+		return songs;
 	}
 
 }

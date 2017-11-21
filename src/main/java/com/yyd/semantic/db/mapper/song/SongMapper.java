@@ -43,13 +43,4 @@ public interface SongMapper {
 		@Result(property = "songUrl", column = "content_url")
 	})
 	public List<Song> getByArtistId(Integer artistId);
-	
-	@Select("SELECT id, name, artist_id, content_url FROM music.music_resource WHERE id IN (#{ids})")
-	@Results({
-		@Result(property = "id", column = "id"),
-		@Result(property = "name", column = "name"),
-		@Result(property = "artistId", column = "artist_id"),
-		@Result(property = "songUrl", column = "content_url")
-	})
-	public List<Song> findByIds(String ids);
 }

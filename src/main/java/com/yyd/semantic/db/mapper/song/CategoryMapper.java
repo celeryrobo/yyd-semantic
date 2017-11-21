@@ -29,12 +29,4 @@ public interface CategoryMapper {
 		@Result(property = "srcId", column = "src_id")
 	})
 	public List<Category> findByName(String name);
-	
-	@Select("SELECT id, name, src_id FROM music.music_category WHERE id IN (#{ids})")
-	@Results({
-		@Result(property = "id", column = "id"),
-		@Result(property = "name", column = "name"),
-		@Result(property = "srcId", column = "src_id")
-	})
-	public List<Category> findByIds(String ids);
 }

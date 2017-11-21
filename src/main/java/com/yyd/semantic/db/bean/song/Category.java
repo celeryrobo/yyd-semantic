@@ -29,4 +29,9 @@ public class Category {
 		this.srcId = srcId;
 	}
 
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", srcId=" + srcId + "]";
+	}
+
 }

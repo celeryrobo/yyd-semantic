@@ -1,10 +1,10 @@
 package com.yyd.semantic.db.service.impl.song;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.nlpcn.commons.lang.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +27,14 @@ public class CategoryServiceImpl implements CategoryService {
 			subIds = new TreeSet<>();
 		}
 		subIds.add(parentId);
-		String ids = StringUtil.joiner(subIds, ",");
-		return categoryMapper.findByIds(ids);
+		List<Category> categories = new ArrayList<>();
+		for (Integer subId : subIds) {
+			Category category = categoryMapper.getById(subId);
+			if(category != null) {
+				categories.add(category);
+			}
+		}
+		return categories;
 	}
 
 	public Set<Integer> getSubidsByPid(Integer pid, int loopCount) {
