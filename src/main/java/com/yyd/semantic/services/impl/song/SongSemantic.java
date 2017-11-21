@@ -11,8 +11,10 @@ import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.CommonUtils;
 import com.yyd.semantic.db.bean.song.Artist;
+import com.yyd.semantic.db.bean.song.Category;
 import com.yyd.semantic.db.bean.song.Song;
 import com.yyd.semantic.db.service.song.ArtistService;
+import com.yyd.semantic.db.service.song.CategoryService;
 import com.yyd.semantic.db.service.song.SongService;
 
 @Component
@@ -21,6 +23,8 @@ public class SongSemantic implements Semantic<SongBean> {
 	private SongService songService;
 	@Autowired
 	private ArtistService artistService;
+	@Autowired
+	private CategoryService categoryService;
 
 	@Override
 	public SongBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
@@ -61,10 +65,11 @@ public class SongSemantic implements Semantic<SongBean> {
 			List<Integer> songIds = songService.getIdList();
 			int idx = CommonUtils.randomInt(songIds.size());
 			songEntity = songService.getById(songIds.get(idx));
-		}else {
+		} else {
 			// 查找歌曲不能获取当前上下文中的歌曲，由于存在随机播放的问题
 			String songer = slots.get(SongSlot.SONG_SONGER);
 			String song = slots.get(SongSlot.SONG_SONG_NAME);
+			String category = slots.get(SongSlot.SONG_CATEGORY);
 			if (song != null) {
 				List<Song> songs = songService.getByName(song);
 				if (songs.isEmpty()) {
@@ -93,13 +98,37 @@ public class SongSemantic implements Semantic<SongBean> {
 				int idx = CommonUtils.randomInt(artistIds.size());
 				Integer artistId = artistIds.get(idx);
 				List<Song> songs = songService.getByArtistId(artistId);
-				idx = CommonUtils.randomInt(songs.size());
-				songEntity = songs.get(idx);
+				if (songs.isEmpty()) {
+					result = "我没听过" + songer + "的歌";
+				} else {
+					idx = CommonUtils.randomInt(songs.size());
+					songEntity = songs.get(idx);
+				}
+			} else if (category != null) {
+				// 根据类型名称获取到类型对象
+				List<Category> categories = categoryService.getByName(category);
+				if (categories.isEmpty()) {
+					result = "我还没听过这个类型的歌";
+				} else {
+					// 随机获取一个同名类型
+					int idx = CommonUtils.randomInt(categories.size());
+					Category categoryEntity = categories.get(idx);
+					// 根据该类型获取到其下所有子类型
+					categories = categoryService.getByParentId(categoryEntity.getId());
+					// 从所有子类型与本类型中抽取出一个类型
+					idx = CommonUtils.randomInt(categories.size());
+					categoryEntity = categories.get(idx);
+					// 根据类型获取该类型下的歌曲
+					List<Song> songs = songService.findByCategoryId(categoryEntity.getId());
+					// 随机获取该类型下的一首歌
+					idx = CommonUtils.randomInt(songs.size());
+					songEntity = songs.get(idx);
+				}
 			}
 		}
 		if (songEntity != null) {
 			ss.setSongId(songEntity.getId());
-			result = songEntity.getId() + "," + songEntity.getName() + " : " + songEntity.getSourceUrl();
+			result = songEntity.getId() + "," + songEntity.getName() + " : " + songEntity.getSongUrl();
 		}
 		return new SongBean(result);
 	}
@@ -113,7 +142,7 @@ public class SongSemantic implements Semantic<SongBean> {
 			songEntity = songService.getById(songId);
 		}
 		if (songEntity != null) {
-			result = songEntity.getId() + "," + songEntity.getName() + " : " + songEntity.getSourceUrl();
+			result = songEntity.getId() + "," + songEntity.getName() + " : " + songEntity.getSongUrl();
 		}
 		return new SongBean(result);
 	}

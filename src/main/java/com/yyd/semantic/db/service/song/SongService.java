@@ -14,4 +14,6 @@ public interface SongService {
 	public List<Song> getByName(String name);
 
 	public List<Song> getByArtistId(Integer artistId);
+	
+	public List<Song> findByCategoryId(Integer categoryId);
 }

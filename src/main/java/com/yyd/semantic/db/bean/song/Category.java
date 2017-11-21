@@ -1,8 +1,9 @@
 package com.yyd.semantic.db.bean.song;
 
-public class Artist {
+public class Category {
 	private Integer id;
 	private String name;
+	private Integer srcId;
 
 	public Integer getId() {
 		return id;
@@ -19,4 +20,13 @@ public class Artist {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Integer getSrcId() {
+		return srcId;
+	}
+
+	public void setSrcId(Integer srcId) {
+		this.srcId = srcId;
+	}
+
 }

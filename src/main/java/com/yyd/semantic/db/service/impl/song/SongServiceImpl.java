@@ -2,10 +2,12 @@ package com.yyd.semantic.db.service.impl.song;
 
 import java.util.List;
 
+import org.nlpcn.commons.lang.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yyd.semantic.db.bean.song.Song;
+import com.yyd.semantic.db.mapper.song.CategorySongMapper;
 import com.yyd.semantic.db.mapper.song.SongMapper;
 import com.yyd.semantic.db.service.song.SongService;
 
@@ -13,6 +15,8 @@ import com.yyd.semantic.db.service.song.SongService;
 public class SongServiceImpl implements SongService {
 	@Autowired
 	private SongMapper songMapper;
+	@Autowired
+	private CategorySongMapper categorySongMapper;
 
 	@Override
 	public List<Integer> getIdList() {
@@ -37,6 +41,13 @@ public class SongServiceImpl implements SongService {
 	@Override
 	public List<String> getAllNames() {
 		return songMapper.getAllName();
+	}
+
+	@Override
+	public List<Song> findByCategoryId(Integer categoryId) {
+		List<Integer> songIds = categorySongMapper.getSongIdsByCategoryId(categoryId);
+		String ids = StringUtil.joiner(songIds, ",");
+		return songMapper.findByIds(ids);
 	}
 
 }

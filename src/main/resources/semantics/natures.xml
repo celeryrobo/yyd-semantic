@@ -28,6 +28,11 @@
 		<desc>歌手</desc>
 		<service>song</service>
 	</nature>
+	<nature>
+		<name>songCategory</name>
+		<desc>歌手</desc>
+		<service>song</service>
+	</nature>
 	<!-- 故事场景 -->
 	<nature>
 		<name>resource</name>

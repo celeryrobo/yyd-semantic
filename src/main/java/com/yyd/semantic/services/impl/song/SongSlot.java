@@ -5,6 +5,7 @@ import java.util.Map;
 public class SongSlot {
 	public static final String SONG_SONGER = "songer";
 	public static final String SONG_SONG_NAME = "song";
+	public static final String SONG_CATEGORY = "category";
 
 	private static final String SONG_ID = "songId";
 
