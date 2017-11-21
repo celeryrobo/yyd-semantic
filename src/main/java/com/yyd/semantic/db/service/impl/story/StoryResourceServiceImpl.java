@@ -29,4 +29,9 @@ public class StoryResourceServiceImpl implements StoryResourceService {
 		return srm.getIdList();
 	}
 
+	@Override
+	public List<String> getAllNames() {
+		return srm.getAllNames();
+	}
+
 }

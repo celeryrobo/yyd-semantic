@@ -23,4 +23,7 @@ public interface StoryResourceMapper {
 	@Results({ @Result(property = "id", column = "id"), @Result(property = "name", column = "name"),
 			@Result(property = "score", column = "score"), @Result(property = "contentUrl", column = "content_url"), })
 	public StoryResource getByName(String name);
+	
+	@Select("SELECT name FROM story.story_resource")
+	public List<String> getAllNames();
 }

@@ -12,5 +12,5 @@ public interface StoryResourceService {
 
 	public StoryResource getByName(String name);
 	
-	
+	public List<String> getAllNames();
 }

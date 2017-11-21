@@ -35,12 +35,12 @@
 	</nature>
 	<!-- 故事场景 -->
 	<nature>
-		<name>resource</name>
+		<name>StoryName</name>
 		<desc>故事</desc>
 		<service>story</service>
 	</nature>
 	<nature>
-		<name>category</name>
+		<name>StoryCategory</name>
 		<desc>故事类型</desc>
 		<service>story</service>
 	</nature>

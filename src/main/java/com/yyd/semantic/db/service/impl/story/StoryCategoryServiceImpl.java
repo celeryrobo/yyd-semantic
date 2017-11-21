@@ -1,5 +1,7 @@
 package com.yyd.semantic.db.service.impl.story;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,11 @@ public class StoryCategoryServiceImpl implements StoryCategoryService {
 	@Override
 	public StoryCategory getByName(String name) {
 		return scm.getByName(name);
+	}
+
+	@Override
+	public List<String> getAllNames() {
+		return scm.getAllNames();
 	}
 
 }

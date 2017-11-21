@@ -52,7 +52,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 		}
 
 		default:
-			result = new StoryBean("听不懂你说的是什么");
+			result = new StoryBean("没有找到链接1","没有这个故事1");
 			break;
 		}
 
@@ -60,9 +60,9 @@ public class StorySemantic implements Semantic<StoryBean> {
 	}
 
 	private StoryBean queryResource(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的是什么";
+		String storyUrl = "没有找到链接";
+		String storyName = "没有这个故事";
 		Integer storyId = null;
-		System.out.println("------->"+slots.isEmpty());
 		if (slots.isEmpty()) {
 			// 换一个故事，没有slot
 			List<Integer> ids = resourceService.getIdList();
@@ -70,25 +70,27 @@ public class StorySemantic implements Semantic<StoryBean> {
 				int randomIdx = CommonUtils.randomInt(ids.size());
 				storyId = ids.get(randomIdx);
 				StoryResource story = resourceService.getById(storyId);
-				result = story.getContentUrl();
+				storyUrl = story.getContentUrl();
+				storyName = story.getName();
 			}
 		} else {
 			// 听某个具体的故事,有slot
-			String storyName = slots.get(StorySlot.STORY_RESOURCE);
+			storyName = slots.get(StorySlot.STORY_RESOURCE);
 			if (storyName != null) {
 				StoryResource story = resourceService.getByName(storyName);
 				if (story == null) {
-					result = "没有找到你要的资源";
+					storyUrl = "没有找到你要的资源";
 				} else {
-					result = story.getContentUrl();
+					return new StoryBean(story.getContentUrl(),story.getName());
 				}
 			}
 		}
-		return new StoryBean(result);
+		return new StoryBean(storyUrl,storyName);
 	}
 
 	private StoryBean queryCategory(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的是什么";
+		String storyUrl = "没有找到链接";
+		String storyName = "没有这个故事类";
 		Integer storyId = null;
 		if (slots.isEmpty()) {
 			// 换一个某类故事，没有slot
@@ -97,27 +99,23 @@ public class StorySemantic implements Semantic<StoryBean> {
 				int randomIdx = CommonUtils.randomInt(ids.size());
 				storyId = ids.get(randomIdx);
 				StoryResource story = resourceService.getById(storyId);
-				result = story.getContentUrl();
+				return new StoryBean(story.getContentUrl(), story.getName());
 			}
 		} else {
 			// 我要听某类故事,有slot
-			String storyName = slots.get(StorySlot.STORY_CATEGORY);
+			storyName = slots.get(StorySlot.STORY_CATEGORY);
 			if (storyName != null) {
 				StoryCategory category = categoryService.getByName(storyName);
-				
-				if (category == null) {
-					result = "没有找到你要的资源";
-				} else {
+				if (category != null) {
 					Integer categoryId = category.getId();
-					result = getStoryResult(categoryRelaService.getByParentId(categoryId), categoryId);
-				}
+					return getStoryResult(categoryRelaService.getByParentId(categoryId), categoryId);
+				} 
 			}
 		}
-		return new StoryBean(result);
+		return new StoryBean(storyUrl,storyName);
 	}
 
-	private String getStoryResult(List<StoryCategoryRelationship> list, Integer categoryId) {
-		String result = null;
+	private StoryBean getStoryResult(List<StoryCategoryRelationship> list, Integer categoryId) {
 		if (!list.isEmpty()) {
 			while (!list.isEmpty()) {
 				int randomIdx = CommonUtils.randomInt(list.size());
@@ -128,7 +126,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 					int randomIdx1 = CommonUtils.randomInt(scResList.size());
 					StoryCategoryResource scRes = scResList.get(randomIdx1);
 					StoryResource story = resourceService.getById(scRes.getResourceId());
-					result = story.getContentUrl();
+					return new StoryBean(story.getContentUrl(), story.getName());
 				}
 			}
 		} else {
@@ -136,10 +134,8 @@ public class StorySemantic implements Semantic<StoryBean> {
 			int randomIdx = CommonUtils.randomInt(scResList.size());
 			StoryCategoryResource scRes = scResList.get(randomIdx);
 			StoryResource story = resourceService.getById(scRes.getResourceId());
-			result = story.getContentUrl();
+			return new StoryBean(story.getContentUrl(), story.getName());
 		}
-
-		return result;
-
+		return null;
 	}
 }
