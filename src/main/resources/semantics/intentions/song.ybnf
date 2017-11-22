@@ -5,8 +5,8 @@
 service song;
 root $main;
 
-$song_case_1{action%querySong} = ($song_category | $songer) [的];
-$song_case_2{action%querySong} = ([给我] 换一首) | 下一首;
+$song_case_1{action%querySong} = [可以|可不可以|能][给我][换一首|换一个|来一个]($song_category | $songer|$song_name) [的][歌|歌曲][吗];
+$song_case_2{action%querySong} = ([给我] 换一首|换一个|来一个) | 下一首;
 $song_case_3{action%queryCurrSong} = ([播] [放] 这首 [歌]) | ([我] 想听这首 [歌]);
 $song_case_4{action%querySongName} = [这 [首]] [歌的] (歌名 | 名称 | 名字) [是什么];
 $song_case_5{action%querySonger} = [这 [首]] 歌 [曲] (是谁唱的 | (的歌手 [是谁]));

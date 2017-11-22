@@ -5,9 +5,10 @@
 service story;
 root $main;
 
-$story_case1{action%queryResource} = [我] [可以|能不能|可不可以|给我](换|在讲)(一个)[的][故事][吗];
-$story_case2{action%queryResource} = 这个[故事]不好听|我不喜欢这个[故事];
+$story_case1{action%queryResource} = [我] [可以|能不能|可不可以|给我](换|在讲)(一个)[$story_resource][的][故事][吗];
+$story_case2{action%queryCategory} = [我] [可以|能不能|可不可以|给我](换|在讲)(一个)[$story_category][的][故事][吗];
+$story_case3{action%queryResource} = 这个[故事]不好听|我不喜欢这个[故事];
 
-$story_main = $story_case1|$story_case2;
+$story_main = $story_case1|$story_case2|$story_case3;
 
 $main{action%story} = $story_common|$story_main;

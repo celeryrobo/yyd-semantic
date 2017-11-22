@@ -103,6 +103,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 			}
 		} else {
 			// 我要听某类故事,有slot
+			System.out.println("---storyUrl---->"+storyUrl);
 			storyName = slots.get(StorySlot.STORY_CATEGORY);
 			if (storyName != null) {
 				StoryCategory category = categoryService.getByName(storyName);
