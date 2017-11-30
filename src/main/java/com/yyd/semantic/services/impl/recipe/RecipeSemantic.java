@@ -55,9 +55,9 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 	private RecipeBean processRecipeFood(Map<String, String> slots, SemanticContext semanticContext, String action) {
 		String result = "听不懂你说的什么";
 		String recipeFood = slots.get(RecipeSlot.RECIPE_FOOD);
+		RecipeSlot recipeSlot = new RecipeSlot(semanticContext.getParams());
 		if (recipeFood == null) {
-			RecipeSlot rs = new RecipeSlot(semanticContext.getParams());
-			recipeFood = rs.getRecipeFood();
+			recipeFood = recipeSlot.getRecipeFood();
 		}
 		if (recipeFood != null) {
 			List<String> list = new LinkedList<>();
@@ -71,19 +71,17 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 					String localName = qs.getResource("c").getURI();
 					int idx = localName.indexOf("#");
 					localName = idx > 0 ? localName.substring(idx + 1) : "";
-					System.out.println(localName);
 					if (localName.length() > 0) {
 						list.add(localName);
 					}
 				}
 			}
-			System.out.println(list);
 			if (list.isEmpty()) {
 				result = "我没吃过" + recipeFood + "，不了解";
 			} else {
 				result = StringUtil.joiner(list, "、");
+				recipeSlot.setRecipeFood(recipeFood);
 			}
-			System.out.println(result);
 		}
 		return new RecipeBean(result);
 	}
@@ -109,7 +107,6 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 					String localName = qs.getResource("c").getURI();
 					int idx = localName.indexOf("#");
 					localName = idx > 0 ? localName.substring(idx + 1) : "";
-					System.out.println(localName);
 					if (localName.length() > 0) {
 						list.add(localName);
 					}
@@ -120,7 +117,6 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 			} else {
 				result = StringUtil.joiner(list, "、");
 			}
-			System.out.println(result);
 		}
 		return new RecipeBean(result);
 	}
