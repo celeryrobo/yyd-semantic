@@ -1,0 +1,22 @@
+#YBNF 1.0 utf8;
+callable @recipe(recipeFood), @recipe(recipeIngredient);
+
+$recipe_food{recipeFood} = $_call_recipe_recipeFood_;
+$_ingredients = [和] $_call_recipe_recipeIngredient_;
+$recipe_ingredients{recipeIngredients} = $_ingredients<1, 5>;
+
+$recipe_case1{action%isIngredientOf} = $recipe_ingredients [可以|能] 做 [什么|啥|哪些] 菜;
+$recipe_case2{action%hasIngredient} = [做|炒|煮] $recipe_food [需] 要 (什么|哪些|啥|的) (材料|食材|素材|原料);
+
+$recipe_case3_1 = $recipe_food [是] (怎么 (做|烹饪) [的]);
+$recipe_case3_2 = [做|炒|煮|烹饪] $recipe_food 的 [烹饪] (方法|步骤|做法) [(是|有) (什么|哪些)];
+$recipe_case3{action%hasStepsText} = $recipe_case3_1|$recipe_case3_2;
+
+$recipe_case4_1 = $recipe_food (容易做|难度大) 吗;
+$recipe_case4_2 = $recipe_food 难 [易] [程] 度 [有] 多大;
+$recipe_case4{action%hasHardLevel} = [做|炒|煮|烹饪] ($recipe_case4_1|$recipe_case4_2);
+
+$recipe_case5{action%hasTaste} = $recipe_food [的] (味道|口味) [怎么样|如何];
+$recipe_case6{action%hasCookingTime} = [做|炒|煮|烹饪] $recipe_food [需] 要 [花 [费]] (几分钟|多长时间);
+
+$recipe_common = $recipe_case1|$recipe_case2|$recipe_case3|$recipe_case4|$recipe_case5|$recipe_case6;

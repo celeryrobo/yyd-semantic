@@ -44,4 +44,15 @@
 		<desc>故事类型</desc>
 		<service>story</service>
 	</nature>
+	<!-- 菜谱场景 -->
+	<nature>
+		<name>recipeFood</name>
+		<desc>菜名</desc>
+		<service>recipe</service>
+	</nature>
+	<nature>
+		<name>recipeIngredient</name>
+		<desc>食材</desc>
+		<service>recipe</service>
+	</nature>
 </serviceconf>

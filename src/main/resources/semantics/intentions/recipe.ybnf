@@ -1,0 +1,12 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/recipe.ybnf;
+service recipe;
+root $main;
+$recipe_case_1{action%hasIngredient} = [需] 要 (什么|哪些|啥|的) (材料|食材|素材|原料);
+$recipe_case_2{action%hasStepsText} = (怎么 (做|烹饪) [的])|(烹饪 (方法|步骤) [(是|有) (什么|哪些)]);
+$recipe_case_3{action%hasHardLevel} = (难 [易] [程] 度 [有] 多大)|((容易做|难度大) 吗);
+$recipe_case_4{action%hasTaste} = (味道|口味) [怎么样|如何];
+$recipe_case_5{action%hasCookingTime} = [需] 要 [花 [费]] (几分钟|多长时间);
+$main{action%recipe} = $recipe_common|$recipe_case_1|$recipe_case_2|$recipe_case_3|$recipe_case_4|$recipe_case_5;

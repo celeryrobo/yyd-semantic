@@ -1,8 +1,0 @@
-#YBNF 1.0 utf8;
-#include original.ybnf;
-#include classpath:semantics/commons/common.ybnf;
-service xiangsheng;
-root $main;
-$yanyuan = 郭德纲|大兵;
-$xiangsheng_main = $yanyuan 的 相声;
-$main{action%xiangsheng} = $xiangsheng_main;
