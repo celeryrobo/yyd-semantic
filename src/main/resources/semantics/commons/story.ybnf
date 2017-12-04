@@ -4,8 +4,14 @@ callable @story(StoryName), @story(StoryCategory);
 $story_resource{storyResource} = $_call_story_StoryName_;
 $story_category{storyCategory} = $_call_story_StoryCategory_;
 
-$story_common_case1{action%queryResource} = (([我] (想 | 要 | 想要) 听) | ([给我] (说 |讲 |放|念))) [[一] 个] $story_resource [的][故事];
-$story_common_case2{action%queryCategory} = (([我] (想 | 要 | 想要) 听) | ([给我] (说 |讲 |放|念))) [[一] 个] $story_category;
-$story_common_case3{action%queryResource} = [我] [可以|能不能](换|在讲)(一个)$story_resource[的][故事][吗];
-$story_common_case4{action%queryResource} = [我] [可以|能不能](换|在讲)(一个)$story_category[的][故事][吗];
-$story_common = $story_common_case1|$story_common_case2|$story_common_case3|$story_common_case4;
+$who = 我|给我;
+$unmeaning = 吧|好吗|行吗|可以吗|吗;
+$want1=想|要|想要;
+$want2=可以|能不能|可不可以;
+$intent=说|讲|放|念|来|播|播放|换|听;
+$case1=[$who] [再] [$want1];
+$case2=[$want2] [$who] [再];
+
+$story_common_case1{action%queryResource}=($case1|$case2) [$intent] [一个][个]$story_resource [的][故事] [$unmeaning];
+$story_common_case2{action%queryCategory}=($case1|$case2) [$intent] [一个][个]$story_category [的][故事] [$unmeaning];
+$story_common = $story_common_case1|$story_common_case2;
