@@ -1,7 +1,9 @@
 package com.yyd.semantic.common;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ybnf.compiler.beans.YbnfCompileResult;
@@ -11,8 +13,9 @@ public class SemanticResult {
 	private String errMsg;
 	private String service;
 	private String text;
-	private Map<String, Object> slots;
-	private Object data;
+	private Long time;
+	private Map<String, Object> semantic;
+	private Object resource;
 
 	public SemanticResult(Integer errCode, String errMsg, YbnfCompileResult result) {
 		this.errCode = errCode;
@@ -20,9 +23,11 @@ public class SemanticResult {
 		if (result != null) {
 			this.service = result.getService();
 			this.text = result.getText();
-			this.slots = new HashMap<String, Object>();
-			this.slots.putAll(result.getSlots());
-			this.slots.put("objects", result.getObjects());
+			this.semantic = new HashMap<String, Object>();
+			this.semantic.putAll(result.getSlots());
+			Map<String, String> objects = result.getObjects();
+			Set<Map.Entry<String, String>> slots = objects == null ? new HashSet<>() : objects.entrySet();
+			this.semantic.put("slots", slots);
 		}
 	}
 
@@ -61,21 +66,29 @@ public class SemanticResult {
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public Map<String, Object> getSlots() {
-		return slots;
+	public Map<String, Object> getSemantic() {
+		return semantic;
 	}
 
-	public void setSlots(Map<String, Object> slots) {
-		this.slots = slots;
+	public void setSemantic(Map<String, Object> semantic) {
+		this.semantic = semantic;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public Object getData() {
-		return data;
+	public Object getResource() {
+		return resource;
 	}
 
-	public void setData(Object data) {
-		this.data = data;
+	public void setResource(Object resource) {
+		this.resource = resource;
+	}
+
+	public Long getTime() {
+		return time;
+	}
+
+	public void setTime(Long time) {
+		this.time = time;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.yyd.semantic.common;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 /**
@@ -11,6 +12,8 @@ import java.util.ArrayList;
  *
  */
 import java.util.Properties;
+
+import org.springframework.util.ResourceUtils;
 
 public class FileUtils {
 	/**
@@ -61,10 +64,10 @@ public class FileUtils {
 		File file = new File(filename);
 		return readFile(file);
 	}
-	
+
 	public static String readFile(File file) throws Exception {
 		StringBuilder sb = new StringBuilder("");
-		if(file.exists()) {
+		if (file.exists()) {
 			FileInputStream fis = new FileInputStream(file);
 			InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
 			BufferedReader br = new BufferedReader(isr);
@@ -78,24 +81,28 @@ public class FileUtils {
 		}
 		return sb.toString();
 	}
-	
+
 	public static BufferedReader fileReader(File file) throws Exception {
 		BufferedReader br = null;
-		if(file.exists()) {
+		if (file.exists()) {
 			FileInputStream fis = new FileInputStream(file);
 			InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
 			br = new BufferedReader(isr);
 		}
 		return br;
 	}
-	
+
 	public static BufferedReader fileReader(String filename) throws Exception {
 		File file = new File(filename);
 		return fileReader(file);
 	}
-	
+
 	public static String getResourcePath() {
-		return Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		try {
+			return ResourceUtils.getURL("classpath:").getPath();
+		} catch (FileNotFoundException e) {
+		}
+		return ClassLoader.getSystemResource("").getPath();
 	}
 
 	public static Properties buildProperties(String path) throws Exception {

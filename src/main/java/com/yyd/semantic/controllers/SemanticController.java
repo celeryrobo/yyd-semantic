@@ -20,12 +20,14 @@ public class SemanticController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public SemanticResult get(@RequestParam String userIdentify, @RequestParam String lang) {
 		SemanticResult sr = null;
+		long start = System.currentTimeMillis();
 		try {
 			sr = semanticService.handleSemantic(lang, userIdentify);
 		} catch (Exception e) {
 			sr = new SemanticResult(500, e.getMessage(), null);
 			e.printStackTrace();
 		}
+		sr.setTime(System.currentTimeMillis() - start);
 		return sr;
 	}
 }

@@ -47,7 +47,7 @@ public class SemanticServiceImpl implements SemanticService {
 			AbstractSemanticResult rs = semantic.handle(result, semanticContext);
 			semanticContext.setService(result.getService());
 			sr = new SemanticResult(rs.getErrCode(), null, result);
-			sr.setData(rs);
+			sr.setResource(rs);
 		}
 		return sr;
 	}
