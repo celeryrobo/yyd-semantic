@@ -1,12 +1,38 @@
 package com.yyd.semantic.common;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ybnf.compiler.beans.YbnfCompileResult;
+
+class KV {
+	private String key;
+	private String value;
+
+	public KV(String key, String value) {
+		this.key = key;
+		this.value = value;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+}
 
 public class SemanticResult {
 	private Integer errCode;
@@ -26,7 +52,12 @@ public class SemanticResult {
 			this.semantic = new HashMap<String, Object>();
 			this.semantic.putAll(result.getSlots());
 			Map<String, String> objects = result.getObjects();
-			Set<Map.Entry<String, String>> slots = objects == null ? new HashSet<>() : objects.entrySet();
+			List<KV> slots = new LinkedList<>();
+			if (objects != null) {
+				for (Map.Entry<String, String> entry : objects.entrySet()) {
+					slots.add(new KV(entry.getKey(), entry.getValue()));
+				}
+			}
 			this.semantic.put("slots", slots);
 		}
 	}
