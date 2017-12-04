@@ -9,4 +9,4 @@ $recipe_case_2{action%hasStepsText} = (怎么 (做|烹饪) [的])|(烹饪 (方�
 $recipe_case_3{action%hasHardLevel} = (难 [易] [程] 度 [有] 多大)|((容易做|难度大) 吗);
 $recipe_case_4{action%hasTaste} = (味道|口味) [怎么样|如何];
 $recipe_case_5{action%hasCookingTime} = [需] 要 [花 [费]] (几分钟|多长时间);
-$main{action%recipe} = $recipe_common|$recipe_case_1|$recipe_case_2|$recipe_case_3|$recipe_case_4|$recipe_case_5;
+$main{action%recipe} = $_yyd_common_ ($recipe_common|$recipe_case_1|$recipe_case_2|$recipe_case_3|$recipe_case_4|$recipe_case_5) $_yyd_common_;

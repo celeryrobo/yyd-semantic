@@ -1,8 +1,11 @@
 package com.yyd.semantic.services.impl.recipe;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QuerySolution;
@@ -10,12 +13,15 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdfconnection.RDFConnection;
 import org.apache.jena.rdfconnection.RDFConnectionFactory;
 import org.nlpcn.commons.lang.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
+import com.yyd.semantic.common.DbSegLoader;
+import com.yyd.semantic.common.DbSegLoader.Item;
 import com.yyd.semantic.nlp.NLPFactory;
 import com.yyd.semantic.nlp.WordTerm;
 
@@ -27,6 +33,9 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 
 	@Value("${tdb.datasource.dataset.recipe}")
 	private String datasetRecipe;
+
+	@Autowired
+	private DbSegLoader dbSegLoader;
 
 	@Override
 	public RecipeBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
@@ -60,9 +69,21 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 			recipeFood = recipeSlot.getRecipeFood();
 		}
 		if (recipeFood != null) {
-			List<String> list = new LinkedList<>();
+			Item item = dbSegLoader.getItem(recipeFood);
+			Set<String> items = null;
+			if (item == null) {
+				items = new TreeSet<>();
+				items.add(recipeFood);
+			} else {
+				items = item.getItems();
+			}
+			Set<String> sets = new HashSet<>();
 			StringBuilder sparsql = new StringBuilder(PREFIX).append("SELECT DISTINCT ?c WHERE {");
-			sparsql.append("recipe:").append(recipeFood).append(" recipe:").append(action).append(" ?c.}");
+			for (String it : items) {
+				sparsql.append("OPTIONAL {recipe:").append(it).append(" recipe:").append(action)
+						.append(" ?c}");
+			}
+			sparsql.append("}");
 			try (RDFConnection conn = RDFConnectionFactory.connect(tdbConnectionStr + datasetRecipe);
 					QueryExecution qe = conn.query(sparsql.toString())) {
 				ResultSet rs = qe.execSelect();
@@ -72,14 +93,14 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 					int idx = localName.indexOf("#");
 					localName = idx > 0 ? localName.substring(idx + 1) : "";
 					if (localName.length() > 0) {
-						list.add(localName);
+						sets.add(localName);
 					}
 				}
 			}
-			if (list.isEmpty()) {
+			if (sets.isEmpty()) {
 				result = "我没吃过" + recipeFood + "，不了解";
 			} else {
-				result = StringUtil.joiner(list, "、");
+				result = StringUtil.joiner(sets, "、");
 				recipeSlot.setRecipeFood(recipeFood);
 			}
 		}

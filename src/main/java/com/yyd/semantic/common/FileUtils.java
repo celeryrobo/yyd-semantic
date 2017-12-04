@@ -58,21 +58,8 @@ public class FileUtils {
 	 * @throws Exception
 	 */
 	public static String readFile(String filename) throws Exception {
-		StringBuilder sb = new StringBuilder("");
 		File file = new File(filename);
-		if (file.exists()) {
-			FileInputStream fis = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-			BufferedReader br = new BufferedReader(isr);
-			String line;
-			while ((line = br.readLine()) != null) {
-				sb.append(line).append("\n");
-			}
-			br.close();
-			isr.close();
-			fis.close();
-		}
-		return sb.toString();
+		return readFile(file);
 	}
 	
 	public static String readFile(File file) throws Exception {
@@ -90,6 +77,21 @@ public class FileUtils {
 			fis.close();
 		}
 		return sb.toString();
+	}
+	
+	public static BufferedReader fileReader(File file) throws Exception {
+		BufferedReader br = null;
+		if(file.exists()) {
+			FileInputStream fis = new FileInputStream(file);
+			InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+			br = new BufferedReader(isr);
+		}
+		return br;
+	}
+	
+	public static BufferedReader fileReader(String filename) throws Exception {
+		File file = new File(filename);
+		return fileReader(file);
 	}
 	
 	public static String getResourcePath() {

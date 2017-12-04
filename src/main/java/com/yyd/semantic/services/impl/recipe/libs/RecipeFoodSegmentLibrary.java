@@ -22,6 +22,7 @@ public class RecipeFoodSegmentLibrary implements SegmentLibrary {
 
 	@org.springframework.beans.factory.annotation.Value("${tdb.datasource.dataset.recipe}")
 	private String datasetRecipe;
+
 	@Override
 	public List<Value> load() {
 		List<Value> result = new LinkedList<>();
@@ -31,7 +32,7 @@ public class RecipeFoodSegmentLibrary implements SegmentLibrary {
 			while (rs.hasNext()) {
 				QuerySolution qs = rs.next();
 				String localName = qs.getResource("a").getLocalName();
-				if(localName.length() > 0) {
+				if (!localName.isEmpty()) {
 					result.add(new Value(localName, "recipeFood", "1"));
 				}
 			}
