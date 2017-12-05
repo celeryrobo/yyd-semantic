@@ -34,7 +34,7 @@ public class SemanticServiceImpl implements SemanticService {
 		YbnfCompileResult result = parseSemantic(text, semanticContext.getService());
 		SemanticResult sr;
 		if (result == null) {
-			sr = new SemanticResult(404, "match error ！！！", result);
+			sr = new SemanticResult(404, "Match Fail !", result);
 			sr.setText(text);
 		} else {
 			// 切换场景则清空参数
@@ -46,7 +46,7 @@ public class SemanticServiceImpl implements SemanticService {
 			Semantic<?> semantic = semanticFactory.build(result.getService());
 			AbstractSemanticResult rs = semantic.handle(result, semanticContext);
 			semanticContext.setService(result.getService());
-			sr = new SemanticResult(rs.getErrCode(), null, result);
+			sr = new SemanticResult(rs.getErrCode(), "OK", result);
 			sr.setResource(rs);
 		}
 		return sr;

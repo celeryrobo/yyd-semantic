@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 
 class KV {
@@ -35,17 +34,19 @@ class KV {
 }
 
 public class SemanticResult {
-	private Integer errCode;
-	private String errMsg;
+	private Integer ret;
+	private String msg;
 	private String service;
 	private String text;
 	private Long time;
 	private Map<String, Object> semantic;
 	private Object resource;
+	
+	private static Map<String, Object> emptyObject = new HashMap<>();
 
-	public SemanticResult(Integer errCode, String errMsg, YbnfCompileResult result) {
-		this.errCode = errCode;
-		this.errMsg = errMsg;
+	public SemanticResult(Integer ret, String msg, YbnfCompileResult result) {
+		this.ret = ret;
+		this.msg = msg;
 		if (result != null) {
 			this.service = result.getService();
 			this.text = result.getText();
@@ -62,25 +63,29 @@ public class SemanticResult {
 		}
 	}
 
-	public Integer getErrCode() {
-		return errCode;
+	public Integer getRet() {
+		return ret;
 	}
 
-	public void setErrCode(Integer errCode) {
-		this.errCode = errCode;
+	public void setRet(Integer ret) {
+		this.ret = ret;
 	}
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public String getErrMsg() {
-		return errMsg;
+	public String getMsg() {
+		if (msg == null) {
+			return "";
+		}
+		return msg;
 	}
 
-	public void setErrMsg(String errMsg) {
-		this.errMsg = errMsg;
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String getService() {
+		if (service == null) {
+			return "";
+		}
 		return service;
 	}
 
@@ -96,8 +101,10 @@ public class SemanticResult {
 		this.text = text;
 	}
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Map<String, Object> getSemantic() {
+		if (semantic == null) {
+			return emptyObject;
+		}
 		return semantic;
 	}
 
@@ -105,8 +112,10 @@ public class SemanticResult {
 		this.semantic = semantic;
 	}
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Object getResource() {
+		if (resource == null) {
+			return emptyObject;
+		}
 		return resource;
 	}
 
