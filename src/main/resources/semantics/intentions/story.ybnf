@@ -5,9 +5,8 @@
 service story;
 root $main;
 
-$story_case1{intent%queryResource} = (这个[故事]不好听|我不喜欢这个[故事]) ;
-$story_case2{intent%queryResource} = (($case1|$case2) [$intent] [一个][个]);
+$story_case{intent%queryResource} = (这个[故事]不好听|我不喜欢这个[故事])|$case;
 
-$story_main = ($story_case1|$story_case2)[$_yyd_particle_];
+$story_main = ($story_case)[$_yyd_particle_];
 
 $main = $story_common|$story_main;

@@ -44,4 +44,4 @@ $poetry_case7{intent%thisPoetry} = $poetry_case7_2|$poetry_case7_1;
 
 $poetry_case8{intent%querySentence} = ($poetry_title | (这 [首|个] 诗)) 的第 $poetry_number 句 [是 (什么 | (哪 [一] 句))];
 
-$main = ($poetry_case8|$poetry_case7|$poetry_case6|$poetry_case5|$poetry_case4|$poetry_case3|$poetry_case2|$poetry_case1)$_yyd_particle_;
+$main = ($poetry_case8|$poetry_case7|$poetry_case6|$poetry_case5|$poetry_case4|$poetry_case3|$poetry_case2|$poetry_case1)[$_yyd_particle_];
