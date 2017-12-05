@@ -121,7 +121,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 						int index = number.getNumber().intValue();
 						if (index < 1) {
 							result = "诗句是从第一句开始的";
-						} else if (index >= poetrySentences.size()) {
+						} else if (index > poetrySentences.size()) {
 							result = "这首诗我只知道" + poetrySentences.size() + "句";
 						} else {
 							PoetrySentence poetrySentence = poetrySentences.get(index - 1);
