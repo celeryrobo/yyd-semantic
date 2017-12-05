@@ -39,21 +39,22 @@ public class StorySemantic implements Semantic<StoryBean> {
 		Map<String, String> slots = ybnfCompileResult.getSlots();
 		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
-		System.out.println("---intent---->"+action);
+		System.out.println("intent---->"+action);
 		switch (action) {
 		case StoryIntent.QUERY_CATEGORY: {
 			result = queryCategory(objects, semanticContext);
 			break;
 		}
-
 		case StoryIntent.QUERY_RESOURCE: {
 			result = queryResource(objects, semanticContext);
 			break;
 		}
-
 		default:
 			result = new StoryBean("没有找到链接1","没有这个故事1");
 			break;
+		}
+		if(result==null) {
+			result = new StoryBean("null", "null");
 		}
 
 		return result;
@@ -103,27 +104,29 @@ public class StorySemantic implements Semantic<StoryBean> {
 			}
 		} else {
 			// 我要听某类故事,有slot
-			System.out.println("---storyUrl---->"+storyUrl);
 			storyName = slots.get(StorySlot.STORY_CATEGORY);
 			if (storyName != null) {
 				StoryCategory category = categoryService.getByName(storyName);
 				if (category != null) {
 					Integer categoryId = category.getId();
 					return getStoryResult(categoryRelaService.getByParentId(categoryId), categoryId);
-				} 
+				}
 			}
 		}
 		return new StoryBean(storyUrl,storyName);
 	}
 
 	private StoryBean getStoryResult(List<StoryCategoryRelationship> list, Integer categoryId) {
+		//System.out.println("__________>"+list.size()+"---->"+categoryId+"-=-=-="+list.isEmpty());
 		if (!list.isEmpty()) {
 			while (!list.isEmpty()) {
+			
 				int randomIdx = CommonUtils.randomInt(list.size());
 				StoryCategoryRelationship scRel = list.get(randomIdx);
 				list = categoryRelaService.getByParentId(scRel.getSubId());
 				if (list.isEmpty()) {
 					List<StoryCategoryResource> scResList = categoryResourceService.getByCategoryId(scRel.getSubId());
+					
 					int randomIdx1 = CommonUtils.randomInt(scResList.size());
 					StoryCategoryResource scRes = scResList.get(randomIdx1);
 					StoryResource story = resourceService.getById(scRes.getResourceId());
@@ -132,10 +135,13 @@ public class StorySemantic implements Semantic<StoryBean> {
 			}
 		} else {
 			List<StoryCategoryResource> scResList = categoryResourceService.getByCategoryId(categoryId);
-			int randomIdx = CommonUtils.randomInt(scResList.size());
-			StoryCategoryResource scRes = scResList.get(randomIdx);
-			StoryResource story = resourceService.getById(scRes.getResourceId());
-			return new StoryBean(story.getContentUrl(), story.getName());
+			System.out.println("11111-->"+scResList.size()+"---->"+categoryId+"-=-=-="+scResList.isEmpty());
+			if(!scResList.isEmpty()) {
+				int randomIdx = CommonUtils.randomInt(scResList.size());
+				StoryCategoryResource scRes = scResList.get(randomIdx);
+				StoryResource story = resourceService.getById(scRes.getResourceId());
+				return new StoryBean(story.getContentUrl(), story.getName());
+			}
 		}
 		return null;
 	}

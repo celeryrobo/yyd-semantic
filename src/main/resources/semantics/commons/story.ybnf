@@ -14,4 +14,5 @@ $case2=[$want2] [$who] [再];
 
 $story_common_case1{intent%queryResource}=($case1|$case2) [$intent] [一个][个]$story_resource [的][故事] [$unmeaning];
 $story_common_case2{intent%queryCategory}=($case1|$case2) [$intent] [一个][个]$story_category [的][故事] [$unmeaning];
-$story_common = $story_common_case1|$story_common_case2;
+$story_common_case3{intent%queryResource}=($case1|$case2) [$intent] [一个][个] (好听|美妙)的故事 [$unmeaning];
+$story_common = $story_common_case1|$story_common_case2|$story_common_case3;
