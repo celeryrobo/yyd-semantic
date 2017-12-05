@@ -8,4 +8,8 @@ public class CommonUtils {
 		Random rd = new Random();
 		return rd.nextInt(bound);
 	}
+	
+	public static Number strToNumber(String numberStr) {
+		return new Number(numberStr);
+	}
 }

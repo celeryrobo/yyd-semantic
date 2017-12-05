@@ -10,6 +10,7 @@ import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.CommonUtils;
+import com.yyd.semantic.common.Number;
 import com.yyd.semantic.db.bean.poetry.Author;
 import com.yyd.semantic.db.bean.poetry.Poetry;
 import com.yyd.semantic.db.bean.poetry.PoetrySentence;
@@ -70,12 +71,68 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			result = thisPoetry(objects, semanticContext);
 			break;
 		}
+		// 查询指定的诗句
+		case PoetryIntent.QUERY_SENTENCE: {
+			result = querySentence(objects, semanticContext);
+			break;
+		}
 		default: {
 			result = new PoetryBean("这句话太复杂了，我还不能理解");
 			break;
 		}
 		}
 		return result;
+	}
+
+	private PoetryBean querySentence(Map<String, String> slots, SemanticContext semanticContext) {
+		String result = "听不懂你说的什么";
+		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
+		Integer poemId = ps.getPoemId();
+		// 存在语义分析实体的情况
+		String title = slots.get(PoetrySlot.POEM_TITLE);
+		String sentence = slots.get(PoetrySlot.POEM_SENTENCE);
+		if (title != null) {
+			List<Poetry> poetries = poetryService.getByTitle(title);
+			if (poetries.isEmpty()) {
+				result = "我不记得" + title + "这首诗了";
+			} else {
+				int idx = CommonUtils.randomInt(poetries.size());
+				poemId = poetries.get(idx).getId();
+			}
+		} else if (sentence != null) {
+			List<PoetrySentence> poetrySentences = poetrySentenceService.getBySent(sentence);
+			if (poetrySentences.isEmpty()) {
+				result = "我不记得" + sentence + "这句诗了";
+			} else {
+				int idx = CommonUtils.randomInt(poetrySentences.size());
+				PoetrySentence poetrySentence = poetrySentences.get(idx);
+				poemId = poetrySentence.getPoetryId();
+			}
+		}
+		if (poemId != null) {
+			ps.clear();
+			ps.setPoemId(poemId);
+			String numberStr = slots.get(PoetrySlot.POEM_NUMBER);
+			if (numberStr != null) {
+				Number number = CommonUtils.strToNumber(numberStr);
+				if (number.isSuccess()) {
+					List<PoetrySentence> poetrySentences = poetrySentenceService.getByPoetryId(poemId);
+					if (!poetrySentences.isEmpty()) {
+						int index = number.getNumber().intValue();
+						if (index < 1) {
+							result = "诗句是从第一句开始的";
+						} else if (index >= poetrySentences.size()) {
+							result = "这首诗我只知道" + poetrySentences.size() + "句";
+						} else {
+							PoetrySentence poetrySentence = poetrySentences.get(index - 1);
+							ps.setPoemCurSentenceIndex(index - 1);
+							result = poetrySentence.getSentence();
+						}
+					}
+				}
+			}
+		}
+		return new PoetryBean(result);
 	}
 
 	private PoetryBean thisPoetry(Map<String, String> slots, SemanticContext semanticContext) {
