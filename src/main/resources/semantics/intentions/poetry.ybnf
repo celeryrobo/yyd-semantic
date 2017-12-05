@@ -1,5 +1,6 @@
 #YBNF 1.0 utf8;
 #include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
 service poetry;
 callable @poetry(title), @poetry(sentence), @poetry(author);
 root $main;
@@ -7,6 +8,7 @@ root $main;
 $poetry_author{author} = $_call_poetry_author_;
 $poetry_title{title} = $_call_poetry_title_;
 $poetry_sentence{sentence} = $_call_poetry_sentence_;
+$poetry_number{number} = {$han_digital};
 
 $poetry_case1_1 = ((我 (要 | 想) 听) | 来 | (背 [诵]) | 念 | 读) [[一] 首] [$poetry_author 的] ($poetry_sentence | $poetry_title | ([唐] 诗));
 $poetry_case1_2 = [换 [一] 首] $poetry_author 的 [$poetry_sentence | $poetry_title | ([唐] 诗)];
@@ -39,6 +41,6 @@ $poetry_case7_1 = (背|念|读) [诵|([一] 下)] 这 [一] [首|个] 诗 [[的]
 $poetry_case7_2 = [我] (要|想) 听这 [一] [首|个] 诗 [的 (内容|诗句)];
 $poetry_case7{intent%thisPoetry} = $poetry_case7_2|$poetry_case7_1;
 
-$poetry_case8{intent%querySentence} = ($poetry_title | (这 [首|个] 诗)) 的第num句 [是 (什么 | (哪 [一] 句))];
+$poetry_case8{intent%querySentence} = ($poetry_title | (这 [首|个] 诗)) 的第 $poetry_number 句 [是 (什么 | (哪 [一] 句))];
 
 $main = $poetry_case8|$poetry_case7|$poetry_case6|$poetry_case5|$poetry_case4|$poetry_case3|$poetry_case2|$poetry_case1;
