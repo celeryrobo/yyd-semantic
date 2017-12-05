@@ -5,14 +5,16 @@ $story_resource{storyResource} = $_call_story_StoryName_;
 $story_category{storyCategory} = $_call_story_StoryCategory_;
 
 $who = 我|给我;
-$unmeaning = 吧|好吗|行吗|可以吗|吗;
 $want1=想|要|想要;
 $want2=可以|能不能|可不可以;
 $intent=说|讲|放|念|来|播|播放|换|听;
-$case1=[$who] [再] [$want1];
-$case2=[$want2] [$who] [再];
 
-$story_common_case1{intent%queryResource}=($case1|$case2) [$intent] [一个][个]$story_resource [的][故事] [$unmeaning];
-$story_common_case2{intent%queryCategory}=($case1|$case2) [$intent] [一个][个]$story_category [的][故事] [$unmeaning];
-$story_common_case3{intent%queryResource}=($case1|$case2) [$intent] [一个][个] (好听|美妙)的故事 [$unmeaning];
-$story_common = $story_common_case1|$story_common_case2|$story_common_case3;
+$case=([$who] [再] [$want1]|[$want2] [$who] [再])[$intent] [一个][个];
+
+$story_case1_1= $story_resource [的][故事] ;
+$story_case1_2= (好听|美妙)的故事 ;
+$story_case1_3= $story_category [的][故事]$story_resource ;
+$story_case1{intent%queryResource}=$case($story_case1_1|$story_case1_2|$story_case1_3);
+$story_case2{intent%queryCategory}=$case $story_category [的][故事];
+
+$story_common = ($story_case1|$story_case2)[$_yyd_particle_];
