@@ -6,10 +6,18 @@ $poetry_title{title} = $_call_poetry_title_;
 $poetry_sentence{sentence} = $_call_poetry_sentence_;
 
 $poetry_case1{intent%queryPoetry} = ((我 (要 | 想) 听) | 来 | (背 [诵]) | 念 | 读) [[一] 首] [$poetry_author 的] ($poetry_sentence | $poetry_title | ([唐] 诗));
+
 $poetry_case2{intent%prevSentence} = $poetry_sentence [的] (上 | 前) [面] 一句 [是 [什么]];
+
 $poetry_case3{intent%nextSentence} = $poetry_sentence [的] (下 | 后) [面] 一句 [是 [什么]];
-$poetry_case4{intent%queryAuthor} = ($poetry_sentence | $poetry_title) [的] 作者  [是 (谁 | 哪个 | 哪位)];
-$poetry_case5{intent%queryAuthor} = ($poetry_sentence | $poetry_title) 是 (谁 | 哪个 | 哪位) (写 | 创作) 的;
-$poetry_case6{intent%queryAuthor} = [是] (谁 | 哪个 | 哪位) (写 | 创作) 的 ($poetry_sentence | $poetry_title);
-$poetry_case7{intent%queryTitle} = $poetry_sentence (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里 | 中] 的] [诗句 | 句子];
-$poetry_case8{intent%queryDynasty} = ($poetry_sentence | $poetry_title | $poetry_author) [是] [属于] (哪个 | 什么) 朝代 [的];
+
+$poetry_case4_1 = ($poetry_sentence | $poetry_title) [的] 作者  [是 (谁 | 哪个 | 哪位)];
+$poetry_case4_2 = ($poetry_sentence | $poetry_title) 是 (谁 | 哪个 | 哪位) (写 | 创作) 的;
+$poetry_case4_3 = [是] (谁 | 哪个 | 哪位) (写 | 创作) 的 ($poetry_sentence | $poetry_title);
+$poetry_case4{intent%queryAuthor} = $poetry_case4_3|$poetry_case4_2|$poetry_case4_1;
+
+$poetry_case5{intent%queryTitle} = $poetry_sentence (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里 | 中] 的] [诗句 | 句子];
+
+$poetry_case6{intent%queryDynasty} = ($poetry_sentence | $poetry_title | $poetry_author) [是] [属于] (哪个 | 什么) 朝代 [的];
+
+$poetry_common = $poetry_case6|$poetry_case5|$poetry_case4|$poetry_case3|$poetry_case2|$poetry_case1;
