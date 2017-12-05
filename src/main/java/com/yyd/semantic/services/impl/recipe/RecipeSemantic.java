@@ -41,7 +41,7 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 	public RecipeBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
 		RecipeBean result = null;
 		Map<String, String> slots = ybnfCompileResult.getSlots();
-		String action = slots.get("action");
+		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
 		switch (action) {
 		case RecipeIntent.IS_INGREDIENT_OF:

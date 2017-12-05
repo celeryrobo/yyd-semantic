@@ -37,9 +37,9 @@ public class StorySemantic implements Semantic<StoryBean> {
 	public StoryBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
 		StoryBean result = null;
 		Map<String, String> slots = ybnfCompileResult.getSlots();
-		String action = slots.get("action");
+		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
-		System.out.println("---action---->"+action);
+		System.out.println("---intent---->"+action);
 		switch (action) {
 		case StoryIntent.QUERY_CATEGORY: {
 			result = queryCategory(objects, semanticContext);

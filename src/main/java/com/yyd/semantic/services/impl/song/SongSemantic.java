@@ -30,7 +30,7 @@ public class SongSemantic implements Semantic<SongBean> {
 	public SongBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
 		SongBean result = null;
 		Map<String, String> slots = ybnfCompileResult.getSlots();
-		String action = slots.get("action");
+		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
 		switch (action) {
 		case SongIntent.QUERY_SONG: {

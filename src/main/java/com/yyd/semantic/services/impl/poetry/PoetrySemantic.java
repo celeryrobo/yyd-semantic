@@ -32,7 +32,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 	public PoetryBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
 		PoetryBean result = null;
 		Map<String, String> slots = ybnfCompileResult.getSlots();
-		String action = slots.get("action");
+		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
 		switch (action) {
 		case PoetryIntent.QUERY_POETRY: {
@@ -59,12 +59,27 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			result = prevSentence(objects, semanticContext);
 			break;
 		}
+		case PoetryIntent.THIS_POETRY: {
+			result = thisPoetry(objects, semanticContext);
+			break;
+		}
 		default: {
 			result = new PoetryBean("这句话太复杂了，我还不能理解");
 			break;
 		}
 		}
 		return result;
+	}
+
+	private PoetryBean thisPoetry(Map<String, String> slots, SemanticContext semanticContext) {
+		String result = "听不懂你说的什么";
+		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
+		Integer poemId = ps.getPoemId();
+		if (poemId != null) {
+			Poetry poetry = poetryService.getById(poemId);
+			result = poetry.toString();
+		}
+		return new PoetryBean(result);
 	}
 
 	private PoetryBean queryPoetry(Map<String, String> slots, SemanticContext semanticContext) {
