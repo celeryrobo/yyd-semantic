@@ -35,30 +35,37 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
 		switch (action) {
+		// 查询诗词
 		case PoetryIntent.QUERY_POETRY: {
 			result = queryPoetry(objects, semanticContext);
 			break;
 		}
+		// 查询标题
 		case PoetryIntent.QUERY_TITLE: {
 			result = queryTitle(objects, semanticContext);
 			break;
 		}
+		// 查询作者
 		case PoetryIntent.QUERY_AUTHOR: {
 			result = queryAuthor(objects, semanticContext);
 			break;
 		}
+		// 查询朝代
 		case PoetryIntent.QUERY_DYNASTY: {
 			result = queryDynasty(objects, semanticContext);
 			break;
 		}
+		// 查询下一句诗
 		case PoetryIntent.NEXT_SENTENCE: {
 			result = nextSentence(objects, semanticContext);
 			break;
 		}
+		// 查询上一句诗
 		case PoetryIntent.PREV_SENTENCE: {
 			result = prevSentence(objects, semanticContext);
 			break;
 		}
+		// 查询当前这首诗
 		case PoetryIntent.THIS_POETRY: {
 			result = thisPoetry(objects, semanticContext);
 			break;

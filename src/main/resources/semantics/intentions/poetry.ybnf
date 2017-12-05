@@ -32,8 +32,13 @@ $poetry_case5{intent%queryTitle} = $poetry_case5_2|$poetry_case5_1;
 
 $poetry_case6_1 = ((这 [一] (首|句) [诗]) | $poetry_sentence | $poetry_title | $poetry_author) [是] [属于] ((哪 [一] 个) | 什么) 朝代 [的];
 $poetry_case6_2 = ((这 [一] (首|句) [诗]) | $poetry_sentence | $poetry_title | $poetry_author) 的朝代 [是 ((哪 [一] 个) | 什么)];
-$poetry_case6{intent%queryDynasty} = $poetry_case6_2|$poetry_case6_1;
+$poetry_case6_3 = 这 [[首] 诗] 是 [属于] ((哪 [一] 个) | 什么) 朝代 [的 [诗]];
+$poetry_case6{intent%queryDynasty} = $poetry_case6_3|$poetry_case6_2|$poetry_case6_1;
 
-$poetry_case7{intent%thisPoetry} = (背|念|读) [诵|([一] 下)] 这 [首] 诗 [[的] 内容];
+$poetry_case7_1 = (背|念|读) [诵|([一] 下)] 这 [一] [首|个] 诗 [[的] (内容|诗句)];
+$poetry_case7_2 = [我] (要|想) 听这 [一] [首|个] 诗 [的 (内容|诗句)];
+$poetry_case7{intent%thisPoetry} = $poetry_case7_2|$poetry_case7_1;
 
-$main = $poetry_case7|$poetry_case6|$poetry_case5|$poetry_case4|$poetry_case3|$poetry_case2|$poetry_case1;
+$poetry_case8{intent%querySentence} = ($poetry_title | (这 [首|个] 诗)) 的第num句 [是 (什么 | (哪 [一] 句))];
+
+$main = $poetry_case8|$poetry_case7|$poetry_case6|$poetry_case5|$poetry_case4|$poetry_case3|$poetry_case2|$poetry_case1;

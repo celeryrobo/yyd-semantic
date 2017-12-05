@@ -8,4 +8,5 @@ public class PoetryIntent {
 	public static final String QUERY_DYNASTY = "queryDynasty";
 	public static final String QUERY_TITLE = "queryTitle";
 	public static final String THIS_POETRY = "thisPoetry";
+	public static final String QUERY_SENTENCE = "querySentence";
 }

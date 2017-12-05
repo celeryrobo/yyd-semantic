@@ -18,6 +18,6 @@ $poetry_case4{intent%queryAuthor} = $poetry_case4_3|$poetry_case4_2|$poetry_case
 
 $poetry_case5{intent%queryTitle} = $poetry_sentence (出自 | 属于 | 是) ((哪 [一] 首) | 什么) 诗 [[里 | 中] 的] [诗句 | 句子];
 
-$poetry_case6{intent%queryDynasty} = ($poetry_sentence | $poetry_title | $poetry_author) [是] [属于] (哪个 | 什么) 朝代 [的];
+$poetry_case6{intent%queryDynasty} = ($poetry_sentence | $poetry_title | $poetry_author) [是] [属于] (哪个 | 什么) 朝代 [的 [诗]];
 
 $poetry_common = $poetry_case6|$poetry_case5|$poetry_case4|$poetry_case3|$poetry_case2|$poetry_case1;
