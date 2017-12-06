@@ -9,8 +9,8 @@ import com.yyd.semantic.common.SemanticMatching;
 
 public class SemanticScene implements SemanticMatching {
 	private static Compiler compiler = null;
-	
-	static {
+
+	public static void init() {
 		try {
 			String semanticFilename = FileUtils.getResourcePath() + "semantics/main.ybnf";
 			String semanticLang = FileUtils.readFile(semanticFilename);
@@ -21,7 +21,9 @@ public class SemanticScene implements SemanticMatching {
 	}
 
 	public SemanticScene(SemanticCallable semanticCallable) throws Exception {
-		if (compiler != null) {
+		if (compiler == null) {
+			init();
+		} else {
 			if (compiler.isFailure()) {
 				compiler = null;
 				throw new Exception(compiler.getFailure());

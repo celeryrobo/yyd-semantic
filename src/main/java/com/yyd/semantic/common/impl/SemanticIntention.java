@@ -13,10 +13,10 @@ import com.yyd.semantic.common.FileUtils;
 import com.yyd.semantic.common.SemanticMatching;
 
 public class SemanticIntention implements SemanticMatching {
-	private static Map<String, Compiler> compilerMap;
+	private static Map<String, Compiler> compilerMap = null;
 	private Compiler compiler;
 
-	static {
+	public static void init() {
 		try {
 			compilerMap = new HashMap<>();
 			String intentionBaseDirname = FileUtils.getResourcePath() + "semantics/intentions/";
@@ -33,7 +33,9 @@ public class SemanticIntention implements SemanticMatching {
 	}
 
 	public SemanticIntention(String service, SemanticCallable semanticCallable) throws Exception {
-		if (compilerMap.containsKey(service)) {
+		if (compilerMap == null) {
+			init();
+		} else if (compilerMap.containsKey(service)) {
 			compiler = compilerMap.get(service);
 			if (compiler.isFailure()) {
 				throw new Exception(compiler.getFailure());

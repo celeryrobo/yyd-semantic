@@ -15,6 +15,8 @@ import org.nlpcn.commons.lang.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.yyd.semantic.common.impl.SemanticIntention;
+import com.yyd.semantic.common.impl.SemanticScene;
 import com.yyd.semantic.nlp.NLPFactory;
 
 @Component
@@ -26,7 +28,9 @@ public class DbSegLoader {
 
 	public DbSegLoader() throws Exception {
 		this.properties = FileUtils.buildProperties("semantics/forests.properties");
-		initIndex();
+		initIndex(); // 初始化词库
+		SemanticScene.init(); // 初始化判断场景语义模板
+		SemanticIntention.init(); // 初始化场景语义模板
 	}
 
 	public void loads() throws Exception {
