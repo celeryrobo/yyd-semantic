@@ -22,8 +22,8 @@ public class SemanticIntention implements SemanticMatching {
 			String intentionBaseDirname = FileUtils.getResourcePath() + "semantics/intentions/";
 			List<File> files = FileUtils.listFiles(intentionBaseDirname, ".ybnf");
 			for (File file : files) {
+				ICompiler comp = new JCompiler(FileUtils.readFile(file));
 				String service = file.getName().split("\\.")[0];
-				ICompiler comp = new JCompiler(file.getAbsolutePath());
 				compilerMap.put(service, comp);
 			}
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class SemanticIntention implements SemanticMatching {
 		try {
 			long startTs = System.currentTimeMillis();
 			result = compiler.compile(text);
-			System.out.println("Semantic Intention Run Time :" + (System.currentTimeMillis() - startTs));
+			System.out.println("Semantic Intention Run Time :" + (System.currentTimeMillis() - startTs) + " Service :" + result.getService());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

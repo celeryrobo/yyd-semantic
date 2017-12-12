@@ -66,10 +66,11 @@ public class RedisStringMap implements Map<Object, Object> {
 
 	@Override
 	public void clear() {
-		Set<Object> objs = keySet();
-		Object[] keys = new Object[objs.size()];
-		objs.toArray(keys);
-		redisTemplate.opsForHash().delete(redisKeyname, keys);
+		Set<Object> keys = keySet();
+		if(keys == null || keys.isEmpty()) {
+			return;
+		}
+		redisTemplate.opsForHash().delete(redisKeyname, keys.toArray());
 	}
 
 	@Override

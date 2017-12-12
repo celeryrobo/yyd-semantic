@@ -13,7 +13,7 @@ public class SemanticScene implements SemanticMatching {
 	public static void init() {
 		try {
 			String semanticFilename = FileUtils.getResourcePath() + "semantics/main.ybnf";
-			compiler = new JCompiler(semanticFilename);
+			compiler = new JCompiler(FileUtils.readFile(semanticFilename));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,7 +32,7 @@ public class SemanticScene implements SemanticMatching {
 		try {
 			long startTs = System.currentTimeMillis();
 			result = compiler.compile(text);
-			System.out.println("Semantic Scene Run Time :" + (System.currentTimeMillis() - startTs));
+			System.out.println("Semantic Scene Run Time :" + (System.currentTimeMillis() - startTs) + " Service :" + result.getService());
 			if (result.getSlots().containsKey("service")) {
 				result.setService(result.getSlots().get("service"));
 			}
