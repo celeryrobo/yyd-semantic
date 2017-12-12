@@ -1,20 +1,19 @@
 package com.yyd.semantic.common.impl;
 
-import com.ybnf.compiler.Compiler;
+import com.ybnf.compiler.ICompiler;
 import com.ybnf.compiler.beans.YbnfCompileResult;
-import com.ybnf.compiler.impl.YbnfCompiler;
+import com.ybnf.compiler.impl.JCompiler;
 import com.ybnf.semantic.SemanticCallable;
 import com.yyd.semantic.common.FileUtils;
 import com.yyd.semantic.common.SemanticMatching;
 
 public class SemanticScene implements SemanticMatching {
-	private static Compiler compiler = null;
+	private static ICompiler compiler = null;
 
 	public static void init() {
 		try {
 			String semanticFilename = FileUtils.getResourcePath() + "semantics/main.ybnf";
-			String semanticLang = FileUtils.readFile(semanticFilename);
-			compiler = new YbnfCompiler(semanticLang);
+			compiler = new JCompiler(semanticFilename);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -23,14 +22,8 @@ public class SemanticScene implements SemanticMatching {
 	public SemanticScene(SemanticCallable semanticCallable) throws Exception {
 		if (compiler == null) {
 			init();
-		} else {
-			if (compiler.isFailure()) {
-				compiler = null;
-				throw new Exception(compiler.getFailure());
-			}
-			compiler.setSemanticCallable(semanticCallable);
-			System.out.println(compiler.getGrammar());
 		}
+		compiler.setSemanticCallable(semanticCallable);
 	}
 
 	@Override
