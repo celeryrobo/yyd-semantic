@@ -120,14 +120,16 @@ public class StorySemantic implements Semantic<StoryBean> {
 		//System.out.println("__________>"+list.size()+"---->"+categoryId+"-=-=-="+list.isEmpty());
 		if (!list.isEmpty()) {
 			while (!list.isEmpty()) {
-			
 				int randomIdx = CommonUtils.randomInt(list.size());
 				StoryCategoryRelationship scRel = list.get(randomIdx);
 				list = categoryRelaService.getByParentId(scRel.getSubId());
 				if (list.isEmpty()) {
 					List<StoryCategoryResource> scResList = categoryResourceService.getByCategoryId(scRel.getSubId());
-					
+					if(scResList.isEmpty()) {
+						return null;
+					}
 					int randomIdx1 = CommonUtils.randomInt(scResList.size());
+					
 					StoryCategoryResource scRes = scResList.get(randomIdx1);
 					StoryResource story = resourceService.getById(scRes.getResourceId());
 					return new StoryBean(story.getContentUrl(), story.getName());
@@ -135,7 +137,6 @@ public class StorySemantic implements Semantic<StoryBean> {
 			}
 		} else {
 			List<StoryCategoryResource> scResList = categoryResourceService.getByCategoryId(categoryId);
-			System.out.println("11111-->"+scResList.size()+"---->"+categoryId+"-=-=-="+scResList.isEmpty());
 			if(!scResList.isEmpty()) {
 				int randomIdx = CommonUtils.randomInt(scResList.size());
 				StoryCategoryResource scRes = scResList.get(randomIdx);

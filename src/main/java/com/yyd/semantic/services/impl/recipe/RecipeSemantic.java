@@ -106,7 +106,6 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 		}
 		return new RecipeBean(result);
 	}
-
 	private RecipeBean isIngredientOf(Map<String, String> slots, SemanticContext semanticContext) {
 		String result = "听不懂你说的什么";
 		String recpieIngredients = slots.get(RecipeSlot.RECIPE_INGREDIENTS);
@@ -141,5 +140,4 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 		}
 		return new RecipeBean(result);
 	}
-
 }

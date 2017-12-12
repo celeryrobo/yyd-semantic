@@ -55,4 +55,16 @@
 		<desc>食材</desc>
 		<service>recipe</service>
 	</nature>
+	
+	<!-- 节日场景 -->
+	<nature>
+		<name>FestivalName</name>
+		<desc>节日名</desc>
+		<service>festival</service>
+	</nature>
+	<nature>
+		<name>FestivalDate</name>
+		<desc>节日时间</desc>
+		<service>festival</service>
+	</nature>
 </serviceconf>
