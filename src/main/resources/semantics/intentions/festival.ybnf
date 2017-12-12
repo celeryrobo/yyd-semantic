@@ -1,0 +1,14 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/festival.ybnf;
+service festival;
+root $main;
+
+
+$festival_case1{intent%queryFestivalDate} = $festival_name 呢;
+$festival_case2{intent%queryFestivalName} = $festival_date 呢;
+
+$festival_main = $festival_case1|$festival_case2;
+
+$main = $festival_common|$festival_main;

@@ -5,6 +5,7 @@
 #include classpath:semantics/commons/song.ybnf;
 #include classpath:semantics/commons/recipe.ybnf;
 #include classpath:semantics/commons/story.ybnf;
+#include classpath:semantics/commons/festival.ybnf;
 service common;
 root $main;
 
@@ -12,5 +13,6 @@ $poetry_main{service%poetry} = $poetry_common;
 $song_main{service%song} = $song_case1|$song_case2|$song_case3;
 $story_main{service%story} = $story_common;
 $recipe_main{service%recipe} = $recipe_common;
+$festival_main{service%festival} = $festival_common;
 
-$main = $poetry_main|$song_main|$recipe_main|$story_main;
+$main = $poetry_main|$song_main|$recipe_main|$story_main|$festival_main;

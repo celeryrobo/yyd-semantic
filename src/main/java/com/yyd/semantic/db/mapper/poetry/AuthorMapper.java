@@ -18,7 +18,6 @@ public interface AuthorMapper {
         @Result(property = "chaodai", column = "caodai")
     })
 	public Author getAuthorById(Integer id);
-	
 	@Select("SELECT id, name, caodai FROM poetry.tb_author WHERE name = #{name}")
 	@Results({
 		@Result(property = "id",  column = "id"),
