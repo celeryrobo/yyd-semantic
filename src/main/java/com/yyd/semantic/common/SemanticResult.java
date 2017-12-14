@@ -40,7 +40,7 @@ public class SemanticResult {
 	private String text;
 	private Long time;
 	private Map<String, Object> semantic;
-	private Object resource;
+	private Object data;
 	
 	private static Map<String, Object> emptyObject = new HashMap<>();
 
@@ -112,15 +112,15 @@ public class SemanticResult {
 		this.semantic = semantic;
 	}
 
-	public Object getResource() {
-		if (resource == null) {
+	public Object getData() {
+		if (data == null) {
 			return emptyObject;
 		}
-		return resource;
+		return data;
 	}
 
-	public void setResource(Object resource) {
-		this.resource = resource;
+	public void setData(Object data) {
+		this.data = data;
 	}
 
 	public Long getTime() {
