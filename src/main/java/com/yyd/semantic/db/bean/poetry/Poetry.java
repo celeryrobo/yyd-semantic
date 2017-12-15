@@ -1,11 +1,15 @@
 package com.yyd.semantic.db.bean.poetry;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Poetry {
 	private Integer id;
 	private String title;
 	private String content;
+	@JsonIgnore
 	private String sourceUrl;
 	private String authorName;
+	@JsonIgnore
 	private Integer authorId;
 
 	@Override

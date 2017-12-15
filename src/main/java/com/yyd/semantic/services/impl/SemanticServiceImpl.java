@@ -15,6 +15,7 @@ import com.yyd.semantic.common.SemanticFactory;
 import com.yyd.semantic.common.SemanticResult;
 import com.yyd.semantic.common.impl.SemanticIntention;
 import com.yyd.semantic.common.impl.SemanticScene;
+import com.yyd.semantic.common.impl.WaringSemanticResult;
 import com.yyd.semantic.nlp.SegSceneParser;
 import com.yyd.semantic.services.SemanticService;
 
@@ -34,7 +35,7 @@ public class SemanticServiceImpl implements SemanticService {
 		YbnfCompileResult result = parseSemantic(text, semanticContext.getService());
 		SemanticResult sr;
 		if (result == null) {
-			sr = new SemanticResult(404, "Match Fail !", result);
+			sr = new SemanticResult(404, "Match Fail!", result, new WaringSemanticResult("我听不懂你想说什么！"));
 			sr.setText(text);
 		} else {
 			// 切换场景则清空参数
@@ -46,8 +47,7 @@ public class SemanticServiceImpl implements SemanticService {
 			Semantic<?> semantic = semanticFactory.build(result.getService());
 			AbstractSemanticResult rs = semantic.handle(result, semanticContext);
 			semanticContext.setService(result.getService());
-			sr = new SemanticResult(rs.getErrCode(), "OK", result);
-			sr.setData(rs);
+			sr = new SemanticResult(rs.getErrCode(), rs.getErrMsg(), result, rs);
 		}
 		return sr;
 	}

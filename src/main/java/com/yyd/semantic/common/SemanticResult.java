@@ -5,6 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ybnf.compiler.beans.AbstractSemanticResult;
+import com.ybnf.compiler.beans.AbstractSemanticResult.Operation;
+import com.ybnf.compiler.beans.AbstractSemanticResult.ParamType;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 
 class KV {
@@ -34,24 +38,25 @@ class KV {
 }
 
 public class SemanticResult {
+	private static Map<String, Object> emptyObject = new HashMap<>();
 	private Integer ret;
 	private String msg;
 	private String service;
 	private String text;
 	private Long time;
 	private Map<String, Object> semantic;
-	private Object data;
-	
-	private static Map<String, Object> emptyObject = new HashMap<>();
+	private Object data = emptyObject;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Object resource = null;
 
-	public SemanticResult(Integer ret, String msg, YbnfCompileResult result) {
-		this.ret = ret;
-		this.msg = msg;
+	public SemanticResult(Integer ret, String msg, YbnfCompileResult result, AbstractSemanticResult semanticResult) {
+		setRet(ret);
+		setMsg(msg);
+		setSemantic(new HashMap<String, Object>());
 		if (result != null) {
-			this.service = result.getService();
-			this.text = result.getText();
-			this.semantic = new HashMap<String, Object>();
-			this.semantic.putAll(result.getSlots());
+			setService(result.getService());
+			setText(result.getText());
+			getSemantic().putAll(result.getSlots());
 			Map<String, String> objects = result.getObjects();
 			List<KV> slots = new LinkedList<>();
 			if (objects != null) {
@@ -59,8 +64,17 @@ public class SemanticResult {
 					slots.add(new KV(entry.getKey(), entry.getValue()));
 				}
 			}
-			this.semantic.put("slots", slots);
+			getSemantic().put("slots", slots);
 		}
+		if (semanticResult == null) {
+			getSemantic().put("operation", Operation.SPEAK);
+			getSemantic().put("paramType", ParamType.T);
+		} else {
+			getSemantic().put("operation", semanticResult.getOperation());
+			getSemantic().put("paramType", semanticResult.getParamType());
+			setResource(semanticResult.getResource());
+		}
+		setData(semanticResult);
 	}
 
 	public Integer getRet() {
@@ -113,9 +127,6 @@ public class SemanticResult {
 	}
 
 	public Object getData() {
-		if (data == null) {
-			return emptyObject;
-		}
 		return data;
 	}
 
@@ -129,6 +140,14 @@ public class SemanticResult {
 
 	public void setTime(Long time) {
 		this.time = time;
+	}
+
+	public Object getResource() {
+		return resource;
+	}
+
+	public void setResource(Object resource) {
+		this.resource = resource;
 	}
 
 }
