@@ -5,12 +5,8 @@ import com.ybnf.compiler.beans.AbstractSemanticResult;
 public class RecipeBean extends AbstractSemanticResult {
 	private String text;
 
-	public RecipeBean() {
-
-	}
-
 	public RecipeBean(String text) {
-		this.text = text;
+		setText(text);
 	}
 
 	public String getText() {

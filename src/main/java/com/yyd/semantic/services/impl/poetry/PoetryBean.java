@@ -6,7 +6,7 @@ public class PoetryBean extends AbstractSemanticResult {
 	private String text;
 
 	public PoetryBean(String text, Object resource) {
-		this.text = text;
+		setText(text);
 		setResource(resource);
 	}
 

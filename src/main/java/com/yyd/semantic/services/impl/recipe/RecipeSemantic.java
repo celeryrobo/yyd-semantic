@@ -50,15 +50,77 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 		case RecipeIntent.HAS_COOKING_TIME:
 		case RecipeIntent.HAS_HARD_LEVEL:
 		case RecipeIntent.HAS_INGREDIENT:
-		case RecipeIntent.HAS_STEPS_TEXT:
 		case RecipeIntent.HAS_TASTE:
 			result = processRecipeFood(objects, semanticContext, action);
+			break;
+		case RecipeIntent.HAS_STEPS_TEXT:
+			result = processRecipeStepText(objects, semanticContext);
 			break;
 		default:
 			result = new RecipeBean("这句话太复杂了，我还不能理解");
 			break;
 		}
 		return result;
+	}
+
+	private RecipeBean processRecipeStepText(Map<String, String> slots, SemanticContext semanticContext) {
+		String result = "听不懂你说的什么";
+		String recipeFood = slots.get(RecipeSlot.RECIPE_FOOD);
+		RecipeSlot recipeSlot = new RecipeSlot(semanticContext.getParams());
+		if (recipeFood == null) {
+			recipeFood = recipeSlot.getRecipeFood();
+		}
+		if (recipeFood != null) {
+			Item item = dbSegLoader.getItem(recipeFood);
+			Set<String> items = null;
+			if (item == null) {
+				items = new TreeSet<>();
+				items.add(recipeFood);
+			} else {
+				items = item.getItems();
+			}
+			List<String> sets = new LinkedList<>();
+			StringBuilder sparsql = new StringBuilder(PREFIX)
+					.append("SELECT DISTINCT ?c (GROUP_CONCAT(DISTINCT ?d;SEPARATOR = \"|\") AS ?dd) WHERE {");
+			for (String it : items) {
+				sparsql.append("OPTIONAL {recipe:").append(it).append(" recipe:hasStepsText ?c}");
+				sparsql.append("OPTIONAL {recipe:").append(it).append(" recipe:hasIngredient ?d}");
+			}
+			sparsql.append("} GROUP BY ?c");
+			try (RDFConnection conn = RDFConnectionFactory.connect(tdbConnectionStr + datasetRecipe);
+					QueryExecution qe = conn.query(sparsql.toString())) {
+				ResultSet rs = qe.execSelect();
+				while (rs.hasNext()) {
+					QuerySolution qs = rs.next();
+					String localName = qs.getResource("c").getURI();
+					int idx = localName.indexOf("#");
+					localName = idx > 0 ? localName.substring(idx + 1) : "";
+					String ingredients = qs.get("dd").toString();
+					String[] ingredientArr = ingredients.split("\\|");
+					Set<String> ingredientSet = new TreeSet<>();
+					for (String ingredient : ingredientArr) {
+						idx = ingredient.indexOf("#");
+						ingredient = idx > 0 ? ingredient.substring(idx + 1) : "";
+						if (ingredient.length() > 0) {
+							ingredientSet.add(ingredient);
+						}
+					}
+					sets.add("首先需要准备的材料有：");
+					sets.add(StringUtil.joiner(ingredientSet, ","));
+					sets.add("；具体步骤：");
+					if (localName.length() > 0) {
+						sets.add(localName);
+					}
+				}
+			}
+			if (sets.isEmpty()) {
+				result = "我没吃过" + recipeFood + "，不了解";
+			} else {
+				result = StringUtil.joiner(sets, "");
+				recipeSlot.setRecipeFood(recipeFood);
+			}
+		}
+		return new RecipeBean(result);
 	}
 
 	private RecipeBean processRecipeFood(Map<String, String> slots, SemanticContext semanticContext, String action) {
@@ -80,8 +142,7 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 			Set<String> sets = new HashSet<>();
 			StringBuilder sparsql = new StringBuilder(PREFIX).append("SELECT DISTINCT ?c WHERE {");
 			for (String it : items) {
-				sparsql.append("OPTIONAL {recipe:").append(it).append(" recipe:").append(action)
-						.append(" ?c}");
+				sparsql.append("OPTIONAL {recipe:").append(it).append(" recipe:").append(action).append(" ?c}");
 			}
 			sparsql.append("}");
 			try (RDFConnection conn = RDFConnectionFactory.connect(tdbConnectionStr + datasetRecipe);
@@ -106,6 +167,7 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 		}
 		return new RecipeBean(result);
 	}
+
 	private RecipeBean isIngredientOf(Map<String, String> slots, SemanticContext semanticContext) {
 		String result = "听不懂你说的什么";
 		String recpieIngredients = slots.get(RecipeSlot.RECIPE_INGREDIENTS);
