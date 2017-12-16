@@ -1,20 +1,27 @@
 package com.yyd.semantic.services.impl.story;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ybnf.compiler.beans.AbstractSemanticResult;
 
-public class StoryBean extends AbstractSemanticResult{
+public class StoryBean extends AbstractSemanticResult {
+	@JsonIgnore
+	private String text;
 	private String url;
-	private String name;
-	
-	public StoryBean(String url,String name) {
-		super();
+
+	public StoryBean(String text, String url, Object resource) {
+		this.text = text;
 		this.url = url;
-		this.name = name;
+		setResource(resource);
+		setOperation(Operation.PLAY);
+		setParamType(ParamType.U);
 	}
 
-	@Override
-	public String toString() {
-		return "StoryBean [url=" + url + "]";
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	public String getUrl() {
@@ -24,13 +31,4 @@ public class StoryBean extends AbstractSemanticResult{
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 }

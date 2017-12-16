@@ -39,7 +39,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 		Map<String, String> slots = ybnfCompileResult.getSlots();
 		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
-		System.out.println("intent---->"+action);
+		System.out.println("intent---->" + action);
 		switch (action) {
 		case StoryIntent.QUERY_CATEGORY: {
 			result = queryCategory(objects, semanticContext);
@@ -50,100 +50,86 @@ public class StorySemantic implements Semantic<StoryBean> {
 			break;
 		}
 		default:
-			result = new StoryBean("没有找到链接1","没有这个故事1");
+			result = new StoryBean("我不懂你在说什么",null, null);
 			break;
 		}
-		if(result==null) {
-			result = new StoryBean("null", "null");
-		}
-
 		return result;
 	}
 
+	private String textFormat(String text) {
+		return String.format("请欣赏%s。", text);
+	}
+
 	private StoryBean queryResource(Map<String, String> slots, SemanticContext semanticContext) {
-		String storyUrl = "没有找到链接";
-		String storyName = "没有这个故事";
-		Integer storyId = null;
+		String result = "我没听说过这个故事";
 		if (slots.isEmpty()) {
 			// 换一个故事，没有slot
 			List<Integer> ids = resourceService.getIdList();
 			if (!ids.isEmpty()) {
 				int randomIdx = CommonUtils.randomInt(ids.size());
-				storyId = ids.get(randomIdx);
-				StoryResource story = resourceService.getById(storyId);
-				storyUrl = story.getContentUrl();
-				storyName = story.getName();
+				StoryResource story = resourceService.getById(ids.get(randomIdx));
+				return new StoryBean(textFormat(story.getName()),story.getPlayUrl(), story);
 			}
 		} else {
 			// 听某个具体的故事,有slot
-			storyName = slots.get(StorySlot.STORY_RESOURCE);
-			if (storyName != null) {
-				StoryResource story = resourceService.getByName(storyName);
-				if (story == null) {
-					storyUrl = "没有找到你要的资源";
-				} else {
-					return new StoryBean(story.getContentUrl(),story.getName());
+			String name = slots.get(StorySlot.STORY_RESOURCE);
+			if (name != null) {
+				StoryResource story = resourceService.getByName(name);
+				if (story != null) {
+					return new StoryBean(textFormat(story.getName()), story.getPlayUrl(),story);
 				}
 			}
 		}
-		return new StoryBean(storyUrl,storyName);
+		return new StoryBean(result, null,null);
 	}
 
 	private StoryBean queryCategory(Map<String, String> slots, SemanticContext semanticContext) {
-		String storyUrl = "没有找到链接";
-		String storyName = "没有这个故事类";
-		Integer storyId = null;
-		if (slots.isEmpty()) {
-			// 换一个某类故事，没有slot
-			List<Integer> ids = resourceService.getIdList();
-			if (!ids.isEmpty()) {
-				int randomIdx = CommonUtils.randomInt(ids.size());
-				storyId = ids.get(randomIdx);
-				StoryResource story = resourceService.getById(storyId);
-				return new StoryBean(story.getContentUrl(), story.getName());
-			}
-		} else {
-			// 我要听某类故事,有slot
-			storyName = slots.get(StorySlot.STORY_CATEGORY);
-			if (storyName != null) {
-				StoryCategory category = categoryService.getByName(storyName);
-				if (category != null) {
-					Integer categoryId = category.getId();
-					return getStoryResult(categoryRelaService.getByParentId(categoryId), categoryId);
+		String result = "我没有听过你说的这个故事";
+		// 我要听某类故事,有slot
+		String categoryName = slots.get(StorySlot.STORY_CATEGORY);
+		if (categoryName != null) {
+			StoryCategory category = categoryService.getByName(categoryName);
+			if (category != null) {
+				Integer categoryId = category.getId();
+				List<StoryCategoryRelationship> list = categoryRelaService.getByParentId(categoryId);
+				if (list != null) {
+					return getStoryResult(list, categoryId);
 				}
 			}
 		}
-		return new StoryBean(storyUrl,storyName);
+		return new StoryBean(result, null,null);
 	}
 
 	private StoryBean getStoryResult(List<StoryCategoryRelationship> list, Integer categoryId) {
-		//System.out.println("__________>"+list.size()+"---->"+categoryId+"-=-=-="+list.isEmpty());
+		String text = "你说的故事我没听过";
 		if (!list.isEmpty()) {
+			// 非叶子类目
 			while (!list.isEmpty()) {
 				int randomIdx = CommonUtils.randomInt(list.size());
 				StoryCategoryRelationship scRel = list.get(randomIdx);
 				list = categoryRelaService.getByParentId(scRel.getSubId());
 				if (list.isEmpty()) {
 					List<StoryCategoryResource> scResList = categoryResourceService.getByCategoryId(scRel.getSubId());
-					if(scResList.isEmpty()) {
-						return null;
+					if (!scResList.isEmpty()) {
+						int randomIdx1 = CommonUtils.randomInt(scResList.size());
+						StoryCategoryResource scRes = scResList.get(randomIdx1);
+						StoryResource story = resourceService.getById(scRes.getResourceId());
+						return new StoryBean(textFormat(story.getName()),story.getPlayUrl(), story);
 					}
-					int randomIdx1 = CommonUtils.randomInt(scResList.size());
-					
-					StoryCategoryResource scRes = scResList.get(randomIdx1);
-					StoryResource story = resourceService.getById(scRes.getResourceId());
-					return new StoryBean(story.getContentUrl(), story.getName());
 				}
 			}
 		} else {
+			// 第一次就取到叶子类目
 			List<StoryCategoryResource> scResList = categoryResourceService.getByCategoryId(categoryId);
-			if(!scResList.isEmpty()) {
+			if (!scResList.isEmpty()) {
 				int randomIdx = CommonUtils.randomInt(scResList.size());
 				StoryCategoryResource scRes = scResList.get(randomIdx);
 				StoryResource story = resourceService.getById(scRes.getResourceId());
-				return new StoryBean(story.getContentUrl(), story.getName());
+				if (story != null) {
+					return new StoryBean(textFormat(story.getName()),story.getPlayUrl(), story);
+				}
 			}
 		}
-		return null;
+		return new StoryBean(text,null, null);
 	}
 }
