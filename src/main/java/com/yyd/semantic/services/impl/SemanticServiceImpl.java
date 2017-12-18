@@ -32,7 +32,10 @@ public class SemanticServiceImpl implements SemanticService {
 	@Override
 	public SemanticResult handleSemantic(String text, String userIdentify) throws Exception {
 		semanticContext.loadByUserIdentify(userIdentify);
-		YbnfCompileResult result = parseSemantic(text, semanticContext.getService());
+		YbnfCompileResult result = null;
+		if (text != null && !text.isEmpty()) {
+			result = parseSemantic(text, semanticContext.getService());
+		}
 		SemanticResult sr;
 		if (result == null) {
 			sr = new SemanticResult(404, "Match Fail!", result, new WaringSemanticResult("我听不懂你想说什么！"));
