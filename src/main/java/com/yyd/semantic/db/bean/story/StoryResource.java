@@ -1,13 +1,25 @@
 package com.yyd.semantic.db.bean.story;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class StoryResource {
 	private Integer id;
 	private String name;
-	private String contentUrl;
+	@JsonIgnore
+	private String playUrl;
+	@JsonIgnore
 	private Integer score;
 
 	public Integer getId() {
 		return id;
+	}
+
+	public String getPlayUrl() {
+		return playUrl;
+	}
+
+	public void setPlayUrl(String playUrl) {
+		this.playUrl = playUrl;
 	}
 
 	public void setId(Integer id) {
@@ -22,13 +34,7 @@ public class StoryResource {
 		this.name = name;
 	}
 
-	public String getContentUrl() {
-		return contentUrl;
-	}
 
-	public void setContentUrl(String contentUrl) {
-		this.contentUrl = contentUrl;
-	}
 
 	public Integer getScore() {
 		return score;
@@ -40,7 +46,7 @@ public class StoryResource {
 
 	@Override
 	public String toString() {
-		return "StoryResource [id=" + id + ", name=" + name + ", contentUrl=" + contentUrl + ", score=" + score + "]";
+		return "StoryResource [id=" + id + ", name=" + name + ", playUrl=" + playUrl + ", score=" + score + "]";
 	}
 
 }
