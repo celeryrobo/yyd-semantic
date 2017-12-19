@@ -5,7 +5,7 @@
 service recipe;
 root $main;
 
-$recipe_food_alias = 这 (道 | 个) 菜;
+$recipe_food_alias = 这 (道 | 个) [菜];
 
 $recipe_case_1{intent%hasIngredient} = [[做 | 烹饪] $recipe_food_alias] [需] 要 (什么 | 哪些 | 啥 | 的) (材料 | 食材 | 素材 | 原料);
 $recipe_case_2{intent%hasStepsText} = [$recipe_food_alias [(是 | 的)]] (怎么 (做 | 烹饪) [的]) | (烹饪 (方法 | 步骤) [(是 | 有) (什么 | 哪些)]);
@@ -16,5 +16,8 @@ $recipe_case_4_2 = [$recipe_food_alias] [是] 什么 (味道 | 口味) [的];
 $recipe_case_4{intent%hasTaste} = $recipe_case_4_1 | $recipe_case_4_2;
 
 $recipe_case_5{intent%hasCookingTime} = [[做 | 烹饪] $recipe_food_alias] [需] 要 [花 [费]] (几分钟 | (多长 [的] 时间));
+
+$recipe_case_5_1 = [这 | $recipe_food_alias] (叫 | 是) (什么 | 啥) [(名 (字 | 称)) | 菜];
+$recipe_case_5{intent%thisRecipeFood} = $recipe_case_5_1;
 
 $main = ($recipe_common | $recipe_case_1 | $recipe_case_2 | $recipe_case_3 | $recipe_case_4 | $recipe_case_5) $_yyd_common_;

@@ -7,4 +7,5 @@ public class RecipeIntent {
 	public final static String HAS_HARD_LEVEL = "hasHardLevel";
 	public final static String HAS_TASTE = "hasTaste";
 	public final static String HAS_COOKING_TIME = "hasCookingTime";
+	public final static String THIS_RECIPE_FOOD = "thisRecipeFood";
 }

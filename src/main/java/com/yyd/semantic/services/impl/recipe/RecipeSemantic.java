@@ -56,11 +56,24 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 		case RecipeIntent.HAS_STEPS_TEXT:
 			result = processRecipeStepText(objects, semanticContext);
 			break;
+		case RecipeIntent.THIS_RECIPE_FOOD:
+			result = processThisRecipeFood(objects, semanticContext);
+			break;
 		default:
 			result = new RecipeBean("这句话太复杂了，我还不能理解");
 			break;
 		}
 		return result;
+	}
+
+	private RecipeBean processThisRecipeFood(Map<String, String> slots, SemanticContext semanticContext) {
+		String result = "听不懂你说的什么";
+		RecipeSlot recipeSlot = new RecipeSlot(semanticContext.getParams());
+		String recipeFood = recipeSlot.getRecipeFood();
+		if(recipeFood != null) {
+			result = recipeFood;
+		}
+		return new RecipeBean(result);
 	}
 
 	private RecipeBean processRecipeStepText(Map<String, String> slots, SemanticContext semanticContext) {
