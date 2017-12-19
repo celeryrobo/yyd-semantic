@@ -1,10 +1,15 @@
 package com.yyd.semantic.db.bean.festival;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Festival {
 	private int id;
 	private String name;
+	@JsonIgnore
 	private String enDate;
 	private String cnDate;
+	@JsonIgnore
+	private int dateCode;
 	private String enName;
 
 	public int getId() {
@@ -14,7 +19,6 @@ public class Festival {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public String getName() {
 		return name;
 	}
@@ -25,7 +29,8 @@ public class Festival {
 
 	@Override
 	public String toString() {
-		return "Festival [id=" + id + ", name=" + name + ", enDate=" + enDate + ", enName=" + enName + "]";
+		return "Festival [id=" + id + ", name=" + name + ", enDate=" + enDate + ", cnDate=" + cnDate + ", dateCode="
+				+ dateCode + ", enName=" + enName + "]";
 	}
 
 	public String getCnDate() {
@@ -50,5 +55,13 @@ public class Festival {
 
 	public void setEnName(String enName) {
 		this.enName = enName;
+	}
+
+	public int getDateCode() {
+		return dateCode;
+	}
+
+	public void setDateCode(int dateCode) {
+		this.dateCode = dateCode;
 	}
 }

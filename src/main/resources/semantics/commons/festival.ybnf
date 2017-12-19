@@ -4,9 +4,10 @@ callable @festival(FestivalName), @festival(FestivalDate), @festival(SpecificYea
 $festival_name{festivalName} = $_call_festival_FestivalName_;
 $festival_date{festivalDate} = $_call_festival_FestivalDate_;
 $festival_specific_year{specificYear} = $_call_festival_SpecificYear_;
+$festival_specific_digital_year{specificDigitalYear}=$digital<4>;
 
-$festival_com_case1{intent%queryFestivalName} = $festival_date 是什么节日;
-$festival_com_case2{intent%queryFestivalDate} = [$festival_specific_year]$festival_name (是什么时候|是哪天);
+$festival_com_case1{intent%queryFestivalName} = ($festival_date | $digital<1,2> 月  $digital<1,2> [日] [号])是什么节日;
+$festival_com_case2{intent%queryFestivalDate} = [$festival_specific_year|$festival_specific_digital_year年]$festival_name (是什么时候|是哪天);
 $festival_com_case3{intent%queryFestivalLongTime} = [$festival_specific_year] $festival_name (还有多少天|还有多久);
 
 $festival_common=$festival_com_case3|$festival_com_case2|$festival_com_case1;

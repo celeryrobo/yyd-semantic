@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Component;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
+import com.yyd.semantic.common.DbSegLoader;
+import com.yyd.semantic.common.DbSegLoader.Item;
 import com.yyd.semantic.db.bean.festival.Festival;
 import com.yyd.semantic.db.service.festival.FestivalService;
 import com.yyd.semantic.services.impl.festival.FestivalBean;
@@ -20,6 +24,9 @@ import com.yyd.semantic.services.impl.festival.FestivalBean;
 public class FestivalSemantic implements Semantic<FestivalBean> {
 	@Autowired
 	private FestivalService fs;
+	
+	@Autowired
+	private DbSegLoader dbSegLoader;
 
 	@Override
 	public FestivalBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
@@ -41,27 +48,41 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 			break;
 		}
 		default:
-			result = new FestivalBean("没有找到");
+			result = new FestivalBean("我不知道你在说什么", null);
 			break;
-		}
-		if (result == null) {
-			result = new FestivalBean("null");
 		}
 		return result;
 	}
 
 	private FestivalBean queryFestivalName(Map<String, String> slots, SemanticContext semanticContext) {
-		String date = "我不太明白你说的这个节日";
+		String date = "我也不知道这个是什么节日";
 		if (!slots.isEmpty()) {
 			date = slots.get(FestivalSlot.FESTIVAL_DATE);
-			List<Festival> festival = fs.getNameByDate(date);
+			List<Festival> festival = null;
 			StringBuffer sb = new StringBuffer();
+			if(date!=null) {
+				Item item = dbSegLoader.getItem(date);
+				Set<String> items = null;
+				if (item == null) {
+					items = new TreeSet<>();
+					items.add(date);
+				} else {
+					items = item.getItems();
+				}
+				for(String it:items) {
+					if(!fs.getNameByDate(it).isEmpty()) {
+						festival = fs.getNameByDate(it);
+						break;
+					}
+				}
+			}
 			if (festival != null) {
 				int len = festival.size();
+				System.out.println("-->"+len);
 				if (len == 1) {
 					sb.append("是");
 					sb.append(festival.get(0).getName());
-				} else {
+				} else if(len > 1){
 					sb.append("有");
 					for (int i = 0; i < len; i++) {
 						sb.append(festival.get(i).getName());
@@ -69,111 +90,159 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 							sb.append(",");
 						}
 					}
+				}else {
+					return new FestivalBean(date, null);
 				}
-				return new FestivalBean(date + sb);
+				return new FestivalBean(date + sb, festival);
 			}
 		}
-		return new FestivalBean(date);
+		return new FestivalBean(date, null);
 	}
+
 	private FestivalBean queryFestivalDate(Map<String, String> slots, SemanticContext semanticContext) {
 		String festivalName = "我不太明白你说的这个节日";
-		String givenYear = "我不太明白你说的这一年";
 		StringBuffer answerText = new StringBuffer();
 		if (!slots.isEmpty()) {
 			festivalName = slots.get(FestivalSlot.FESTIVAL_NAME);
-			givenYear = slots.get(FestivalSlot.GIVEN_YEAR);
-			String mmdd = fs.getDateByName(festivalName).getEnDate(); // 拿到节日的mm-dd
-			DateEntity de = getFullDate(festivalName, givenYear, mmdd);
-			// 节日阴历xx节日是xxxx年xx月xx日农历xx月xx日星期x
-			if(givenYear==null) {
-				givenYear="";
+			String givenYear = slots.get(FestivalSlot.GIVEN_YEAR);
+			String digitalYear = slots.get(FestivalSlot.GIVEN_DIGITAL_YEAR);
+			Festival festival=null;
+			if(festivalName!=null) {
+				Item item = dbSegLoader.getItem(festivalName);
+				Set<String> items = null;
+				if (item == null) {
+					items = new TreeSet<>();
+					items.add(festivalName);
+				} else {
+					items = item.getItems();
+				}
+				for(String it:items) {
+					if(fs.getDateByName(it)!=null) {
+						festival = fs.getDateByName(it);
+						break;
+					}
+				}
 			}
-			answerText.append(givenYear).append(festivalName).append("是").append(de.getCnDate()).append(de.getLunarDate())
+			DateEntity de = getFullDate(festivalName, givenYear, digitalYear, festival.getEnDate(),
+					festival.getDateCode());
+			if (givenYear == null) {
+				answerText.append("");
+			} else {
+				answerText.append(givenYear);
+			}
+			answerText.append(festivalName).append("是").append(de.getCnDate()).append(de.getLunarDate())
 					.append(de.getWeekDate());
-			return new FestivalBean(answerText.toString());
-		} else {
-			return new FestivalBean("---->");
+			return new FestivalBean(answerText.toString(), festival);
 		}
+		return new FestivalBean("festivalName", null);
 	}
+
 	private FestivalBean queryFestivalDistanceCurrentDate(Map<String, String> slots, SemanticContext semanticContext) {
 		String festivalName = "我不太明白你说的这个节日";
-		String givenYear = "";
 		int distanceDays = 0;
 		StringBuffer answerText = new StringBuffer();
 		if (!slots.isEmpty()) {
 			festivalName = slots.get(FestivalSlot.FESTIVAL_NAME);
-			givenYear = slots.get(FestivalSlot.GIVEN_YEAR);
-			String mmdd = fs.getDateByName(festivalName).getEnDate(); // 拿到节日的mm-dd
-			DateEntity de = getFullDate(festivalName, givenYear, mmdd);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+			String givenYear = slots.get(FestivalSlot.GIVEN_YEAR);
+			String digitalYear = slots.get(FestivalSlot.GIVEN_DIGITAL_YEAR);
+			Festival festival = fs.getDateByName(festivalName);
+			if (festival.getDateCode() == 3) {
+				answerText.append(festivalName).append("是").append(festival.getCnDate());
+				return new FestivalBean(answerText.toString(), festival);
+			}
+			DateEntity de = getFullDate(festivalName, givenYear, digitalYear, festival.getEnDate(),
+					festival.getDateCode());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			if (givenYear == null) {
 				givenYear = "";
 			}
 			try {
 				distanceDays = DateUtil.getDifferentDays(new Date(), sdf.parse(de.getEnDate()));
-				if (distanceDays > 0) {
-					// xx节日是xxxx年xx月xx日农历xxxx年xx月xx日星期x还有xx天
-					answerText.append(givenYear).append(festivalName).append("是").append(de.getCnDate())
-							.append(de.getLunarDate()).append(de.getWeekDate()).append("还有")
-							.append(String.valueOf(distanceDays)).append("天");
-				} else if (distanceDays == 0) {
-					answerText.append("今天就是").append(festivalName);
-				} else {
-					answerText.append(givenYear).append(festivalName).append("已经过完啦");
-				}
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
-			return new FestivalBean(answerText.toString());
-		} else {
-			return new FestivalBean("---->");
+			if (distanceDays == 0) {
+				answerText.append("今天就是").append(festivalName);
+			} else if (distanceDays < 0) {
+				answerText.append(givenYear).append(festivalName).append("已经过完啦");
+			} else {
+				answerText.append(givenYear).append(festivalName).append("是").append(de.getCnDate())
+						.append(de.getLunarDate()).append(de.getWeekDate()).append("还有")
+						.append(String.valueOf(distanceDays)).append("天");
+			}
+			return new FestivalBean(answerText.toString(), festival);
 		}
+		return new FestivalBean(festivalName, null);
 	}
-	private DateEntity getFullDate(String festivalName, String givenYear, String mmdd) {
-		int currentYear = DateUtil.getCurrentYear();
-		if (mmdd != null) {
-			if (givenYear == null) {
-				// 没有指定年份节日的日期
+
+	private int getYear(String givenYear, int currentYear) {
+		switch (givenYear) {
+		case IntentData.JINNIAN: {
+			break;
+		}
+		case IntentData.MINGNIAN: {
+			return currentYear = currentYear + 1;
+		}
+		case IntentData.HOUNIAN: {
+			return currentYear = currentYear + 2;
+		}
+		case IntentData.DAHOUNIAN: {
+			return currentYear = currentYear + 3;
+		}
+		case IntentData.QUNIAN: {
+			return currentYear = currentYear - 1;
+		}
+		case IntentData.QIANNIAN: {
+			return currentYear = currentYear - 2;
+
+		}
+		case IntentData.DAQIANNIAN: {
+			return currentYear = currentYear - 3;
+		}
+		default:
+			return currentYear;
+		}
+		return currentYear;
+
+	}
+
+	private DateEntity getFullDate(String festivalName, String givenYear, String digitalYear, String mmdd,
+			int dateCode) {
+		int currentYear = 2000;
+		String enDate = "";
+		if (dateCode == 1) {
+			currentYear = DateUtil.getCurrentYear();
+			if (givenYear != null) {
+				currentYear = getYear(givenYear, currentYear);
+			} else {
 				if (DateUtil.isFestivalPassed(mmdd)) {
 					currentYear = currentYear + 1;
 				}
+			}
+			if (digitalYear != null && digitalYear.length() == 4) {
+				currentYear = Integer.parseInt(digitalYear);
+			}
+			// 指定阳历节日年份的节日的日期
+			enDate = String.valueOf(currentYear) + "-" + mmdd;
+		} else if (dateCode == 2) {
+			currentYear = DateUtil.getCurrentLunarYear();
+			if (givenYear != null) {
+				currentYear = getYear(givenYear, currentYear);
 			} else {
-				// 指定年份的节日的日期
-				switch (givenYear) {
-				case IntentData.JINNIAN: {
-					break;
-				}
-				case IntentData.MINGNIAN: {
+				if (DateUtil.isLunarFestivalPassed(mmdd)) {
 					currentYear = currentYear + 1;
-					break;
-				}
-				case IntentData.HOUNIAN: {
-					currentYear = currentYear + 2;
-					break;
-				}
-				case IntentData.DAHOUNIAN: {
-					currentYear = currentYear + 3;
-					break;
-				}
-				case IntentData.QUNIAN: {
-					currentYear = currentYear - 1;
-					break;
-				}
-				case IntentData.QIANNIAN: {
-					currentYear = currentYear - 2;
-					break;
-				}
-				case IntentData.DAQIANNIAN: {
-					currentYear = currentYear - 3;
-					break;
-				}
-				default:
-					break;
 				}
 			}
+			if (digitalYear != null && digitalYear.length() == 4) {
+				currentYear = Integer.parseInt(digitalYear);
+			}
+			// 指定阴历节日年份的节日的日期
+			String lunarDate = String.valueOf(currentYear) + "-" + mmdd;
+			// 该阴历节日的阳历时间
+			enDate = DateUtil.getEnDate(lunarDate);
+		} else {
+
 		}
-		String enDate = String.valueOf(currentYear) + "-" + mmdd;
 		return DateUtil.getDateEntityBySolar(enDate);
 	}
 }

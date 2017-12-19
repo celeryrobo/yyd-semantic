@@ -2,7 +2,7 @@ package com.yyd.semantic.services.impl.festival;
 
 import com.ybnf.compiler.beans.AbstractSemanticResult;
 
-public class FestivalBean extends AbstractSemanticResult{
+public class FestivalBean extends AbstractSemanticResult {
 	private String text;
 
 	public String getText() {
@@ -11,6 +11,7 @@ public class FestivalBean extends AbstractSemanticResult{
 
 	public void setText(String text) {
 		this.text = text;
+
 	}
 
 	@Override
@@ -18,12 +19,11 @@ public class FestivalBean extends AbstractSemanticResult{
 		return "FestivalBean [text=" + text + "]";
 	}
 
-	public FestivalBean() {
-	}
-
-	public FestivalBean(String text) {
-		super();
+	public FestivalBean(String text, Object resource) {
 		this.text = text;
+		setResource(resource);
+		setOperation(Operation.SPEAK);
+		setParamType(ParamType.T);
 	}
 
 }

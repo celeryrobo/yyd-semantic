@@ -686,7 +686,7 @@ public class Lunar {
     public String getLunarDateString() {  
         return this.getLunarYearString() + "年"  
                 + this.getLunarMonthString() + "月"  
-                + this.getLunarDayString() + "日";  
+                + this.getLunarDayString() ;  
     }  
   
     /** 
