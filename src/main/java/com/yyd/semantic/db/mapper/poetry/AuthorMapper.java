@@ -12,20 +12,15 @@ import com.yyd.semantic.db.bean.poetry.Author;
 @Mapper
 public interface AuthorMapper {
 	@Select("SELECT id, name, caodai FROM poetry.tb_author WHERE id = #{id}")
-	@Results({
-        @Result(property = "id",  column = "id"),
-        @Result(property = "name", column = "name"),
-        @Result(property = "chaodai", column = "caodai")
-    })
+	@Results({ @Result(property = "id", column = "id"), @Result(property = "name", column = "name"),
+			@Result(property = "chaodai", column = "caodai") })
 	public Author getAuthorById(Integer id);
+
 	@Select("SELECT id, name, caodai FROM poetry.tb_author WHERE name = #{name}")
-	@Results({
-		@Result(property = "id",  column = "id"),
-        @Result(property = "name", column = "name"),
-        @Result(property = "chaodai", column = "caodai")
-    })
+	@Results({ @Result(property = "id", column = "id"), @Result(property = "name", column = "name"),
+			@Result(property = "chaodai", column = "caodai") })
 	public List<Author> findByName(String name);
-	
+
 	@Select("SELECT name FROM poetry.tb_author")
 	public List<String> getAllNames();
 }

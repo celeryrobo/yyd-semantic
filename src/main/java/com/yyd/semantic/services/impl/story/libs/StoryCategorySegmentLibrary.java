@@ -14,6 +14,7 @@ import com.yyd.semantic.db.service.story.StoryCategoryService;
 public class StoryCategorySegmentLibrary implements SegmentLibrary {
 	@Autowired
 	private StoryCategoryService scs;
+
 	@Override
 	public List<Value> load() {
 		List<String> names = scs.getAllNames();

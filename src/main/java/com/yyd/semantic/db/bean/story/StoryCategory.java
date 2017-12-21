@@ -3,6 +3,7 @@ package com.yyd.semantic.db.bean.story;
 public class StoryCategory {
 	private Integer id;
 	private String name;
+
 	public Integer getId() {
 		return id;
 	}

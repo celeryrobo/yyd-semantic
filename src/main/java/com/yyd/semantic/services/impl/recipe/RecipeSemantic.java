@@ -70,7 +70,7 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 		String result = "听不懂你说的什么";
 		RecipeSlot recipeSlot = new RecipeSlot(semanticContext.getParams());
 		String recipeFood = recipeSlot.getRecipeFood();
-		if(recipeFood != null) {
+		if (recipeFood != null) {
 			result = recipeFood;
 		}
 		return new RecipeBean(result);

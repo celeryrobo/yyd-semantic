@@ -49,7 +49,7 @@ public class SongServiceImpl implements SongService {
 		List<Song> songs = new ArrayList<>();
 		for (Integer songId : songIds) {
 			Song song = getById(songId);
-			if(song!=null) {
+			if (song != null) {
 				songs.add(song);
 			}
 		}

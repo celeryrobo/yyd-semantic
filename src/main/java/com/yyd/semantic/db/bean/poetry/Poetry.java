@@ -56,7 +56,7 @@ public class Poetry {
 	public void setAuthorName(String authorName) {
 		this.authorName = authorName;
 	}
-	
+
 	public Integer getAuthorId() {
 		return authorId;
 	}

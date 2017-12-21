@@ -6,8 +6,8 @@ import com.yyd.semantic.db.bean.poetry.PoetrySentence;
 
 public interface PoetrySentenceService {
 	public List<PoetrySentence> getBySent(String sentence);
-	
+
 	public List<PoetrySentence> getByPoetryId(Integer poetryId);
-	
+
 	public List<String> getAllSentences();
 }

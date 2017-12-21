@@ -10,27 +10,27 @@ import com.yyd.semantic.db.mapper.poetry.PoetryMapper;
 import com.yyd.semantic.db.service.poetry.PoetryService;
 
 @Service
-public class PoetryServiceImpl implements PoetryService{
+public class PoetryServiceImpl implements PoetryService {
 	@Autowired
 	private PoetryMapper poetryMapper;
-	
+
 	@Override
 	public Poetry getById(int id) {
 		return poetryMapper.getById(id);
 	}
-	
+
 	@Override
-	public List<Poetry> getByTitle(String title){
+	public List<Poetry> getByTitle(String title) {
 		return poetryMapper.getByTitle(title);
 	}
-	
+
 	@Override
-	public List<Poetry> getByAuthor(String author){
+	public List<Poetry> getByAuthor(String author) {
 		return poetryMapper.getByAuthor(author);
 	}
-	
+
 	@Override
-	public List<Poetry> getByAuthorId(int authorId){
+	public List<Poetry> getByAuthorId(int authorId) {
 		return poetryMapper.getByAuthorId(authorId);
 	}
 

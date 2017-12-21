@@ -34,8 +34,6 @@ public class StoryResource {
 		this.name = name;
 	}
 
-
-
 	public Integer getScore() {
 		return score;
 	}

@@ -23,14 +23,14 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> getByParentId(Integer parentId) {
 		Set<Integer> subIds = getSubidsByPid(parentId, 5);
-		if(subIds == null) {
+		if (subIds == null) {
 			subIds = new TreeSet<>();
 		}
 		subIds.add(parentId);
 		List<Category> categories = new ArrayList<>();
 		for (Integer subId : subIds) {
 			Category category = categoryMapper.getById(subId);
-			if(category != null) {
+			if (category != null) {
 				categories.add(category);
 			}
 		}

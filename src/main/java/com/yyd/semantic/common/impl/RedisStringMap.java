@@ -67,7 +67,7 @@ public class RedisStringMap implements Map<Object, Object> {
 	@Override
 	public void clear() {
 		Set<Object> keys = keySet();
-		if(keys == null || keys.isEmpty()) {
+		if (keys == null || keys.isEmpty()) {
 			return;
 		}
 		redisTemplate.opsForHash().delete(redisKeyname, keys.toArray());

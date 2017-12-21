@@ -4,7 +4,7 @@ import com.ybnf.compiler.beans.AbstractSemanticResult;
 
 public class WaringSemanticResult extends AbstractSemanticResult {
 	private String text = "";
-	
+
 	public WaringSemanticResult(String text) {
 		setText(text);
 	}

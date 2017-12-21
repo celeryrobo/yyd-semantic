@@ -50,7 +50,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 			break;
 		}
 		default:
-			result = new StoryBean("我不懂你在说什么",null, null);
+			result = new StoryBean("我不懂你在说什么", null, null);
 			break;
 		}
 		return result;
@@ -68,7 +68,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 			if (!ids.isEmpty()) {
 				int randomIdx = CommonUtils.randomInt(ids.size());
 				StoryResource story = resourceService.getById(ids.get(randomIdx));
-				return new StoryBean(textFormat(story.getName()),story.getPlayUrl(), story);
+				return new StoryBean(textFormat(story.getName()), story.getPlayUrl(), story);
 			}
 		} else {
 			// 听某个具体的故事,有slot
@@ -76,11 +76,11 @@ public class StorySemantic implements Semantic<StoryBean> {
 			if (name != null) {
 				StoryResource story = resourceService.getByName(name);
 				if (story != null) {
-					return new StoryBean(textFormat(story.getName()), story.getPlayUrl(),story);
+					return new StoryBean(textFormat(story.getName()), story.getPlayUrl(), story);
 				}
 			}
 		}
-		return new StoryBean(result, null,null);
+		return new StoryBean(result, null, null);
 	}
 
 	private StoryBean queryCategory(Map<String, String> slots, SemanticContext semanticContext) {
@@ -97,7 +97,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 				}
 			}
 		}
-		return new StoryBean(result, null,null);
+		return new StoryBean(result, null, null);
 	}
 
 	private StoryBean getStoryResult(List<StoryCategoryRelationship> list, Integer categoryId) {
@@ -114,7 +114,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 						int randomIdx1 = CommonUtils.randomInt(scResList.size());
 						StoryCategoryResource scRes = scResList.get(randomIdx1);
 						StoryResource story = resourceService.getById(scRes.getResourceId());
-						return new StoryBean(textFormat(story.getName()),story.getPlayUrl(), story);
+						return new StoryBean(textFormat(story.getName()), story.getPlayUrl(), story);
 					}
 				}
 			}
@@ -126,10 +126,10 @@ public class StorySemantic implements Semantic<StoryBean> {
 				StoryCategoryResource scRes = scResList.get(randomIdx);
 				StoryResource story = resourceService.getById(scRes.getResourceId());
 				if (story != null) {
-					return new StoryBean(textFormat(story.getName()),story.getPlayUrl(), story);
+					return new StoryBean(textFormat(story.getName()), story.getPlayUrl(), story);
 				}
 			}
 		}
-		return new StoryBean(text,null, null);
+		return new StoryBean(text, null, null);
 	}
 }

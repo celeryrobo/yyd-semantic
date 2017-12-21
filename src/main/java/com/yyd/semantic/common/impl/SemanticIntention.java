@@ -49,7 +49,8 @@ public class SemanticIntention implements SemanticMatching {
 		try {
 			long startTs = System.currentTimeMillis();
 			result = compiler.compile(text);
-			System.out.println("Semantic Intention Run Time :" + (System.currentTimeMillis() - startTs) + " Service :" + result.getService());
+			System.out.println("Semantic Intention Run Time :" + (System.currentTimeMillis() - startTs) + " Service :"
+					+ result.getService());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

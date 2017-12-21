@@ -12,21 +12,15 @@ import com.yyd.semantic.db.bean.poetry.PoetrySentence;
 @Mapper
 public interface PoetrySentenceMapper {
 	@Select("SELECT id, sentence, poetry_id FROM poetry.tb_sentence WHERE sentence = #{sentence}")
-	@Results({
-		@Result(property = "id", column = "id"),
-		@Result(property = "sentence", column = "sentence"),
-        @Result(property = "poetryId", column = "poetry_id")
-    })
+	@Results({ @Result(property = "id", column = "id"), @Result(property = "sentence", column = "sentence"),
+			@Result(property = "poetryId", column = "poetry_id") })
 	public List<PoetrySentence> getBySent(String sentence);
-	
+
 	@Select("SELECT id, sentence, poetry_id FROM poetry.tb_sentence WHERE poetry_id = #{poetryId} ORDER BY id ASC")
-	@Results({
-		@Result(property = "id", column = "id"),
-		@Result(property = "sentence", column = "sentence"),
-        @Result(property = "poetryId", column = "poetry_id")
-    })
+	@Results({ @Result(property = "id", column = "id"), @Result(property = "sentence", column = "sentence"),
+			@Result(property = "poetryId", column = "poetry_id") })
 	public List<PoetrySentence> getByPoetryId(Integer poetryId);
-	
+
 	@Select("SELECT sentence FROM poetry.tb_sentence")
 	public List<String> getAllSentences();
 }

@@ -26,7 +26,7 @@ public class CommonSemanticCallable implements SemanticCallable {
 				String realWord = wordTerm.getRealWord();
 				strs.add(realWord);
 				Item item = dbSegLoader.getItem(realWord);
-				if(item != null) {
+				if (item != null) {
 					strs.addAll(item.getItems());
 				}
 			}

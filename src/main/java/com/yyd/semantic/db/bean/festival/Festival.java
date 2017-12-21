@@ -7,38 +7,50 @@ public class Festival {
 	private String name;
 	@JsonIgnore
 	private String enDate;
-	private String cnDate;
+	@JsonIgnore
+	private String month;
+	@JsonIgnore
+	private String day;
 	@JsonIgnore
 	private int dateCode;
+	@JsonIgnore
 	private String enName;
+	@JsonIgnore
+	private String des;
+	
 
-	public int getId() {
-		return id;
+	@Override
+	public String toString() {
+		return "Festival [id=" + id + ", name=" + name + ", enDate=" + enDate + ", month=" + month + ", day=" + day
+				+ ", dateCode=" + dateCode + ", enName=" + enName + ", des=" + des + "]";
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
 
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public String getDay() {
+		return day;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
+	}
+
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "Festival [id=" + id + ", name=" + name + ", enDate=" + enDate + ", cnDate=" + cnDate + ", dateCode="
-				+ dateCode + ", enName=" + enName + "]";
-	}
-
-	public String getCnDate() {
-		return cnDate;
-	}
-
-	public void setCnDate(String cnDate) {
-		this.cnDate = cnDate;
 	}
 
 	public String getEnDate() {
@@ -63,5 +75,17 @@ public class Festival {
 
 	public void setDateCode(int dateCode) {
 		this.dateCode = dateCode;
+	}
+
+	public String getDes() {
+		return des;
+	}
+
+	public void setDes(String des) {
+		this.des = des;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

@@ -32,7 +32,7 @@ public class RecipeIngredientSegmentLibrary implements SegmentLibrary {
 			while (rs.hasNext()) {
 				QuerySolution qs = rs.next();
 				String localName = qs.getResource("c").getLocalName();
-				if(localName.length() > 0) {
+				if (localName.length() > 0) {
 					result.add(new Value(localName, "recipeIngredient", "1"));
 				}
 			}

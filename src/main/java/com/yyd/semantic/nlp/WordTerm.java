@@ -4,7 +4,7 @@ public class WordTerm {
 	/**
 	 * 词id，词在句子中的位置，按从左到右的顺序，从1开始
 	 */
-	private int id = -1;  //id为0表示为虚拟的根节点,-1表示无id
+	private int id = -1; // id为0表示为虚拟的根节点,-1表示无id
 	/**
 	 * 句子中实际的词
 	 */
@@ -13,12 +13,12 @@ public class WordTerm {
 	 * 词性
 	 */
 	private String nature = null;
-	
+
 	public WordTerm() {
-		
+
 	}
-	
-	public WordTerm(int id,String realWord,String nature) {
+
+	public WordTerm(int id, String realWord, String nature) {
 		this.id = id;
 		this.realWord = realWord;
 		this.nature = nature;
@@ -47,12 +47,11 @@ public class WordTerm {
 	public void setNature(String nature) {
 		this.nature = nature;
 	}
-	
+
 	@Override
-    public String toString()
-    {
-        if (this.nature != null)
-            return this.realWord + "/" + nature+"/ "+this.id;
-        return this.realWord;
-    }
+	public String toString() {
+		if (this.nature != null)
+			return this.realWord + "/" + nature + "/ " + this.id;
+		return this.realWord;
+	}
 }

@@ -14,6 +14,7 @@ import com.yyd.semantic.db.service.festival.FestivalService;
 public class FestivalNameSegmentLib implements SegmentLibrary {
 	@Autowired
 	private FestivalService fs;
+
 	@Override
 	public List<Value> load() {
 		List<String> names = fs.getAllNames();

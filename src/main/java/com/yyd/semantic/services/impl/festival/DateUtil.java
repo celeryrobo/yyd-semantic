@@ -16,6 +16,9 @@ public class DateUtil {
 	 * @return DateEntity
 	 */
 	public static DateEntity getDateEntityBySolar(String enDate) {
+		if(enDate==null) {
+			return null;
+		}
 		DateEntity de = new DateEntity();
 		de.setCnDate(getCnDate(enDate));
 		de.setLunarDate(solarToLunarDate(enDate));
@@ -65,6 +68,7 @@ public class DateUtil {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		System.out.println("lunarDate=" + lunarDate);
 		return lunarDate;
 	}
 

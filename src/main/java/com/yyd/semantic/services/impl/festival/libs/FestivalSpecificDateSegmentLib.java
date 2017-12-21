@@ -10,7 +10,7 @@ import com.yyd.semantic.common.SegmentLibrary;
 import com.yyd.semantic.services.impl.festival.IntentData;
 
 @Component
-public class FestivalSpecificDateSegmentLib implements SegmentLibrary{
+public class FestivalSpecificDateSegmentLib implements SegmentLibrary {
 	@Override
 	public List<Value> load() {
 		List<Value> values = new LinkedList<>();

@@ -19,7 +19,7 @@ public interface StoryCategoryMapper {
 	@Select("SELECT * FROM story.story_category WHERE name = #{name}")
 	@Results({ @Result(property = "id", column = "id"), @Result(property = "name", column = "name"), })
 	public StoryCategory getByName(String name);
-	
+
 	@Select("SELECT name FROM story.story_category")
 	public List<String> getAllNames();
 }

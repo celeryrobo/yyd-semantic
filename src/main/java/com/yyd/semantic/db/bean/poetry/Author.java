@@ -9,8 +9,8 @@ public class Author {
 
 	@Override
 	public String toString() {
-		return "Author [id=" + id + ", name=" + name + ", text=" + description + ", sourceUrl=" + sourceUrl + ", chaodai="
-				+ chaodai + "]";
+		return "Author [id=" + id + ", name=" + name + ", text=" + description + ", sourceUrl=" + sourceUrl
+				+ ", chaodai=" + chaodai + "]";
 	}
 
 	public Integer getId() {

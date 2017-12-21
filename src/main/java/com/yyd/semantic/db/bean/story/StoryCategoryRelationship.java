@@ -5,7 +5,6 @@ public class StoryCategoryRelationship {
 	private Integer subId;
 	private Integer parentId;
 
-
 	public Integer getId() {
 		return id;
 	}
