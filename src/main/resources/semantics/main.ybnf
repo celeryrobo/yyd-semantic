@@ -10,6 +10,7 @@
 #include classpath:semantics/commons/opera.ybnf;
 #include classpath:semantics/commons/joke.ybnf;
 #include classpath:semantics/commons/phonenumber.ybnf;
+#include classpath:semantics/commons/date.ybnf;
 service common;
 root $main;
 
@@ -22,5 +23,6 @@ $crosstalk_main{service%crosstalk} = $crosstalk_common;
 $opera_main{service%opera} = $opera_common;
 $joke_main{service%joke} = $joke_common;
 $phonenumber_main{service%phonenumber} = $phonenumber_common;
+$date_main{service%datetime} = $date_common;
 
-$main = $poetry_main|$music_main|$recipe_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main;
+$main = $poetry_main|$music_main|$recipe_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main|$date_main;
