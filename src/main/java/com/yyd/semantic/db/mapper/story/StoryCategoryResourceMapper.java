@@ -12,7 +12,7 @@ import com.yyd.semantic.db.bean.story.StoryCategoryResource;
 @Mapper
 public interface StoryCategoryResourceMapper {
 
-	@Select("SELECT * FROM story.story_category_resource WHERE category_id = #{categoryId}")
+	@Select("SELECT * FROM yyd_resources.tb_story_category_resource WHERE category_id = #{categoryId}")
 	@Results({ @Result(property = "id", column = "id"), @Result(property = "categoryId", column = "category_id"),
 			@Result(property = "resourceId", column = "resource_id"), })
 	public List<StoryCategoryResource> getByCategoryId(int categoryId);
