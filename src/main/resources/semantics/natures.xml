@@ -67,4 +67,11 @@
 		<desc>节日时间</desc>
 		<service>festival</service>
 	</nature>
+	
+	<!-- 成语接龙场景 -->
+	<!-- <nature>
+		<name>idiomContent</name>
+		<desc>成语内容</desc>
+		<service>idiom</service>
+	</nature> -->
 </serviceconf>
