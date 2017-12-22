@@ -1,0 +1,14 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/phonenumber.ybnf;
+service phonenumber;
+root $main;
+
+$phonenumber_case_1{intent%queryNumber} = $phonenumber_name [的]呢;
+
+$phonenumber_case_2{intent%queryName} = $phonenumber_number [的]呢;
+
+$phonenumber_main = $phonenumber_case_1|$phonenumber_case_2;
+
+$main = $phonenumber_main|$phonenumber_common;

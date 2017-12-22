@@ -12,7 +12,7 @@ $recipe_case_2{intent%hasStepsText} = [$recipe_food_alias [(是 | 的)]] (怎么
 $recipe_case_3{intent%hasHardLevel} = [[做 | 烹饪] $recipe_food_alias [的]] (难 [易] [程] 度 [有] 多大) | ((容易做 | 难度大) 吗);
 
 $recipe_case_4_1 = [$recipe_food_alias [的]] (味道 | 口味) [怎么样 | 如何];
-$recipe_case_4_2 = [$recipe_food_alias] [是] 什么 (味道 | 口味) [的];
+$recipe_case_4_2 = [$recipe_food_alias] [是] (什么|啥) (味道 | 口味) [的];
 $recipe_case_4{intent%hasTaste} = $recipe_case_4_1 | $recipe_case_4_2;
 
 $recipe_case_5{intent%hasCookingTime} = [[做 | 烹饪] $recipe_food_alias] [需] 要 [花 [费]] (几分钟 | (多长 [的] 时间));
@@ -20,4 +20,4 @@ $recipe_case_5{intent%hasCookingTime} = [[做 | 烹饪] $recipe_food_alias] [需
 $recipe_case_5_1 = [这 | $recipe_food_alias] (叫 | 是) (什么 | 啥) [(名 (字 | 称)) | 菜];
 $recipe_case_5{intent%thisRecipeFood} = $recipe_case_5_1;
 
-$main = ($recipe_common | $recipe_case_1 | $recipe_case_2 | $recipe_case_3 | $recipe_case_4 | $recipe_case_5) $_yyd_common_;
+$main = $recipe_common | $recipe_case_1 | $recipe_case_2 | $recipe_case_3 | $recipe_case_4 | $recipe_case_5;

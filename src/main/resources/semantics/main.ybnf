@@ -2,17 +2,25 @@
 #include original.ybnf;
 #include classpath:semantics/commons/common.ybnf;
 #include classpath:semantics/commons/poetry.ybnf;
-#include classpath:semantics/commons/song.ybnf;
+#include classpath:semantics/commons/music.ybnf;
 #include classpath:semantics/commons/recipe.ybnf;
 #include classpath:semantics/commons/story.ybnf;
 #include classpath:semantics/commons/festival.ybnf;
+#include classpath:semantics/commons/crosstalk.ybnf;
+#include classpath:semantics/commons/opera.ybnf;
+#include classpath:semantics/commons/joke.ybnf;
+#include classpath:semantics/commons/phonenumber.ybnf;
 service common;
 root $main;
 
 $poetry_main{service%poetry} = $poetry_common;
-$song_main{service%song} = $song_case1|$song_case2|$song_case3;
+$music_main{service%music} = $music_common;
 $story_main{service%story} = $story_common;
 $recipe_main{service%recipe} = $recipe_common;
 $festival_main{service%festival} = $festival_common;
+$crosstalk_main{service%crosstalk} = $crosstalk_common;
+$opera_main{service%opera} = $opera_common;
+$joke_main{service%joke} = $joke_common;
+$phonenumber_main{service%phonenumber} = $phonenumber_common;
 
-$main = $poetry_main|$song_main|$recipe_main|$story_main|$festival_main;
+$main = $poetry_main|$music_main|$recipe_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main;
