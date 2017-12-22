@@ -36,10 +36,6 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
 		switch (action) {
-		case FestivalIntent.NAME: {
-			// result = queryFestivalName(objects, semanticContext);
-			break;
-		}
 		case FestivalIntent.DATE: {
 			result = queryFestivalDate(objects, semanticContext);
 			break;
@@ -84,6 +80,7 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 				int len = festival.size();
 				if (festival != null && len == 1) {
 					answerText.append("是").append(festival.get(0).getName());
+					return new FestivalBean(answerText.toString(), festival);
 				} else if (festival != null && len > 1) {
 					answerText.append("有");
 					for (int i = 0; i < len; i++) {
@@ -92,8 +89,8 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 							answerText.append(",");
 						}
 					}
+					return new FestivalBean(answerText.toString(), festival);
 				}
-				return new FestivalBean(answerText.toString(), festival);
 			} else if (month != null && day == null) {
 				festival = fs.getNameByMonth(month, dateCode);
 				int len = festival.size();
@@ -120,7 +117,6 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 			String givenYear = slots.get(FestivalSlot.GIVEN_YEAR);
 			String digitalYear = slots.get(FestivalSlot.GIVEN_DIGITAL_YEAR);
 			Festival festival = null;
-			
 			if (festivalName != null) {
 				Item item = dbSegLoader.getItem(festivalName);
 				Set<String> items = null;
@@ -137,7 +133,7 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 					}
 				}
 			}
-			if(festival.getDateCode()==3) {
+			if (festival.getDateCode() == 3) {
 				answerText.append(festivalName).append("是").append(festival.getDes());
 				return new FestivalBean(answerText.toString(), null);
 			}
@@ -163,7 +159,23 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 			festivalName = slots.get(FestivalSlot.FESTIVAL_NAME);
 			String givenYear = slots.get(FestivalSlot.GIVEN_YEAR);
 			String digitalYear = slots.get(FestivalSlot.GIVEN_DIGITAL_YEAR);
-			Festival festival = fs.getDateByName(festivalName);
+			Festival festival = null;
+			if (festivalName != null) {
+				Item item = dbSegLoader.getItem(festivalName);
+				Set<String> items = null;
+				if (item == null) {
+					items = new TreeSet<>();
+					items.add(festivalName);
+				} else {
+					items = item.getItems();
+				}
+				for (String it : items) {
+					if (fs.getDateByName(it) != null) {
+						festival = fs.getDateByName(it);
+						break;
+					}
+				}
+			}
 			if (festival.getDateCode() == 3) {
 				answerText.append(festivalName).append("是").append(festival.getDes());
 				return new FestivalBean(answerText.toString(), festival);
@@ -267,6 +279,7 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 		}
 		return new FestivalBean(solarTermName, null);
 	}
+
 	private DateEntity getFullSolarTermDate(String givenYear, String digitalYear, int indexSolarTerm) {
 		int currentYear = DateUtil.getCurrentYear();
 		String enDate = "";
