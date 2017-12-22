@@ -1,0 +1,15 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/music.ybnf;
+service music;
+root $main;
+
+$music_case_1{intent%querySong} = [可以|可不可以|能][给我][换一首|换一个|来一个]($song_category | $singer|$song_name) [的][歌|歌曲][吗];
+$music_case_2{intent%querySong} = ([给我] 换一首|换一个|来一个) | 下一首;
+$music_case_3{intent%queryCurrSong} = ([播] [放] 这首 [歌]) | ([我] 想听这首 [歌]);
+$music_case_4{intent%querySongName} = [这 [首]] [歌的] (歌名 | 名称 | 名字) [是什么];
+$music_case_5{intent%querySinger} = [这 [首]] 歌 [曲] (是谁唱的 | (的歌手 [是谁]));
+
+$music_main = $music_case_1|$music_case_2|$music_case_3|$music_case_4|$music_case_5;
+$main = $music_main|$music_common;

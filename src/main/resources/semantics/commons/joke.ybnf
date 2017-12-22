@@ -1,0 +1,21 @@
+#YBNF 1.0 utf8;
+
+callable @joke(category);
+
+$joke_category{category} = $_call_joke_category_;
+
+$prefix1 = 我想|我很想|我要|要|俺|俺想|俺想要;
+$prefix2 = 给我|你给我|再|你|那么|请|可以|你可以|那你就;
+$prefix3 = 给我|你给我|再|你|那么|请|可以|你可以|那你就|我要|我想|我很想;
+
+$joke_case1_1 = [$prefix1] (听) [[一](个|段)] 笑话  [吧|可不可以|[行]吗];
+$joke_case1_2 = [$prefix1] (听) [[一](个|段)] [$joke_category] [吧|可不可以|[行]吗];
+$joke_case1_3 = [$prefix2] (讲) [[一](个|段)] 笑话  [吧|可不可以|[行]吗];
+$joke_case1_4 = [$prefix2] (讲) [[一](个|段)] [$joke_category] [吧|可不可以|[行]吗];
+$joke_case1_5 = [$prefix3] (放|播|播放|来) [[一](个|段)] 笑话  [吧|可不可以|[行]吗];
+$joke_case1_6 = [$prefix3] (放|播|播放|来) [[一](个|段)] [$joke_category] [吧|可不可以|[行]吗];
+$joke_case1{intent%queryJoke} = $joke_case1_1|$joke_case1_2|$joke_case1_3|$joke_case1_4|$joke_case1_5|$joke_case1_6;
+
+$joke_case2{intent%queryJoke} = [一个|一段] ($joke_category) 笑话;
+
+$joke_common=$joke_case1|$joke_case2;

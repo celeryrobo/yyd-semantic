@@ -1,0 +1,12 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/joke.ybnf;
+service joke;
+root $main;
+
+$joke_case_1{intent%queryJoke} = (讲|听|放|播|播放|来) [[一](个|首|下|段)]  笑话   [吧|可不可以|[行]吗];
+
+$joke_main = $joke_case_1;
+
+$main = $joke_main|$joke_common;
