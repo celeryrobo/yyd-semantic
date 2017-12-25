@@ -10,11 +10,9 @@
 #include classpath:semantics/commons/opera.ybnf;
 #include classpath:semantics/commons/joke.ybnf;
 #include classpath:semantics/commons/phonenumber.ybnf;
-<<<<<<< HEAD
 #include classpath:semantics/commons/date.ybnf;
-=======
 #include classpath:semantics/commons/idiom.ybnf;
->>>>>>> d7d5910fab89f01455ac082e94959af20f70fa61
+
 service common;
 root $main;
 
@@ -27,12 +25,9 @@ $crosstalk_main{service%crosstalk} = $crosstalk_common;
 $opera_main{service%opera} = $opera_common;
 $joke_main{service%joke} = $joke_common;
 $phonenumber_main{service%phonenumber} = $phonenumber_common;
-<<<<<<< HEAD
 $date_main{service%datetime} = $date_common;
-
-$main = $poetry_main|$music_main|$recipe_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main|$date_main;
-=======
 $idiom_main{service%idiom} = $idiom_common;
 
-$main = $poetry_main|$music_main|$recipe_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main|$idiom_main;
->>>>>>> d7d5910fab89f01455ac082e94959af20f70fa61
+
+$main = $poetry_main|$music_main|$recipe_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main|$idiom_main|$date_main;
+
