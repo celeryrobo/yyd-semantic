@@ -1,8 +1,11 @@
 package com.yyd.semantic.db.bean.opera;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Opera {
 	private Integer id;
 	private String name;
+	@JsonIgnore
 	private String resourceUrl;
 	
 	public Integer getId() {

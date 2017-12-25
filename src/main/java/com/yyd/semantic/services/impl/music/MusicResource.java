@@ -1,9 +1,12 @@
 package com.yyd.semantic.services.impl.music;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class MusicResource {
 	private Integer id;
 	private String name;
 	private String singer;
+	@JsonIgnore
 	private String songUrl;	
 	
 	public Integer getId() {

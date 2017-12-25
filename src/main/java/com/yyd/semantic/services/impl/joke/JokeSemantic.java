@@ -52,14 +52,8 @@ public class JokeSemantic implements Semantic<JokeBean>{
 			if(ids.size() > 0) {
 				int idx = CommonUtils.randomInt(ids.size());
 				entity = jokeService.getById(ids.get(idx));	
-			}
-			
-//			//测试使用
-//			System.out.println("ids size="+ids.size());
-//			System.out.println("idx = "+idx);
-//			if(null == entity) {
-//				System.out.println("entity is null");
-//			}
+			}			
+
 		}
 		else
 		{
@@ -69,17 +63,7 @@ public class JokeSemantic implements Semantic<JokeBean>{
 				//根据类别查找
 				List<Joke> operas = jokeService.findByCategoryName(category);
 				if(null == operas || operas.isEmpty() ) {
-					result = "我还没听过这个类型的笑话";
-					
-					//测试使用
-					System.out.println("category="+category);
-					if(null == operas) {
-						System.out.println("operas is null");
-					}
-					else
-					{
-						System.out.println("operas is null");
-					}
+					result = "我还没听过这个类型的笑话";					
 				}
 				else
 				{						

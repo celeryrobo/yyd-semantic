@@ -5,8 +5,5 @@
 service crosstalk;
 root $main;
 
-$crosstalk_case_1{intent%queryCrosstalk} = (讲|听|放|播|播放|来) [[一](个|段)]  相声   [吧|可不可以|[行]吗];
 
-$crosstalk_main = $crosstalk_case_1;
-
-$main = $crosstalk_main|$crosstalk_common;
+$main = $crosstalk_common;

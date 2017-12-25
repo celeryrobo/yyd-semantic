@@ -104,7 +104,7 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 			ss.setId(entity.getId());
 			result = entity.getResourceUrl();
 			
-			resultBean = new CrosstalkBean(entity.getResourceUrl());
+			resultBean = new CrosstalkBean(null,entity.getResourceUrl(),entity);
 			resultBean.setOperation(Operation.PLAY);
 			resultBean.setParamType(ParamType.U);
 		}

@@ -103,7 +103,7 @@ public class OperaSemantic implements Semantic<OperaBean> {
 			ss.setId(entity.getId());
 			result = entity.getResourceUrl();
 			
-			resultBean = new OperaBean(entity.getResourceUrl());
+			resultBean = new OperaBean(null,entity.getResourceUrl(),entity);
 			resultBean.setOperation(Operation.PLAY);
 			resultBean.setParamType(ParamType.U);
 		}

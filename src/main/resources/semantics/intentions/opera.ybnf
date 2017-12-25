@@ -5,8 +5,5 @@
 service opera;
 root $main;
 
-$opera_case_1{intent%queryOpera} = (听|放|播|播放|来|唱) [[一](个|段)]  戏曲   [吧|可不可以|[行]吗];
 
-$opera_main = $opera_case_1;
-
-$main = $opera_main|$opera_common;
+$main = $opera_common;
