@@ -9,6 +9,7 @@ $song_category{category} = $_call_music_songCategory_;
 $music_prefix1 = 我想|我很想|我要|要|俺|俺想|俺想要;
 $music_prefix2 = 给我|你给我|再|你|那么|请|可以|你可以|那你就;
 $music_prefix3 = 给我|你给我|再|你|那么|请|可以|你可以|那你就|我要|我想|我很想;
+$music_prefix4 = 唱歌[儿];
 
 $music_case1_1 = [$music_prefix1] (听) [[一](个|首)]  $song_name [吧|这首歌|这首歌曲|可不可以|给我听[吗|啊]|[行]吗|嘛];
 $music_case1_2 = [$music_prefix2] (唱) [[一](个|首)]  $song_name [吧|这首歌|这首歌曲|可不可以|给我听[吗|啊]|[行]吗|嘛];
@@ -21,6 +22,7 @@ $music_case2_3 = [$music_prefix3] (放|播|播放|来) [[一](个|首)] [音乐|
 $music_case2_4 = [$music_prefix1] (听) [[一](个|首)] (音乐|歌曲|歌[儿]);
 $music_case2_5 = [$music_prefix2] (唱) [[一](个|首)] (音乐|歌曲|歌[儿]); 
 $music_case2_6 = [$music_prefix3] (放|播|播放|来) [[一](个|首)] (音乐|歌曲|歌[儿]);
+$music_case3_7 = $music_prefix4<1,4>;
 $music_case2{intent%querySong} = $music_case2_1|$music_case2_2|$music_case2_3|$music_case2_4|$music_case2_5|$music_case2_6;
 
 $music_case3_1 = [$music_prefix1] (听) [[一](个|首)] [音乐|歌曲|歌[儿]]  $singer  [唱]的   $song_name  [吧|可不可以|给我听[吗|啊]|给我|[行]吗|嘛];

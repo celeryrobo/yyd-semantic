@@ -14,6 +14,9 @@ public interface SongMapper {
 	@Select("SELECT id FROM yyd_resources.tb_music_resource ORDER BY RAND() LIMIT 10")
 	public List<Integer> getIdList();
 	
+	@Select("SELECT id FROM yyd_resources.tb_music_resource WHERE id != #{id} ORDER BY RAND() LIMIT 10")
+	public List<Integer> getIdListExcept(int id);
+	
 	@Select("SELECT name FROM yyd_resources.tb_music_resource")
 	public List<String> getAllName();
 	

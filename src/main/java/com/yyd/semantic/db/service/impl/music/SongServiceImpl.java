@@ -28,6 +28,11 @@ public class SongServiceImpl implements SongService {
 	public List<Integer> getIdList() {
 		return songMapper.getIdList();
 	}
+	
+	@Override
+	public List<Integer> getIdListExcept(int id){
+		return songMapper.getIdListExcept(id);
+	}
 
 	@Override
 	public Song getById(Integer id) {
