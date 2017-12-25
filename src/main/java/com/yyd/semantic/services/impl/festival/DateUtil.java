@@ -6,8 +6,45 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.github.andrewoma.dexx.collection.HashMap;
+import com.github.andrewoma.dexx.collection.Map;
+
 public class DateUtil {
 
+	public static final Map<String, Integer> CN_NUMBER=new HashMap<>();
+	static {
+		CN_NUMBER.put("一", 1);
+		CN_NUMBER.put("二", 2);
+		CN_NUMBER.put("三", 3);
+		CN_NUMBER.put("四", 4);
+		CN_NUMBER.put("五", 5);
+		CN_NUMBER.put("六", 6);
+		CN_NUMBER.put("七", 7);
+		CN_NUMBER.put("八", 8);
+		CN_NUMBER.put("九", 9);
+		CN_NUMBER.put("十", 10);
+		CN_NUMBER.put("十一", 11);
+		CN_NUMBER.put("十二", 12);
+		CN_NUMBER.put("十三", 13);
+		CN_NUMBER.put("十四", 14);
+		CN_NUMBER.put("十五", 15);
+		CN_NUMBER.put("十六", 16);
+		CN_NUMBER.put("十七", 17);
+		CN_NUMBER.put("十八", 18);
+		CN_NUMBER.put("十九", 19);
+		CN_NUMBER.put("二十", 20);
+		CN_NUMBER.put("二十一", 21);
+		CN_NUMBER.put("二十二", 22);
+		CN_NUMBER.put("二十三", 23);
+		CN_NUMBER.put("二十四", 24);
+		CN_NUMBER.put("二十五", 25);
+		CN_NUMBER.put("二十六", 26);
+		CN_NUMBER.put("二十七", 27);
+		CN_NUMBER.put("二十八", 28);
+		CN_NUMBER.put("二十九", 29);
+		CN_NUMBER.put("三十", 30);
+		
+	}
 	/**
 	 * 给定阳历格式的日期返回日期实体
 	 * 
