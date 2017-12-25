@@ -31,11 +31,25 @@ public class IdiomSemantic implements Semantic<IdiomBean> {
 		case IdiomIntent.PLAYING:
 			idiomBean = playing(objects, semanticContext);
 			break;
+		case IdiomIntent.REREAD:
+			idiomBean = reread(objects, semanticContext);
+			break;
 		default:
 			idiomBean = new IdiomBean("这句话太复杂了，我还不能理解", null);
 			break;
 		}
 		return idiomBean;
+	}
+
+	private IdiomBean reread(Map<String, String> slots, SemanticContext semanticContext) {
+		String result = "听不懂你说的什么！";
+		IdiomSlot slot = new IdiomSlot(semanticContext.getParams());
+		Integer idiomId = slot.getIdiomId();
+		if (idiomId != null) {
+			Idiom idiom = idiomService.getById(idiomId);
+			result = idiom.getContent();
+		}
+		return new IdiomBean(result, null);
 	}
 
 	private IdiomBean ready(Map<String, String> slots, SemanticContext semanticContext) {

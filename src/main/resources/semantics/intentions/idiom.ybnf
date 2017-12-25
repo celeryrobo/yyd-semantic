@@ -10,4 +10,8 @@ $idiom_content{idiomContent} = $_call_idiom_idiomContent_;
 
 $idiom_case1{intent%playing} = $idiom_content;
 
-$main = $idiom_common | $idiom_case1;
+$idiom_case2_1 = [你] 说的什么 [成语] [呀];
+$idiom_case2_2 = [你] [能] 重复一遍 [吗];
+$idiom_case2{intent%reRead} = $idiom_case2_2 | $idiom_case2_1;
+
+$main = $idiom_common | $idiom_case1 | $idiom_case2;
