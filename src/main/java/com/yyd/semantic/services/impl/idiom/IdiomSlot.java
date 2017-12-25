@@ -24,4 +24,8 @@ public class IdiomSlot {
 	public void setIdiomId(Integer idiomId) {
 		params.put(IDIOM_ID, idiomId.toString());
 	}
+	
+	public void clear() {
+		params.clear();
+	}
 }

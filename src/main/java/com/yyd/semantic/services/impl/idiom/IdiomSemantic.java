@@ -54,6 +54,8 @@ public class IdiomSemantic implements Semantic<IdiomBean> {
 
 	private IdiomBean ready(Map<String, String> slots, SemanticContext semanticContext) {
 		String result = "好啊，你先说一个成语，我来接吧！";
+		IdiomSlot slot = new IdiomSlot(semanticContext.getParams());
+		slot.clear();
 		return new IdiomBean(result, null);
 	}
 

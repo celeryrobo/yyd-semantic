@@ -22,8 +22,9 @@ public class SemanticIntention implements SemanticMatching {
 			String intentionBaseDirname = FileUtils.getResourcePath() + "semantics/intentions/";
 			List<File> files = FileUtils.listFiles(intentionBaseDirname, ".ybnf");
 			for (File file : files) {
-				ICompiler comp = new JCompiler(FileUtils.readFile(file));
 				String service = file.getName().split("\\.")[0];
+				System.out.println("Service Init : " + service);
+				ICompiler comp = new JCompiler(FileUtils.readFile(file));
 				compilerMap.put(service, comp);
 			}
 		} catch (Exception e) {

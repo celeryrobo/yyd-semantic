@@ -12,6 +12,7 @@ public class SemanticScene implements SemanticMatching {
 
 	public static void init() {
 		try {
+			System.out.println("Service Init : common");
 			String semanticFilename = FileUtils.getResourcePath() + "semantics/main.ybnf";
 			compiler = new JCompiler(FileUtils.readFile(semanticFilename));
 		} catch (Exception e) {
