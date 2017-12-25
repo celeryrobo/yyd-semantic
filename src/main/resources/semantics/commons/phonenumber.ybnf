@@ -4,13 +4,13 @@ callable @phonenumber(name),@phonenumber(number);
 $phonenumber_name{name} = $_call_phonenumber_name_;
 $phonenumber_number{number} = $_call_phonenumber_number_;
 
-$prefix1 = 我想知道|告诉我|你告诉我|请告诉我|请你告诉我;
-$phone=电话|电话号码|客服|客户服务|客服热线|服务热线|客户热线;
+$phonenumber_prefix1 = 我想知道|告诉我|你告诉我|请告诉我|请你告诉我;
+$phonenumber_phone=电话|电话号码|客服|客户服务|客服热线|服务热线|客户热线;
 
 
-$phonenumber_case1{intent%queryNumber} = [$prefix1] $phonenumber_name [的] [$phone] [是什么|是多少];
+$phonenumber_case1{intent%queryNumber} = [$phonenumber_prefix1] $phonenumber_name [的] [$phonenumber_phone] [是什么|是多少];
 
-$phonenumber_case2{intent%queryName} = [$prefix1] $phonenumber_number 是 (什么|哪里|哪家) [的]  [$phone] ;
+$phonenumber_case2{intent%queryName} = [$phonenumber_prefix1] $phonenumber_number 是 (什么|哪里|哪家) [的]  [$phonenumber_phone] ;
 
 
 $phonenumber_common=$phonenumber_case1|$phonenumber_case2;

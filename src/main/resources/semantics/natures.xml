@@ -21,17 +21,17 @@
 	<nature>
 		<name>song</name>
 		<desc>一首歌</desc>
-		<service>song</service>
+		<service>music</service>
 	</nature>
 	<nature>
-		<name>songer</name>
+		<name>singer</name>
 		<desc>歌手</desc>
-		<service>song</service>
+		<service>music</service>
 	</nature>
 	<nature>
 		<name>songCategory</name>
-		<desc>歌手</desc>
-		<service>song</service>
+		<desc>歌曲类别</desc>
+		<service>music</service>
 	</nature>
 	<!-- 故事场景 -->
 	<nature>
