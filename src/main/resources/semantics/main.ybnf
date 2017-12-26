@@ -25,7 +25,7 @@ $crosstalk_main{service%crosstalk} = $crosstalk_common;
 $opera_main{service%opera} = $opera_common;
 $joke_main{service%joke} = $joke_common;
 $phonenumber_main{service%phonenumber} = $phonenumber_common;
-$date_main{service%datetime} = $date_common;
+$date_main{service%date} = $date_common;
 $idiom_main{service%idiom} = $idiom_common;
 
 

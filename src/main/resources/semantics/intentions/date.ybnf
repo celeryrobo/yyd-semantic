@@ -2,7 +2,7 @@
 #include original.ybnf;
 #include classpath:semantics/commons/common.ybnf;
 #include classpath:semantics/commons/date.ybnf;
-service datetime;
+service date;
 root $main;
 
 

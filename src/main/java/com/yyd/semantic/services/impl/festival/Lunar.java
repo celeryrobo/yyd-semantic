@@ -926,28 +926,24 @@ public class Lunar {
 	 *            农历日(数字)
 	 * @return 农历日字符串 (例: 廿一)
 	 */
-	private static String getLunarDayString(int lunarDay) {
-		// System.out.println("lunarDay="+lunarDay);
-		// int lunarDay=30;
-		if (lunarDay < 1 || lunarDay > 30) {
-			return "";
-		}
-		int i1 = lunarDay / 10;
-		int i2 = lunarDay % 10;
-		String c1 = Lunar.lunarString2[i1];
-		String c2 = Lunar.lunarString1[i2];
-		if (lunarDay < 11) {
-			c1 = Lunar.lunarString2[0];
-			if (i2 == 0) {
-				c2 = "";
-			}
-		} else {
-			if (i2 == 0) {
-				c2 = "";
-			}
-			c2 = c2 + "日";
-		}
-		System.out.println("c1=" + c1 + "  c2=" + c2);
-		return c1 + c2;
-	}
+	 private static String getLunarDayString(int lunarDay) {  
+	        if (lunarDay < 1 || lunarDay > 30) {  
+	            return "";  
+	        }  
+	        int i1 = lunarDay / 10;  
+	        int i2 = lunarDay % 10;  
+	        String c1 = lunarString2[i1];  
+	        String c2 = lunarString1[i2];
+	        if (lunarDay < 11) {  
+	            c1 = lunarString2[0];  
+	        }  
+	        if (i2 == 0) {
+	        	c2 = lunarString2[1];
+	        	if(lunarDay==20) {
+	        		c2="";
+	        	}
+	        }
+	        System.out.println("c1=" + c1 + "  c2=" + c2);
+	        return c1 + c2;  
+	    }
 }
