@@ -28,6 +28,9 @@ public class IdiomSemantic implements Semantic<IdiomBean> {
 		case IdiomIntent.READY:
 			idiomBean = ready(objects, semanticContext);
 			break;
+		case IdiomIntent.SURRENDER:
+			idiomBean = surrender(objects, semanticContext);
+			break;
 		case IdiomIntent.PLAYING:
 			idiomBean = playing(objects, semanticContext);
 			break;
@@ -41,15 +44,27 @@ public class IdiomSemantic implements Semantic<IdiomBean> {
 		return idiomBean;
 	}
 
+	private IdiomBean surrender(Map<String, String> slots, SemanticContext semanticContext) {
+		String result = "哈哈，我赢了！";
+		IdiomSlot slot = new IdiomSlot(semanticContext.getParams());
+		if (slot.isEmpty()) {
+			result = "咱们还没开始玩呢，你就认输了呀！";
+		} else {
+			slot.clear();
+		}
+		return new IdiomBean(result, null);
+	}
+
 	private IdiomBean reread(Map<String, String> slots, SemanticContext semanticContext) {
 		String result = "听不懂你说的什么！";
 		IdiomSlot slot = new IdiomSlot(semanticContext.getParams());
+		Idiom idiom = null;
 		Integer idiomId = slot.getIdiomId();
 		if (idiomId != null) {
-			Idiom idiom = idiomService.getById(idiomId);
+			idiom = idiomService.getById(idiomId);
 			result = idiom.getContent();
 		}
-		return new IdiomBean(result, null);
+		return new IdiomBean(result, idiom);
 	}
 
 	private IdiomBean ready(Map<String, String> slots, SemanticContext semanticContext) {

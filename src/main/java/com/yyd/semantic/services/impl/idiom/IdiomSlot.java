@@ -25,6 +25,10 @@ public class IdiomSlot {
 		params.put(IDIOM_ID, idiomId.toString());
 	}
 	
+	public boolean isEmpty() {
+		return params.isEmpty();
+	}
+	
 	public void clear() {
 		params.clear();
 	}
