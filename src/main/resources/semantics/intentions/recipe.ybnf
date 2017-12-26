@@ -17,7 +17,6 @@ $recipe_case_4{intent%hasTaste} = $recipe_case_4_1 | $recipe_case_4_2;
 
 $recipe_case_5{intent%hasCookingTime} = [[做 | 烹饪] $recipe_food_alias] [需] 要 [花 [费]] (几分钟 | (多长 [的] 时间));
 
-$recipe_case_5_1 = [这 | $recipe_food_alias] (叫 | 是) (什么 | 啥) [(名 (字 | 称)) | 菜];
-$recipe_case_5{intent%thisRecipeFood} = $recipe_case_5_1;
+$recipe_case_6{intent%thisRecipeFood} = [这 | $recipe_food_alias] (叫 | 是) (什么 | 啥) [(名 (字 | 称)) | 菜];
 
-$main = $recipe_common | $recipe_case_1 | $recipe_case_2 | $recipe_case_3 | $recipe_case_4 | $recipe_case_5;
+$main = $recipe_common | $recipe_case_1 | $recipe_case_2 | $recipe_case_3 | $recipe_case_4 | $recipe_case_5 | $recipe_case_6;
