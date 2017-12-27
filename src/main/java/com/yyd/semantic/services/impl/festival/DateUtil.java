@@ -10,8 +10,7 @@ import com.github.andrewoma.dexx.collection.HashMap;
 import com.github.andrewoma.dexx.collection.Map;
 
 public class DateUtil {
-
-	public static final Map<String, Integer> CN_NUMBER=new HashMap<>();
+	public static final Map<String, Integer> CN_NUMBER = new HashMap<>();
 	static {
 		CN_NUMBER.put("一", 1);
 		CN_NUMBER.put("二", 2);
@@ -43,8 +42,8 @@ public class DateUtil {
 		CN_NUMBER.put("二十八", 28);
 		CN_NUMBER.put("二十九", 29);
 		CN_NUMBER.put("三十", 30);
-		
 	}
+
 	/**
 	 * 给定阳历格式的日期返回日期实体
 	 * 
@@ -53,7 +52,7 @@ public class DateUtil {
 	 * @return DateEntity
 	 */
 	public static DateEntity getDateEntityBySolar(String enDate) {
-		if(enDate==null) {
+		if (enDate == null) {
 			return null;
 		}
 		DateEntity de = new DateEntity();
@@ -135,7 +134,7 @@ public class DateUtil {
 		solarDate.append(sd.solarYear).append("年").append(String.valueOf(sd.solarMonth)).append("月")
 				.append(String.valueOf(sd.solarDay)).append("日");
 
-		return "";
+		return solarDate.toString();
 
 	}
 
@@ -172,40 +171,26 @@ public class DateUtil {
 	/**
 	 * 获取两个日期之间的天数
 	 * 
-	 * @param date1
-	 * @param date2
-	 * @return date1和date2之间间隔的天数
+	 * @param beginDate
+	 * @param endDate
+	 * @return beginDate和endDate之间间隔的天数
 	 */
-	public static int getDifferentDays(Date date1, Date date2) {
-		Calendar cal1 = Calendar.getInstance();
-		cal1.setTime(date1);
-
-		Calendar cal2 = Calendar.getInstance();
-		cal2.setTime(date2);
-		int day1 = cal1.get(Calendar.DAY_OF_YEAR);
-		int day2 = cal2.get(Calendar.DAY_OF_YEAR);
-
-		int year1 = cal1.get(Calendar.YEAR);
-		int year2 = cal2.get(Calendar.YEAR);
-		if (year1 != year2) {
-			// 同一年
-			int timeDistance = 0;
-			for (int i = year1; i < year2; i++) {
-				if (i % 4 == 0 && i % 100 != 0 || i % 400 == 0) {
-					// 闰年
-					timeDistance += 366;
-				} else {
-					// 不是闰年
-					timeDistance += 365;
-				}
-			}
-
-			return timeDistance + (day2 - day1);
-		} else {
-			// 不同年
-			// System.out.println("判断day2 - day1 : " + (day2-day1));
-			return day2 - day1;
-		}
+	
+	public static int getDifferentDays(Date beginDate , Date endDate ) {  
+	    Calendar beginCalendar = Calendar.getInstance();  
+	    beginCalendar.setTime(beginDate);  
+	    Calendar endCalendar = Calendar.getInstance();  
+	    endCalendar.setTime(endDate);  
+	    long beginTime = beginCalendar.getTime().getTime();  
+	    long endTime = endCalendar.getTime().getTime();  
+	    int betweenDays = (int)((endTime - beginTime) / (1000 * 60 * 60 *24));//先算出两时间的毫秒数之差大于一天的天数  
+	      
+	    endCalendar.add(Calendar.DAY_OF_MONTH, -betweenDays);//使endCalendar减去这些天数，将问题转换为两时间的毫秒数之差不足一天的情况  
+	    endCalendar.add(Calendar.DAY_OF_MONTH, -1);//再使endCalendar减去1天  
+	    if(beginCalendar.get(Calendar.DAY_OF_MONTH)==endCalendar.get(Calendar.DAY_OF_MONTH))//比较两日期的DAY_OF_MONTH是否相等  
+	        return betweenDays + 1; //相等说明确实跨天了  
+	    else  
+	        return betweenDays + 0; //不相等说明确实未跨天  
 	}
 
 	/**
@@ -300,7 +285,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * 放回当前阴历年份
+	 * 返回当前阴历年份
 	 * 
 	 * @return
 	 */

@@ -16,8 +16,8 @@ $com_case1{intent%query1} = $day $str1;
 $com_case2{intent%query2} = [$month] $digital_day [日|号] $str1;
 $com_case3{intent%query3} = [$month] $han_digital_day [日|号] $str1;
 
-$com_case4{intent%query4}=[$digital_year] [年] $digital_month 月  $digital_day [日|号]  $str1;
-$com_case5{intent%query5}=([$year]|[农历]|[阴历])$han_digital_month 月  $han_digital_day [日|号]  $str1;
+$com_case4{intent%query4}=([$digital_year] [年]|[$year]) $digital_month 月  $digital_day [日|号]  $str1;
+$com_case5{intent%query5}=([$year]|[农历]|[阴历])$han_digital_month 月  [初]$han_digital_day [日|号]  $str1;
 
 $com_case6{intent%query6}=现在几点了|现在是什么时候|什么时候了|几点了;
 

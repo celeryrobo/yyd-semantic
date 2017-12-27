@@ -1,11 +1,8 @@
 package com.yyd.semantic.services.impl.festival;
 
 public class FestivalIntent {
-	public static final String DATE = "queryFestivalDate";
-	public static final String LONG_TIME = "queryFestivalLongTime";
-	public static final String SOLAR_TERM = "querySolarTerm";
-	public static final String SOLAR_TERM_LONG_TIME = "querySolarTermLongTime";
-	public static final String SOLAR_NAME = "querySolarFestivalName";
-	public static final String LUNAR_NAME = "queryLunarFestivalName";
-
+	public static final String QUERY_FESTIVAL_NAME_BY_SOLAR = "query1";
+	public static final String QUERY_FESTIVAL_NAME_BY_LUNAR = "query2";
+	public static final String QUERY_DATE = "query3";
+	public static final String QUERY_DISTANCE_TIME = "query4";
 }
