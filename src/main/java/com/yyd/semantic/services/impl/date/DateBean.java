@@ -18,5 +18,11 @@ public class DateBean extends AbstractSemanticResult{
 		setOperation(Operation.SPEAK);
 		setParamType(ParamType.T);
 	}
+	public DateBean(String text,int code) {
+		this.text=text;
+		setOperation(Operation.SPEAK);
+		setParamType(ParamType.T);
+		setErrCode(code);
+	}
 
 }

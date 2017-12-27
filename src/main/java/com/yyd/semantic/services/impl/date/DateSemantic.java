@@ -16,7 +16,9 @@ import com.yyd.semantic.services.impl.festival.DateUtil;
 
 @Component
 public class DateSemantic implements Semantic<DateBean> {
-
+	public static final Integer SEMANTIC_SUCCESS = 0;
+	public static final Integer SEMANTIC_FAILURE = 1;
+	public static final String ERRO_ANSWER = "不好意思，我好像没听懂。。。";
 	@Override
 	public DateBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
 		DateBean result = null;
@@ -57,7 +59,7 @@ public class DateSemantic implements Semantic<DateBean> {
 			break;
 		}
 		default:
-			result = new DateBean("我不知道你在说什么");
+			result = new DateBean(ERRO_ANSWER,SEMANTIC_FAILURE);
 			break;
 		}
 		return result;
@@ -82,7 +84,7 @@ public class DateSemantic implements Semantic<DateBean> {
 					.append(de.getWeekDate());
 			return new DateBean(answerText.toString());
 		}
-		return new DateBean("不知道你说什么");
+		return new DateBean(ERRO_ANSWER,SEMANTIC_FAILURE);
 	}
 
 	private DateBean query2(Map<String, String> slots, SemanticContext semanticContext) {
@@ -122,7 +124,7 @@ public class DateSemantic implements Semantic<DateBean> {
 				}
 			}
 		}
-		return new DateBean("不知道你说什么");
+		return new DateBean(ERRO_ANSWER,SEMANTIC_FAILURE);
 	}
 
 	private DateBean query3(Map<String, String> slots, SemanticContext semanticContext) {
@@ -161,7 +163,7 @@ public class DateSemantic implements Semantic<DateBean> {
 				}
 			}
 		}
-		return new DateBean("不知道你说什么");
+		return new DateBean(ERRO_ANSWER,SEMANTIC_FAILURE);
 	}
 
 	private DateBean query4(Map<String, String> slots, SemanticContext semanticContext) {
@@ -217,7 +219,7 @@ public class DateSemantic implements Semantic<DateBean> {
 				}
 			}
 		}
-		return new DateBean("不知道你说什么");
+		return new DateBean(ERRO_ANSWER,SEMANTIC_FAILURE);
 	}
 
 	private DateBean query5(Map<String, String> slots, SemanticContext semanticContext) {
@@ -258,7 +260,7 @@ public class DateSemantic implements Semantic<DateBean> {
 				}
 			}
 		}
-		return new DateBean("不知道你说什么");
+		return new DateBean(ERRO_ANSWER,SEMANTIC_FAILURE);
 	}
 
 	private DateBean query6(Map<String, String> slots, SemanticContext semanticContext) {
@@ -356,7 +358,7 @@ public class DateSemantic implements Semantic<DateBean> {
 				}
 			}
 		}
-		return new DateBean("不知道你在说什么");
+		return new DateBean(ERRO_ANSWER,SEMANTIC_FAILURE);
 	}
 
 	private DateBean query8(Map<String, String> slots, SemanticContext semanticContext) {
@@ -423,6 +425,6 @@ public class DateSemantic implements Semantic<DateBean> {
 				}
 			}
 		}
-		return new DateBean("不知道你在说什么");
+		return new DateBean(ERRO_ANSWER,SEMANTIC_FAILURE);
 	}
 }

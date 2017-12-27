@@ -6,44 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.github.andrewoma.dexx.collection.HashMap;
-import com.github.andrewoma.dexx.collection.Map;
-
 public class DateUtil {
-	public static final Map<String, Integer> CN_NUMBER = new HashMap<>();
-	static {
-		CN_NUMBER.put("一", 1);
-		CN_NUMBER.put("二", 2);
-		CN_NUMBER.put("三", 3);
-		CN_NUMBER.put("四", 4);
-		CN_NUMBER.put("五", 5);
-		CN_NUMBER.put("六", 6);
-		CN_NUMBER.put("七", 7);
-		CN_NUMBER.put("八", 8);
-		CN_NUMBER.put("九", 9);
-		CN_NUMBER.put("十", 10);
-		CN_NUMBER.put("十一", 11);
-		CN_NUMBER.put("十二", 12);
-		CN_NUMBER.put("十三", 13);
-		CN_NUMBER.put("十四", 14);
-		CN_NUMBER.put("十五", 15);
-		CN_NUMBER.put("十六", 16);
-		CN_NUMBER.put("十七", 17);
-		CN_NUMBER.put("十八", 18);
-		CN_NUMBER.put("十九", 19);
-		CN_NUMBER.put("二十", 20);
-		CN_NUMBER.put("二十一", 21);
-		CN_NUMBER.put("二十二", 22);
-		CN_NUMBER.put("二十三", 23);
-		CN_NUMBER.put("二十四", 24);
-		CN_NUMBER.put("二十五", 25);
-		CN_NUMBER.put("二十六", 26);
-		CN_NUMBER.put("二十七", 27);
-		CN_NUMBER.put("二十八", 28);
-		CN_NUMBER.put("二十九", 29);
-		CN_NUMBER.put("三十", 30);
-	}
-
 	/**
 	 * 给定阳历格式的日期返回日期实体
 	 * 
@@ -175,22 +138,22 @@ public class DateUtil {
 	 * @param endDate
 	 * @return beginDate和endDate之间间隔的天数
 	 */
-	
-	public static int getDifferentDays(Date beginDate , Date endDate ) {  
-	    Calendar beginCalendar = Calendar.getInstance();  
-	    beginCalendar.setTime(beginDate);  
-	    Calendar endCalendar = Calendar.getInstance();  
-	    endCalendar.setTime(endDate);  
-	    long beginTime = beginCalendar.getTime().getTime();  
-	    long endTime = endCalendar.getTime().getTime();  
-	    int betweenDays = (int)((endTime - beginTime) / (1000 * 60 * 60 *24));//先算出两时间的毫秒数之差大于一天的天数  
-	      
-	    endCalendar.add(Calendar.DAY_OF_MONTH, -betweenDays);//使endCalendar减去这些天数，将问题转换为两时间的毫秒数之差不足一天的情况  
-	    endCalendar.add(Calendar.DAY_OF_MONTH, -1);//再使endCalendar减去1天  
-	    if(beginCalendar.get(Calendar.DAY_OF_MONTH)==endCalendar.get(Calendar.DAY_OF_MONTH))//比较两日期的DAY_OF_MONTH是否相等  
-	        return betweenDays + 1; //相等说明确实跨天了  
-	    else  
-	        return betweenDays + 0; //不相等说明确实未跨天  
+
+	public static int getDifferentDays(Date beginDate, Date endDate) {
+		Calendar beginCalendar = Calendar.getInstance();
+		beginCalendar.setTime(beginDate);
+		Calendar endCalendar = Calendar.getInstance();
+		endCalendar.setTime(endDate);
+		long beginTime = beginCalendar.getTime().getTime();
+		long endTime = endCalendar.getTime().getTime();
+		int betweenDays = (int) ((endTime - beginTime) / (1000 * 60 * 60 * 24));// 先算出两时间的毫秒数之差大于一天的天数
+
+		endCalendar.add(Calendar.DAY_OF_MONTH, -betweenDays);// 使endCalendar减去这些天数，将问题转换为两时间的毫秒数之差不足一天的情况
+		endCalendar.add(Calendar.DAY_OF_MONTH, -1);// 再使endCalendar减去1天
+		if (beginCalendar.get(Calendar.DAY_OF_MONTH) == endCalendar.get(Calendar.DAY_OF_MONTH))// 比较两日期的DAY_OF_MONTH是否相等
+			return betweenDays + 1; // 相等说明确实跨天了
+		else
+			return betweenDays + 0; // 不相等说明确实未跨天
 	}
 
 	/**
