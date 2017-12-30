@@ -1,0 +1,35 @@
+#YBNF 1.0 utf8;
+
+$carnumber_region_provShort{provShort} = $_call_region_provShort_;
+$carnumber_region_provFull{provFull} =  $_call_region_provFull_;
+$carnumber_region_cityShort{cityShort} = $_call_region_cityShort_;
+$carnumber_region_cityFull{cityFull} = $_call_region_cityFull_;
+$carnumber_region_districtShort{districtShort} = $_call_region_districtShort_;
+$carnumber_region_districtFull{districtFull} =  $_call_region_districtFull_;
+
+$carnumber_char_upper=A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z;
+$carnumber_char_lower=a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z;
+$carnumber_char = $carnumber_char_upper|$carnumber_char_lower;
+$carnumber_prov_name=京|粤|苏|浙|鲁|沪|豫|川|湘|赣|桂|津|鄂|冀|辽|黑|宁|渝|闽|陕|皖|吉|藏|晋|滇|黔|甘|新|琼|青|蒙;
+
+$carnumber_region_carNumber{carNumber} = $carnumber_prov_name $carnumber_char;
+
+
+
+$carnumber_prefix1 = 我想知道|告诉我|你告诉我|请告诉我|请你告诉我|想知道;
+$carnumber_name=车牌|车牌号;
+
+$carnumber_case1{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_provShort|$carnumber_region_provFull)  $carnumber_name [的] [是什么|是多少];
+
+$carnumber_case2{intent%queryNumber} = [$carnumber_prefix1]  [$carnumber_region_provShort|$carnumber_region_provFull]  ($carnumber_region_cityShort|$carnumber_region_cityFull)  $carnumber_name [的] [是什么|是多少];
+
+$carnumber_case3{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_districtShort|$carnumber_region_districtFull)  $carnumber_name [的] [是什么|是多少];
+
+$carnumber_case4{intent%queryNumber} = [$carnumber_prefix1]  [$carnumber_region_cityShort|$carnumber_region_cityFull] ($carnumber_region_districtShort|$carnumber_region_districtFull)  $carnumber_name [的] [是什么|是多少];
+
+$carnumber_case5{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_provShort|$carnumber_region_provFull) ($carnumber_region_cityShort|$carnumber_region_cityFull) ($carnumber_region_districtShort|$carnumber_region_districtFull)  $carnumber_name [的] [是什么|是多少];
+
+$carnumber_case6{intent%queryRegion} = [$carnumber_prefix1]  $carnumber_region_carNumber [是] (哪里|哪家|哪地|哪个地区) [的] $carnumber_name;
+
+
+$carnumber_common=$carnumber_case1|$carnumber_case2|$carnumber_case3|$carnumber_case4|$carnumber_case5|$carnumber_case6;

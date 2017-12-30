@@ -1,0 +1,22 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/postcode.ybnf;
+service postcode;
+root $main;
+
+$postcode_case_1{intent%queryCode} = ($postcode_region_provShort|$postcode_region_provFull) [的]呢;
+
+$postcode_case_2{intent%queryCode} = [$postcode_region_provShort|$postcode_region_provFull]  ($postcode_region_cityShort|$postcode_region_cityFull) [的]呢;
+
+$postcode_case_3{intent%queryCode} = ($postcode_region_districtShort|$postcode_region_districtShort) [的]呢;
+
+$postcode_case_4{intent%queryCode} = [$postcode_region_cityShort|$postcode_region_cityFull] ($postcode_region_districtShort|$postcode_region_districtShort)  [的]呢;
+
+$postcode_case_5{intent%queryCode} = ($postcode_region_provShort|$postcode_region_provFull) ($postcode_region_cityShort|$postcode_region_cityFull) ($postcode_region_districtShort|$postcode_region_districtShort) [的]呢;
+
+$postcode_case_6{intent%queryRegion} =  $postcode_region_postCode [的]呢;
+
+$postcode_main = $postcode_case_1|$postcode_case_2|$postcode_case_3|$postcode_case_4|$postcode_case_5|$postcode_case_6;
+
+$main = $postcode_main|$postcode_common;

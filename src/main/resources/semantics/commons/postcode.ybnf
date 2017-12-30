@@ -1,0 +1,28 @@
+#YBNF 1.0 utf8;
+callable @region(provShort),@region(provFull),@region(cityShort),@region(cityFull),@region(districtShort),@region(districtFull),@region(postCode);
+
+$postcode_region_provShort{provShort} = $_call_region_provShort_;
+$postcode_region_provFull{provFull} =  $_call_region_provFull_;
+$postcode_region_cityShort{cityShort} = $_call_region_cityShort_;
+$postcode_region_cityFull{cityFull} = $_call_region_cityFull_;
+$postcode_region_districtShort{districtShort} = $_call_region_districtShort_;
+$postcode_region_districtFull{districtFull} =  $_call_region_districtFull_;
+$postcode_region_postCode{postCode} = $_call_region_postCode_;
+
+$postcode_prefix1 = 我想知道|告诉我|你告诉我|请告诉我|请你告诉我|想知道;
+$postcode_post=邮编|邮政编码;
+
+$postcode_case1{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_provShort|$postcode_region_provFull)  $postcode_post [的] [是什么|是多少];
+
+$postcode_case2{intent%queryCode} = [$postcode_prefix1]  [$postcode_region_provShort|$postcode_region_provFull]  ($postcode_region_cityShort|$postcode_region_cityFull)  $postcode_post [的] [是什么|是多少];
+
+$postcode_case3{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_districtShort|$postcode_region_districtFull)  $postcode_post [的] [是什么|是多少];
+
+$postcode_case4{intent%queryCode} = [$postcode_prefix1]  [$postcode_region_cityShort|$postcode_region_cityFull] ($postcode_region_districtShort|$postcode_region_districtFull)  $postcode_post [的] [是什么|是多少];
+
+$postcode_case5{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_provShort|$postcode_region_provFull) ($postcode_region_cityShort|$postcode_region_cityFull) ($postcode_region_districtShort|$postcode_region_districtFull)  $postcode_post [的] [是什么|是多少];
+
+$postcode_case6{intent%queryRegion} = [$postcode_prefix1] $postcode_region_postCode 是 (什么|哪里|哪家) [的] $postcode_post;
+
+
+$postcode_common=$postcode_case1|$postcode_case2|$postcode_case3|$postcode_case4|$postcode_case5|$postcode_case6;

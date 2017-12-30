@@ -1,0 +1,28 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/areacode.ybnf;
+
+
+service areacode;
+
+callable @region(provShort),@region(provFull),@region(cityShort),@region(cityFull),@region(districtShort),@region(districtFull);
+
+root $main;
+
+
+$areacode_case_1{intent%queryCode} = ($areacode_region_provShort|$areacode_region_provFull) [的]呢;
+
+$areacode_case_2{intent%queryCode} = [$areacode_region_provShort|$areacode_region_provFull]  ($areacode_region_cityShort|$areacode_region_cityFull) [的]呢;
+
+$areacode_case_3{intent%queryCode} = ($areacode_region_districtShort|$areacode_region_districtShort) [的]呢;
+
+$areacode_case_4{intent%queryCode} = [$areacode_region_cityShort|$areacode_region_cityFull] ($areacode_region_districtShort|$areacode_region_districtShort)  [的]呢;
+
+$areacode_case_5{intent%queryCode} = ($areacode_region_provShort|$areacode_region_provFull) ($areacode_region_cityShort|$areacode_region_cityFull) ($areacode_region_districtShort|$areacode_region_districtShort) [的]呢;
+
+$areacode_case_6{intent%queryRegion} =  $areacode_region_areaCode [的]呢;
+
+$areacode_main = $areacode_case_1|$areacode_case_2|$areacode_case_3|$areacode_case_4|$areacode_case_5|$areacode_case_6;
+
+$main = $areacode_main|$areacode_common;
