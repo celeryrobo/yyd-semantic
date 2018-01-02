@@ -76,6 +76,7 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 		List<District> districts  = null;
 		City targetCity = null;
 		Province targetProv = null;
+		String targetDistrict = null;
 		
 		if(null != districtShort || null != districtFull) {
 			if(null != districtShort) {
@@ -169,6 +170,15 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 					}	
 				}				
 				
+				//TODO:县级区域重名的，只返回第一个区域 
+				if(null != districtList.get(0).getUnit()) {
+					targetDistrict = districtList.get(0).getName() + districtList.get(0).getUnit();
+				}
+				else
+				{
+					targetDistrict = districtList.get(0).getName();
+				}
+				
 				if(tmpCarNumber.size() > 0) {
 					listCarNumber.add(tmpCarNumber.get(0));
 				}
@@ -234,7 +244,14 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 		
 		StringBuilder builder = new StringBuilder();
 		for(int i =0; i < listCarNumber.size();i++) {
-			builder.append(listCarNumber.get(i).getName()+" ");
+			if(targetDistrict != null) {
+				builder.append(targetDistrict+" ");
+			}
+			else
+			{
+				builder.append(listCarNumber.get(i).getName()+" ");
+			}
+			
 			builder.append(listCarNumber.get(i).getCode());
 			
 			if(i != listCarNumber.size()-1) {

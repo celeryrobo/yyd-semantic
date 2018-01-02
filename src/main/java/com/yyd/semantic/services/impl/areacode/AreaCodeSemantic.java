@@ -77,6 +77,7 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 		List<District> districts  = null;
 		City targetCity = null;
 		Province targetProv = null;
+		String targetDistrict = null;
 		
 		if(null != districtShort || null != districtFull) {
 			if(null != districtShort) {
@@ -163,6 +164,14 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 				}	
 				
 				//TODO:县级区域重名的，只返回第一个区域 
+				if(null != districtList.get(0).getUnit()) {
+					targetDistrict = districtList.get(0).getName() + districtList.get(0).getUnit();
+				}
+				else
+				{
+					targetDistrict = districtList.get(0).getName();
+				}
+				
 				if(tmpAreaCode.size() > 0) {
 					listAreaCode.add(tmpAreaCode.get(0));
 				}
@@ -232,13 +241,22 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 		
 		StringBuilder builder = new StringBuilder();
 		for(int i =0; i < listAreaCode.size();i++) {
-			builder.append(listAreaCode.get(i).getName()+" ");
+			if(targetDistrict != null) {
+				builder.append(targetDistrict+" "); //直接显示县级区域名字
+			}
+			else
+			{
+				builder.append(listAreaCode.get(i).getName()+" "); //显示上一级区域名字
+			}
+			
 			builder.append(listAreaCode.get(i).getCode());
 			
 			if(i != listAreaCode.size()-1) {
 				builder.append(",");
 			}
-		}	
+		}
+		
+		
 		if(!listAreaCode.isEmpty()) {
 			result = builder.toString();
 		}

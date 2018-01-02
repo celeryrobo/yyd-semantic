@@ -130,7 +130,7 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 						if(null != targetCity && targetCity.getAreaId() != district.getUpper()) {
 							verifyDistrict = false;
 						}
-						//TODO:省+县级区域情况暂不考虑，语法上也没有这中语法
+						//TODO:省+县级区域情况暂不考虑，语法上也没有这种语法
 					}
 					else if(upperLevel == RegionLevel.LEVEL_PROVINCE)
 					{
@@ -215,7 +215,7 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			
 		}
 				
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder();		
 		for(int i =0; i < listPostCode.size();i++) {
 			builder.append(listPostCode.get(i).getName()+" ");
 			builder.append(listPostCode.get(i).getCode());
@@ -223,7 +223,9 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			if(i != listPostCode.size()-1) {
 				builder.append(",");
 			}
-		}	
+		}
+		
+				
 		if(!listPostCode.isEmpty()) {
 			result = builder.toString();
 		}
