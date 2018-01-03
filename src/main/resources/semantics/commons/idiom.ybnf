@@ -1,5 +1,5 @@
 #YBNF 1.0 utf8;
 
-$idiom_case_1{intent%ready} = [我想 | 我们 ] [来] 玩 [游戏] 成语接龙 [游戏] [吧];
+$idiom_common_case1{intent%ready} = [我想 | 我们 ] [来] 玩 [游戏] 成语接龙 [游戏] [吧];
 
-$idiom_common = $idiom_case_1;
+$idiom_common = $idiom_common_case1;

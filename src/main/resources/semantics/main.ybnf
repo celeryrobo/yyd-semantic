@@ -3,7 +3,6 @@
 #include classpath:semantics/commons/common.ybnf;
 #include classpath:semantics/commons/poetry.ybnf;
 #include classpath:semantics/commons/music.ybnf;
-#include classpath:semantics/commons/recipe.ybnf;
 #include classpath:semantics/commons/story.ybnf;
 #include classpath:semantics/commons/festival.ybnf;
 #include classpath:semantics/commons/crosstalk.ybnf;
@@ -22,7 +21,6 @@ root $main;
 $poetry_main{service%poetry} = $poetry_common;
 $music_main{service%music} = $music_common;
 $story_main{service%story} = $story_common;
-$recipe_main{service%recipe} = $recipe_common;
 $festival_main{service%festival} = $festival_common;
 $crosstalk_main{service%crosstalk} = $crosstalk_common;
 $opera_main{service%opera} = $opera_common;
@@ -34,5 +32,5 @@ $postcode_main{service%postcode} = $postcode_common;
 $areacode_main{service%areacode} = $areacode_common;
 $carnumber_main{service%carnumber} = $carnumber_common;
 
-$main = $poetry_main|$music_main|$recipe_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main|$idiom_main|$date_main|$postcode_main|$areacode_main|$carnumber_main;
+$main = $poetry_main|$music_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main|$idiom_main|$date_main|$postcode_main|$areacode_main|$carnumber_main;
 
