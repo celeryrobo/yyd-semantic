@@ -1,5 +1,6 @@
 package com.yyd.semantic.services.impl.crosstalk;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,12 @@ import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.CommonUtils;
 import com.yyd.semantic.db.bean.crosstalk.Crosstalk;
+import com.yyd.semantic.db.bean.crosstalk.CrosstalkActor;
+import com.yyd.semantic.db.bean.crosstalk.CrosstalkTag;
+import com.yyd.semantic.db.bean.crosstalk.CrosstalkTagType;
 import com.yyd.semantic.db.service.crosstalk.ActorService;
 import com.yyd.semantic.db.service.crosstalk.CrosstalkService;
+import com.yyd.semantic.db.service.crosstalk.CrosstalkTagService;
 import com.yyd.semantic.services.impl.crosstalk.CrosstalkBean;
 
 
@@ -24,6 +29,8 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 	private CrosstalkService crosstalkService;
 	@Autowired
 	private ActorService actorService;
+	@Autowired
+	private CrosstalkTagService crosstalkTagService;
 	
 	
 	@Override
@@ -64,18 +71,68 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 			String actor = slots.get(CrosstalkSlot.CROSSTALK_ACTPR);			
 			String category = slots.get(CrosstalkSlot.CROSSTALK_CATEGORY);
 			
+			CrosstalkActor targetActor = null;
+			if(null != actor) {
+				List<CrosstalkActor> actors = actorService.getByName(actor);
+				if(null != actors && actors.size() > 0) {
+					targetActor = actors.get(0);
+				}
+			}
+			
 			if(null != name) {
 				List<Crosstalk> crosstalks = crosstalkService.getByName(name);
 				if(null == crosstalks || crosstalks.isEmpty()) {
 					result = "我没听过相声" + name;
 				}
+				else if(null != category) {
+					result = "我没听过此类相声";
+				}
 				else
 				{
-					int idx = CommonUtils.randomInt(crosstalks.size());
-					entity = crosstalks.get(idx);
+					List<Crosstalk> crosstalkList = new ArrayList<Crosstalk>();
+					if(null != targetActor) {
+						for(Crosstalk crosstalk:crosstalks) {
+							List<CrosstalkTag> tags = crosstalkTagService.getByResourceId(crosstalk.getId());
+							if(null == tags || tags.size() < 0) {
+								continue;
+							}
+							
+							
+							boolean find = false;
+							for(CrosstalkTag tag:tags) {
+								if(tag.getTagId() == targetActor.getId() && tag.getTagTypeId() == CrosstalkTagType.TAG_CROSSTALK_ACTOR) {
+									find = true;
+									break;
+								}
+							}
+							
+							if(find) {
+								crosstalkList.add(crosstalk);
+							}
+						}
+						
+					}
+					else
+					{
+						crosstalkList.addAll(crosstalks);
+					}
+					
+					if(crosstalkList.size() > 0) {
+						int idx = CommonUtils.randomInt(crosstalks.size());
+						entity = crosstalks.get(idx);
+					}
+					else
+					{
+						result = "我还没听过此相声";
+					}
 				}
 				
 			}			
+			else if(null != category) {		
+				
+				result = "我还没听过此类相声";
+				
+			}
 			else if(null != actor) {
 				List<Integer> acotrIds = actorService.getIdsByName(actor);
 				int idx = CommonUtils.randomInt(acotrIds.size());
@@ -87,10 +144,6 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 					idx = CommonUtils.randomInt(crosstalks.size());
 					entity = crosstalks.get(idx);
 				}
-				
-			}
-			else if(null != category) {
-				result = "我还没听过" + category + "相声";
 			}
 			
 			

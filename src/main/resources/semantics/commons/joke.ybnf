@@ -16,6 +16,6 @@ $joke_case1_5 = [$joke_prefix3] (放|播|播放|来) [[一](个|段)] 笑话  [�
 $joke_case1_6 = [$joke_prefix3] (放|播|播放|来) [[一](个|段)] [$joke_category] [吧|可不可以|[行]吗];
 $joke_case1{intent%queryJoke} = $joke_case1_1|$joke_case1_2|$joke_case1_3|$joke_case1_4|$joke_case1_5|$joke_case1_6;
 
-$joke_case2{intent%queryJoke} = [一个|一段] ($joke_category) 笑话;
+$joke_case2{intent%queryJoke} = [一个|一段] (($joke_category [笑话])| 笑话);
 
 $joke_common=$joke_case1|$joke_case2;

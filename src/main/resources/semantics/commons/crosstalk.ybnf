@@ -25,17 +25,19 @@ $crosstalk_case3_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] $crosstalk_cate
 $crosstalk_case3_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] $crosstalk_category [吧|可不可以|[行]吗];
 $crosstalk_case3{intent%queryCrosstalk} =  $crosstalk_case3_1|$crosstalk_case3_2|$crosstalk_case3_3;
 
-$crosstalk_case4_1 = [$crosstalk_prefix1] (听) [[一](个|段)] $crosstalk_actor [的] 相声  [吧|可不可以|[行]吗];
-$crosstalk_case4_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] $crosstalk_actor [的] 相声  [吧|可不可以|[行]吗];
-$crosstalk_case4_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] $crosstalk_actor [的] 相声  [吧|可不可以|[行]吗];
+$crosstalk_case4_1 = [$crosstalk_prefix1] (听) [[一](个|段)] $crosstalk_actor [的] (相声|$crosstalk_category)  [吧|可不可以|[行]吗];
+$crosstalk_case4_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] $crosstalk_actor [的] (相声|$crosstalk_category)  [吧|可不可以|[行]吗];
+$crosstalk_case4_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] $crosstalk_actor [的] (相声|$crosstalk_category) [吧|可不可以|[行]吗];
 $crosstalk_case4{intent%queryCrosstalk} = $crosstalk_case4_1|$crosstalk_case4_2|$crosstalk_case4_3;
 
-$crosstalk_case5_1 = [$crosstalk_prefix1] (听) [[一](个|段)] $crosstalk_actor [[的][相声]] $crosstalk_name [吧|可不可以|[行]吗];
-$crosstalk_case5_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] $crosstalk_actor [[的][相声]] $crosstalk_name [吧|可不可以|[行]吗];
-$crosstalk_case5_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] $crosstalk_actor [[的][相声]] $crosstalk_name [吧|可不可以|[行]吗];
+$crosstalk_case5_1 = [$crosstalk_prefix1] (听) [[一](个|段)] $crosstalk_actor [[的][相声|$crosstalk_category]] $crosstalk_name [吧|可不可以|[行]吗];
+$crosstalk_case5_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] $crosstalk_actor [[的][相声|$crosstalk_category]] $crosstalk_name [吧|可不可以|[行]吗];
+$crosstalk_case5_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] $crosstalk_actor [[的][相声|$crosstalk_category]] $crosstalk_name [吧|可不可以|[行]吗];
 $crosstalk_case5{intent%queryCrosstalk} = $crosstalk_case5_1|$crosstalk_case5_2|$crosstalk_case5_3;
 
-$crosstalk_case6{intent%queryCrosstalk} = $crosstalk_actor [的] 相声;
+$crosstalk_case6_1 = [一段] $crosstalk_actor 的  (相声|$crosstalk_category) [$crosstalk_name];
+$crosstalk_case6_2 = [一段] (相声|$crosstalk_category)  [$crosstalk_name];
+$crosstalk_case6{intent%queryCrosstalk} = $crosstalk_case6_1|$crosstalk_case6_2;
 
 
 $crosstalk_common=$crosstalk_case1|$crosstalk_case2|$crosstalk_case3|$crosstalk_case4|$crosstalk_case5|$crosstalk_case6;

@@ -1,6 +1,6 @@
 package com.yyd.semantic.db.bean.crosstalk;
 
-public class Actor {
+public class CrosstalkActor {
 	private Integer id;
 	private String name;
 	

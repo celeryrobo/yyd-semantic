@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
-import com.yyd.semantic.db.bean.crosstalk.Actor;
+import com.yyd.semantic.db.bean.crosstalk.CrosstalkActor;
 
 
 
@@ -18,7 +18,14 @@ public interface ActorMapper {
 		@Result(property = "id", column = "id"),
 		@Result(property = "name", column = "name"),
 	})
-	public Actor getById(Integer id);
+	public CrosstalkActor getById(Integer id);
+	
+	@Select("SELECT id, name FROM yyd_resources.tb_crosstalk_actor WHERE name = #{name}")
+	@Results({
+		@Result(property = "id", column = "id"),
+		@Result(property = "name", column = "name"),
+	})
+	public List<CrosstalkActor> getByName(String name);
 	
 	@Select("SELECT id FROM yyd_resources.tb_crosstalk_actor WHERE name = #{name}")
 	public List<Integer> getIdsByName(String name);

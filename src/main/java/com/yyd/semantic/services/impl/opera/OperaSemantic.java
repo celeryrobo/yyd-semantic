@@ -1,5 +1,6 @@
 package com.yyd.semantic.services.impl.opera;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,12 @@ import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.CommonUtils;
 import com.yyd.semantic.db.bean.opera.Opera;
+import com.yyd.semantic.db.bean.opera.OperaCategory;
+import com.yyd.semantic.db.bean.opera.OperaTag;
+import com.yyd.semantic.db.bean.opera.OperaTagType;
 import com.yyd.semantic.db.service.opera.OperaCategoryService;
 import com.yyd.semantic.db.service.opera.OperaService;
+import com.yyd.semantic.db.service.opera.OperaTagService;
 
 
 
@@ -24,6 +29,8 @@ public class OperaSemantic implements Semantic<OperaBean> {
 	private OperaCategoryService categoryService;
 	@Autowired
 	private OperaService operaService;	
+	@Autowired
+	private OperaTagService operaTagService;
 	
 	@Override
 	public OperaBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
@@ -64,16 +71,67 @@ public class OperaSemantic implements Semantic<OperaBean> {
 			String actor = slots.get(OperaSlot.OPERA_ACTOR);			
 			String category = slots.get(OperaSlot.OPERA_CATEGORY);
 			
+			
+			OperaCategory targetCategory = null;			
+			if(null != category) {
+				List<OperaCategory> operaCategory = null;				
+				operaCategory = categoryService.getByName(category);				
+				if(null != operaCategory && operaCategory.size() > 0) {
+					targetCategory = operaCategory.get(0);
+				}
+			}			
+			
+			
 			if(null != name) {
+				List<Opera> operas = null;
+				operas = operaService.getByName(name);
 				//根据戏曲名字查找
-				List<Opera> operas = operaService.getByName(name);
 				if(null == operas || operas.isEmpty()) {
 					result = "我没听过戏曲" + name;
 				}
-				else
+				else if(null != actor){
+					//暂时没有戏曲演员
+					result = "我还没听过" + actor + "的戏曲";
+				}
+				else 
 				{
-					int idx = CommonUtils.randomInt(operas.size());
-					entity = operas.get(idx);
+					List<Opera> listOpera = new ArrayList<Opera>();
+					if(targetCategory != null) {
+						//验证戏曲类型
+						for(Opera opera:operas){
+							List<OperaTag> operaTag =  operaTagService.getByResourceId(opera.getId());	
+							if(null == operaTag || operaTag.size() <= 0) {
+								continue;
+							}
+							
+							boolean find = false;
+							for(OperaTag tag:operaTag) {
+								if(tag.getTagId() == targetCategory.getId() && tag.getTagTypeId() == OperaTagType.TAG_OPERA_CATEGORY) {
+									find = true;									
+									break;
+								}
+							}
+							
+							if(find) {
+								listOpera.add(opera);
+							}
+							
+						}
+						
+					}
+					else
+					{
+						listOpera.addAll(operas);
+					}
+					
+					if(listOpera.size() > 0) {
+						int idx = CommonUtils.randomInt(listOpera.size());
+						entity = listOpera.get(idx);
+					}
+					else
+					{
+						result = "我还没听过此类戏曲";
+					}
 				}
 			}
 			else if(null != actor) {
@@ -81,8 +139,16 @@ public class OperaSemantic implements Semantic<OperaBean> {
 				result = "我还没听过" + actor + "的戏曲";
 			}
 			else if(null != category) {
-				//根据类别查找
-				List<Opera> operas = operaService.findByCategoryName(category);
+				//根据类别查找	
+				List<Opera> operas = null;
+				if(null != targetCategory) {
+					operas = operaService.findByCategoryId(targetCategory.getId());
+				}
+				else
+				{
+					operas = operaService.findByCategoryName(category);
+				}
+				
 				if(null == operas || operas.isEmpty() ) {
 					result = "我还没听过这个类型的戏曲";
 				}
