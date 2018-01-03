@@ -40,9 +40,9 @@ $music_case5_2 = [$music_prefix2] (唱) [[一](个|首)]  $song_category [的] $
 $music_case5_3 = [$music_prefix3] (放|播|播放|来) [[一](个|首)]  $song_category [的] $song_name [吧|可不可以|给我听[吗|啊]|给我|[行]吗|嘛];
 $music_case5{intent%querySong} = $music_case5_1|$music_case5_2|$music_case5_3;
 
-$music_case6_1 = [$music_prefix1] (听) [[一](个|首)]  $song_category [吧|可不可以|给我听[吗|啊]|给我|[行]吗|嘛];
-$music_case6_2 = [$music_prefix2] (唱) [[一](个|首)]  $song_category [吧|可不可以|给我听[吗|啊]|给我|[行]吗|嘛];
-$music_case6_3 = [$music_prefix3] (放|播|播放|来) [[一](个|首)]  $song_category [吧|可不可以|给我听[吗|啊]|给我|[行]吗|嘛];
+$music_case6_1 = [$music_prefix1] (听) [[一](个|首)]  $song_category [音乐|歌曲|歌[儿]] [吧|可不可以|给我听[吗|啊]|给我|[行]吗|嘛];
+$music_case6_2 = [$music_prefix2] (唱) [[一](个|首)]  $song_category [音乐|歌曲|歌[儿]] [吧|可不可以|给我听[吗|啊]|给我|[行]吗|嘛];
+$music_case6_3 = [$music_prefix3] (放|播|播放|来) [[一](个|首)]  $song_category [音乐|歌曲|歌[儿]] [吧|可不可以|给我听[吗|啊]|给我|[行]吗|嘛];
 $music_case6{intent%querySong} = $music_case6_1|$music_case6_2|$music_case6_3;
 
 $music_case7{intent%querySong} = [音乐|歌曲] $song_name;

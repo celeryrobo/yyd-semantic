@@ -19,17 +19,17 @@ $carnumber_region_carNumber{carNumber} = $carnumber_prov_name $carnumber_char;
 $carnumber_prefix1 = 我想知道|告诉我|你告诉我|请告诉我|请你告诉我|想知道;
 $carnumber_name=车牌|车牌号;
 
-$carnumber_case1{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_provShort|$carnumber_region_provFull)  $carnumber_name [的] [是什么|是多少];
+$carnumber_case1{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_provShort|$carnumber_region_provFull)  [的] $carnumber_name  [是什么|是多少];
 
-$carnumber_case2{intent%queryNumber} = [$carnumber_prefix1]  [$carnumber_region_provShort|$carnumber_region_provFull]  ($carnumber_region_cityShort|$carnumber_region_cityFull)  $carnumber_name [的] [是什么|是多少];
+$carnumber_case2{intent%queryNumber} = [$carnumber_prefix1]  [$carnumber_region_provShort|$carnumber_region_provFull]  ($carnumber_region_cityShort|$carnumber_region_cityFull)  [的] $carnumber_name  [是什么|是多少];
 
-$carnumber_case3{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_districtShort|$carnumber_region_districtFull)  $carnumber_name [的] [是什么|是多少];
+$carnumber_case3{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_districtShort|$carnumber_region_districtFull)  [的] $carnumber_name  [是什么|是多少];
 
-$carnumber_case4{intent%queryNumber} = [$carnumber_prefix1]  [$carnumber_region_cityShort|$carnumber_region_cityFull] ($carnumber_region_districtShort|$carnumber_region_districtFull)  $carnumber_name [的] [是什么|是多少];
+$carnumber_case4{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_provShort|$carnumber_region_provFull)  ($carnumber_region_districtShort|$carnumber_region_districtFull)  [的] $carnumber_name  [是什么|是多少];
 
-$carnumber_case5{intent%queryNumber} = [$carnumber_prefix1]  ($carnumber_region_provShort|$carnumber_region_provFull) ($carnumber_region_cityShort|$carnumber_region_cityFull) ($carnumber_region_districtShort|$carnumber_region_districtFull)  $carnumber_name [的] [是什么|是多少];
+$carnumber_case5{intent%queryNumber} = [$carnumber_prefix1]  [$carnumber_region_provShort|$carnumber_region_provFull]  ($carnumber_region_cityShort|$carnumber_region_cityFull) ($carnumber_region_districtShort|$carnumber_region_districtFull)  [的] $carnumber_name [是什么|是多少];
 
 $carnumber_case6{intent%queryRegion} = [$carnumber_prefix1]  $carnumber_region_carNumber [是] (哪里|哪家|哪地|哪个地区) [的] $carnumber_name;
 
 
-$carnumber_common=$carnumber_case1|$carnumber_case2|$carnumber_case3|$carnumber_case4|$carnumber_case5|$carnumber_case6;
+$carnumber_common=$carnumber_case1|$carnumber_case2|$carnumber_case3|$carnumber_case5|$carnumber_case4|$carnumber_case6;

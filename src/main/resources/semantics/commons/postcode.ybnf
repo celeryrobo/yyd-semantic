@@ -12,17 +12,17 @@ $postcode_region_postCode{postCode} = $_call_region_postCode_;
 $postcode_prefix1 = 我想知道|告诉我|你告诉我|请告诉我|请你告诉我|想知道;
 $postcode_post=邮编|邮政编码;
 
-$postcode_case1{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_provShort|$postcode_region_provFull)  $postcode_post [的] [是什么|是多少];
+$postcode_case1{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_provShort|$postcode_region_provFull)  [的] $postcode_post  [是什么|是多少];
 
-$postcode_case2{intent%queryCode} = [$postcode_prefix1]  [$postcode_region_provShort|$postcode_region_provFull]  ($postcode_region_cityShort|$postcode_region_cityFull)  $postcode_post [的] [是什么|是多少];
+$postcode_case2{intent%queryCode} = [$postcode_prefix1]  [$postcode_region_provShort|$postcode_region_provFull]  ($postcode_region_cityShort|$postcode_region_cityFull)  [的] $postcode_post  [是什么|是多少];
 
-$postcode_case3{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_districtShort|$postcode_region_districtFull)  $postcode_post [的] [是什么|是多少];
+$postcode_case3{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_districtShort|$postcode_region_districtFull)  [的] $postcode_post  [是什么|是多少];
 
-$postcode_case4{intent%queryCode} = [$postcode_prefix1]  [$postcode_region_cityShort|$postcode_region_cityFull] ($postcode_region_districtShort|$postcode_region_districtFull)  $postcode_post [的] [是什么|是多少];
+$postcode_case4{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_provShort|$postcode_region_provFull)  ($postcode_region_districtShort|$postcode_region_districtFull)  [的] $postcode_post  [是什么|是多少];
 
-$postcode_case5{intent%queryCode} = [$postcode_prefix1]  ($postcode_region_provShort|$postcode_region_provFull) ($postcode_region_cityShort|$postcode_region_cityFull) ($postcode_region_districtShort|$postcode_region_districtFull)  $postcode_post [的] [是什么|是多少];
+$postcode_case5{intent%queryCode} = [$postcode_prefix1]  [$postcode_region_provShort|$postcode_region_provFull]  ($postcode_region_cityShort|$postcode_region_cityFull) ($postcode_region_districtShort|$postcode_region_districtFull)  [的] $postcode_post  [是什么|是多少];
 
 $postcode_case6{intent%queryRegion} = [$postcode_prefix1] $postcode_region_postCode 是 (什么|哪里|哪家) [的] $postcode_post;
 
 
-$postcode_common=$postcode_case1|$postcode_case2|$postcode_case3|$postcode_case4|$postcode_case5|$postcode_case6;
+$postcode_common=$postcode_case1|$postcode_case2|$postcode_case3|$postcode_case5|$postcode_case4|$postcode_case6;

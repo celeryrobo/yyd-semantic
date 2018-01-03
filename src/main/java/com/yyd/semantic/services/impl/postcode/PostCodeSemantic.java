@@ -130,7 +130,19 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 						if(null != targetCity && targetCity.getAreaId() != district.getUpper()) {
 							verifyDistrict = false;
 						}
-						//TODO:省+县级区域情况暂不考虑，语法上也没有这种语法
+						//省+县级区域情况
+						if(null == targetCity && null != targetProv) {
+							List<City> targetCitys = cityService.getByAreaId(district.getUpper());
+							if(null != targetCitys && targetCitys.size() > 0) {
+								City tmpCity = null;
+								//地级市不会重名，因此只取第一个
+								tmpCity = targetCitys.get(0);
+								if(tmpCity.getUpper() != targetProv.getAreaId()) {
+									verifyDistrict = false;
+								}
+							}
+							
+						}
 					}
 					else if(upperLevel == RegionLevel.LEVEL_PROVINCE)
 					{
@@ -153,16 +165,60 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			}
 			else
 			{
-				//只返回第一个县级区域邮编
 				List<PostCode> tmpPostCode = new ArrayList<PostCode>();
 				for(District area:districtList) {
 					List<PostCode> list = postService.getByAreaIdAndLevel(area.getAreaId(), RegionLevel.LEVEL_DISTRICT);
 					tmpPostCode.addAll(list);
 				}	
 				
-				//TODO:县级区域重名的，只返回第一个区域 
+				//县级区域要加上它的上一级区域名字
 				if(tmpPostCode.size() > 0) {
-					listPostCode.add(tmpPostCode.get(0));
+					for(int i =0;i < tmpPostCode.size();i++) {
+						Province tmpProv = targetProv;
+						City tmpCity = targetCity;
+						PostCode area = tmpPostCode.get(i);
+						String upperName = null;
+						
+						if(area.getUpperLevel() == RegionLevel.LEVEL_PROVINCE) {
+							List<Province> provList = provService.getByAreaId(area.getUpper());
+							if(null != provList && provList.size() >0) {
+								tmpProv = provList.get(0);
+								
+								if(null != tmpProv.getUnit()) {
+									upperName = tmpProv.getName() + tmpProv.getUnit();
+								}
+								else
+								{
+									upperName = tmpProv.getName();
+								}
+							}
+							
+							
+						}
+						else if(area.getUpperLevel() == RegionLevel.LEVEL_CITY)
+						{							
+							List<City> cityList = cityService.getByAreaId(area.getUpper());
+							if(null != cityList && cityList.size() >0) {
+								tmpCity = cityList.get(0);
+								if(null != tmpCity.getUnit()) {
+									upperName = tmpCity.getName() + tmpCity.getUnit();
+								}
+								else
+								{
+									upperName = tmpCity.getName();
+								}
+							}							
+							
+						}
+						
+						if(null != upperName) {
+							area.setName(upperName+area.getName());
+						}
+												
+						listPostCode.add(area);
+					}		
+					
+					
 				}
 			}
 		}
@@ -289,8 +345,51 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			}
 		}
 		else if(!districtPostCode.isEmpty()) {
+			//县级区域加上上一级区域名
 			for(PostCode code:districtPostCode) {
-				areas.add(code.getName());
+				String upperName = null;
+				Province tmpProv = null;
+				City tmpCity = null;	
+				if(code.getUpperLevel() == RegionLevel.LEVEL_PROVINCE) {
+					List<Province> provList = provService.getByAreaId(code.getUpper());
+					if(null != provList && provList.size() >0) {
+						tmpProv = provList.get(0);
+						
+						if(null != tmpProv.getUnit()) {
+							upperName = tmpProv.getName() + tmpProv.getUnit();
+						}
+						else
+						{
+							upperName = tmpProv.getName();
+						}
+					}							
+					
+				}
+				else if(code.getUpperLevel() == RegionLevel.LEVEL_CITY)
+				{
+					List<City> cityList = cityService.getByAreaId(code.getUpper());
+					if(null != cityList && cityList.size() >0) {
+						tmpCity = cityList.get(0);
+						if(null != tmpCity.getUnit()) {
+							upperName = tmpCity.getName() + tmpCity.getUnit();
+						}
+						else
+						{
+							upperName = tmpCity.getName();
+						}
+					}								
+					
+				}
+				
+				
+				if(null !=upperName) {
+					areas.add(upperName+code.getName());
+				}
+				else
+				{
+					areas.add(code.getName());
+				}				
+				
 			}
 		}
 		

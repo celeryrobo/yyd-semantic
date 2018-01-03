@@ -15,14 +15,14 @@ $carnumber_case_1{intent%queryNumber} = ($carnumber_region_provShort|$carnumber_
 
 $carnumber_case_2{intent%queryNumber} = [$carnumber_region_provShort|$carnumber_region_provFull]  ($carnumber_region_cityShort|$carnumber_region_cityFull) [的]呢;
 
-$carnumber_case_3{intent%queryNumber} = ($carnumber_region_districtShort|$carnumber_region_districtShort) [的]呢;
+$carnumber_case_3{intent%queryNumber} = ($carnumber_region_districtShort|$carnumber_region_districtFull) [的]呢;
 
-$carnumber_case_4{intent%queryNumber} = [$carnumber_region_cityShort|$carnumber_region_cityFull] ($carnumber_region_districtShort|$carnumber_region_districtShort)  [的]呢;
+$carnumber_case_4{intent%queryNumber} = ($carnumber_region_provShort|$carnumber_region_provFull) ($carnumber_region_districtShort|$carnumber_region_districtFull)  [的]呢;
 
-$carnumber_case_5{intent%queryNumber} = ($carnumber_region_provShort|$carnumber_region_provFull) ($carnumber_region_cityShort|$carnumber_region_cityFull) ($carnumber_region_districtShort|$carnumber_region_districtShort) [的]呢;
+$carnumber_case_5{intent%queryNumber} = [$carnumber_region_provShort|$carnumber_region_provFull] ($carnumber_region_cityShort|$carnumber_region_cityFull) ($carnumber_region_districtShort|$carnumber_region_districtFull) [的]呢;
 
 $carnumber_case_6{intent%queryRegion} =  $carnumber_region_carNumber [的]呢;
 
-$carnumber_main = $carnumber_case_1|$carnumber_case_2|$carnumber_case_3|$carnumber_case_4|$carnumber_case_5|$carnumber_case_6;
+$carnumber_main = $carnumber_case_1|$carnumber_case_2|$carnumber_case_3|$carnumber_case_5|$carnumber_case_4|$carnumber_case_6;
 
 $main = $carnumber_main|$carnumber_common;

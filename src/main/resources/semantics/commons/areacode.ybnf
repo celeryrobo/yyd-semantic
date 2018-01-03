@@ -12,17 +12,17 @@ $areacode_region_areaCode{areaCode} = $_call_region_areaCode_;
 $areacode_prefix1 = 我想知道|告诉我|你告诉我|请告诉我|请你告诉我|想知道;
 $areacode_name=区号;
 
-$areacode_case1{intent%queryCode} = [$areacode_prefix1]  ($areacode_region_provShort|$areacode_region_provFull)  $areacode_name [的] [是什么|是多少];
+$areacode_case1{intent%queryCode} = [$areacode_prefix1]  ($areacode_region_provShort|$areacode_region_provFull)  [的] $areacode_name  [是什么|是多少];
 
-$areacode_case2{intent%queryCode} = [$areacode_prefix1]  [$areacode_region_provShort|$areacode_region_provFull]  ($areacode_region_cityShort|$areacode_region_cityFull)  $areacode_name [的] [是什么|是多少];
+$areacode_case2{intent%queryCode} = [$areacode_prefix1]  [$areacode_region_provShort|$areacode_region_provFull]  ($areacode_region_cityShort|$areacode_region_cityFull)  [的] $areacode_name  [是什么|是多少];
 
-$areacode_case3{intent%queryCode} = [$areacode_prefix1]  ($areacode_region_districtShort|$areacode_region_districtFull)  $areacode_name [的] [是什么|是多少];
+$areacode_case3{intent%queryCode} = [$areacode_prefix1]  ($areacode_region_districtShort|$areacode_region_districtFull)  [的] $areacode_name  [是什么|是多少];
 
-$areacode_case4{intent%queryCode} = [$areacode_prefix1]  [$areacode_region_cityShort|$areacode_region_cityFull] ($areacode_region_districtShort|$areacode_region_districtFull)  $areacode_name [的] [是什么|是多少];
+$areacode_case4{intent%queryCode} = [$areacode_prefix1]  ($areacode_region_provShort|$areacode_region_provFull) ($areacode_region_districtShort|$areacode_region_districtFull)  [的] $areacode_name  [是什么|是多少];
 
-$areacode_case5{intent%queryCode} = [$areacode_prefix1]  ($areacode_region_provShort|$areacode_region_provFull) ($areacode_region_cityShort|$areacode_region_cityFull) ($areacode_region_districtShort|$areacode_region_districtFull)  $areacode_name [的] [是什么|是多少];
+$areacode_case5{intent%queryCode} = [$areacode_prefix1]  [$areacode_region_provShort|$areacode_region_provFull] ($areacode_region_cityShort|$areacode_region_cityFull) ($areacode_region_districtShort|$areacode_region_districtFull)  [的] $areacode_name  [是什么|是多少];
 
 $areacode_case6{intent%queryRegion} = [$areacode_prefix1] $areacode_region_areaCode 是 (什么|哪里|哪家) [的] $areacode_name;
 
 
-$areacode_common=$areacode_case1|$areacode_case2|$areacode_case3|$areacode_case4|$areacode_case5|$areacode_case6;
+$areacode_common=$areacode_case1|$areacode_case2|$areacode_case3|$areacode_case5|$areacode_case4|$areacode_case6;

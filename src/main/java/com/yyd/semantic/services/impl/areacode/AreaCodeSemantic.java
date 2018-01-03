@@ -113,7 +113,6 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 		}
 		
 		
-		
 		if(null != districts) {
 			//对于县级区域一律根据它的上一级查找区号，即根据地市级区域和省级区域查找区号
 			//1.地名校验
@@ -131,15 +130,28 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 					int upperLevel = district.getUpperLevel();
 					if(upperLevel == RegionLevel.LEVEL_CITY) {
 						if(null != targetCity && targetCity.getAreaId() != district.getUpper()) {
-							verifyDistrict = false;
+							verifyDistrict = false;							
 						}
-						//TODO:省+县级区域情况暂不考虑，语法上也没有这中语法
+						
+						//省+县级区域情况
+						if(null == targetCity && null != targetProv) {
+							List<City> targetCitys = cityService.getByAreaId(district.getUpper());
+							if(null != targetCitys && targetCitys.size() > 0) {
+								City tmpCity = null;
+								//地级市不会重名，因此只取第一个
+								tmpCity = targetCitys.get(0);
+								if(tmpCity.getUpper() != targetProv.getAreaId()) {
+									verifyDistrict = false;								
+								}
+							}
+							
+						}
 					}
 					else if(upperLevel == RegionLevel.LEVEL_PROVINCE)
 					{
 						//省直辖的县级区域，中间不能再出现地级区域
 						if(null != targetProv && targetProv.getAreaId() != district.getUpper()) {
-							verifyDistrict = false;
+							verifyDistrict = false;							
 						}
 					}
 					
@@ -150,7 +162,7 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 				
 			}
 			
-			
+			//县级区域返回时要加上它的上一级区域
 			if(districtList.isEmpty()) {
 				result = "我还不知道该地区号";
 			}
@@ -163,7 +175,7 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 					tmpAreaCode.addAll(list);
 				}	
 				
-				//TODO:县级区域重名的，只返回第一个区域 
+				
 				if(null != districtList.get(0).getUnit()) {
 					targetDistrict = districtList.get(0).getName() + districtList.get(0).getUnit();
 				}
@@ -173,8 +185,16 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 				}
 				
 				if(tmpAreaCode.size() > 0) {
-					listAreaCode.add(tmpAreaCode.get(0));
+					for(int i =0;i < tmpAreaCode.size();i++) {	
+						AreaCode area = tmpAreaCode.get(i);
+						//县级区域，要加上上一级区域名字
+						area.setName(area.getName()+targetDistrict);						
+						listAreaCode.add(area);
+					}
+					
 				}
+				
+				
 			}
 		}
 		else if(null !=citys) {			
@@ -240,15 +260,8 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 		}
 		
 		StringBuilder builder = new StringBuilder();
-		for(int i =0; i < listAreaCode.size();i++) {
-			if(targetDistrict != null) {
-				builder.append(targetDistrict+" "); //直接显示县级区域名字
-			}
-			else
-			{
-				builder.append(listAreaCode.get(i).getName()+" "); //显示上一级区域名字
-			}
-			
+		for(int i =0; i < listAreaCode.size();i++) {			
+			builder.append(listAreaCode.get(i).getName()+" "); //显示上一级区域名字			
 			builder.append(listAreaCode.get(i).getCode());
 			
 			if(i != listAreaCode.size()-1) {
@@ -319,8 +332,49 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 			}
 		}
 		else if(!districtPostCode.isEmpty()) {
-			for(AreaCode code:districtPostCode) {
-				areas.add(code.getName());
+			for(AreaCode code:districtPostCode) {				
+				String upperName = null;
+				Province tmpProv = null;
+				City tmpCity = null;	
+				if(code.getUpperLevel() == RegionLevel.LEVEL_PROVINCE) {
+					List<Province> provList = provService.getByAreaId(code.getUpper());
+					if(null != provList && provList.size() >0) {
+						tmpProv = provList.get(0);
+						
+						if(null != tmpProv.getUnit()) {
+							upperName = tmpProv.getName() + tmpProv.getUnit();
+						}
+						else
+						{
+							upperName = tmpProv.getName();
+						}
+					}							
+					
+				}
+				else if(code.getUpperLevel() == RegionLevel.LEVEL_CITY)
+				{
+					List<City> cityList = cityService.getByAreaId(code.getUpper());
+					if(null != cityList && cityList.size() >0) {
+						tmpCity = cityList.get(0);
+						if(null != tmpCity.getUnit()) {
+							upperName = tmpCity.getName() + tmpCity.getUnit();
+						}
+						else
+						{
+							upperName = tmpCity.getName();
+						}
+					}								
+					
+				}
+				
+				if(null != upperName) {
+					areas.add(upperName+code.getName());
+				}
+				else
+				{
+					areas.add(code.getName());
+				}
+				
 			}
 		}
 		

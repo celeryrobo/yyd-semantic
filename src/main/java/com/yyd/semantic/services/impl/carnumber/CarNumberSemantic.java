@@ -131,13 +131,26 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 						if(null != targetCity && targetCity.getAreaId() != district.getUpper()) {
 							verifyDistrict = false;
 						}
-						//TODO:省+县级区域情况暂不考虑，语法上也没有这中语法
+						
+						//省+县级区域情况
+						if(null == targetCity && null != targetProv) {
+							List<City> targetCitys = cityService.getByAreaId(district.getUpper());
+							if(null != targetCitys && targetCitys.size() > 0) {
+								City tmpCity = null;
+								//地级市不会重名，因此只取第一个
+								tmpCity = targetCitys.get(0);
+								if(tmpCity.getUpper() != targetProv.getAreaId()) {
+									verifyDistrict = false;									
+								}
+							}
+							
+						}
 					}
 					else if(upperLevel == RegionLevel.LEVEL_PROVINCE)
 					{
 						//省直辖的县级区域，中间不能再出现地级区域
 						if(null != targetProv && targetProv.getAreaId() != district.getUpper()) {
-							verifyDistrict = false;
+							verifyDistrict = false;							
 						}
 					}
 					
@@ -155,7 +168,7 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 			}
 			else
 			{
-				//2.先根据级级区域查找车牌
+				//2.先根据县级区域查找车牌
 				List<CarNumber> tmpCarNumber = new ArrayList<CarNumber>();
 				for(District area:districtList) {
 					List<CarNumber> list = carNumberService.getByAreaIdAndLevel(area.getAreaId(), RegionLevel.LEVEL_DISTRICT);
@@ -179,8 +192,57 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 					targetDistrict = districtList.get(0).getName();
 				}
 				
+				//县级区域要加上它的上一级区域名字
 				if(tmpCarNumber.size() > 0) {
-					listCarNumber.add(tmpCarNumber.get(0));
+					for(int i=0; i < tmpCarNumber.size();i++) {
+						CarNumber area = tmpCarNumber.get(i);
+						if(area.getLevel() == RegionLevel.LEVEL_PROVINCE || area.getLevel() == RegionLevel.LEVEL_CITY) {
+							area.setName(area.getName()+targetDistrict);
+						}
+						else if(area.getLevel() ==RegionLevel.LEVEL_DISTRICT) {
+							Province tmpProv = targetProv;
+							City tmpCity = targetCity;							
+							String upperName = null;
+							
+							if(area.getUpperLevel() == RegionLevel.LEVEL_PROVINCE) {
+								List<Province> provList = provService.getByAreaId(area.getUpper());
+								if(null != provList && provList.size() >0) {
+									tmpProv = provList.get(0);
+									
+									if(null != tmpProv.getUnit()) {
+										upperName = tmpProv.getName() + tmpProv.getUnit();
+									}
+									else
+									{
+										upperName = tmpProv.getName();
+									}
+								}							
+								
+							}
+							else if(area.getUpperLevel() == RegionLevel.LEVEL_CITY)
+							{
+								List<City> cityList = cityService.getByAreaId(area.getUpper());
+								if(null != cityList && cityList.size() >0) {
+									tmpCity = cityList.get(0);
+									if(null != tmpCity.getUnit()) {
+										upperName = tmpCity.getName() + tmpCity.getUnit();
+									}
+									else
+									{
+										upperName = tmpCity.getName();
+									}
+								}								
+								
+							}
+							
+							if(null != upperName) {
+								area.setName(upperName+area.getName());
+							}
+						}
+						
+						listCarNumber.add(area);
+					}
+					
 				}
 			}
 		}
@@ -243,14 +305,8 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 		}
 		
 		StringBuilder builder = new StringBuilder();
-		for(int i =0; i < listCarNumber.size();i++) {
-			if(targetDistrict != null) {
-				builder.append(targetDistrict+" ");
-			}
-			else
-			{
-				builder.append(listCarNumber.get(i).getName()+" ");
-			}
+		for(int i =0; i < listCarNumber.size();i++) {			
+			builder.append(listCarNumber.get(i).getName()+" ");			
 			
 			builder.append(listCarNumber.get(i).getCode());
 			
@@ -318,8 +374,49 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 		
 		//特殊处理：海南省有些县级区域与地级区域车牌号相同，但这些区域没有隶属关系
 		if(!districtPostCode.isEmpty()) {
-			for(CarNumber code:districtPostCode) {
-				areas.add(code.getName());
+			//县级区域加上上一级区域名
+			for(CarNumber code:districtPostCode) {				
+				String upperName = null;
+				Province tmpProv = null;
+				City tmpCity = null;	
+				if(code.getUpperLevel() == RegionLevel.LEVEL_PROVINCE) {
+					List<Province> provList = provService.getByAreaId(code.getUpper());
+					if(null != provList && provList.size() >0) {
+						tmpProv = provList.get(0);
+						
+						if(null != tmpProv.getUnit()) {
+							upperName = tmpProv.getName() + tmpProv.getUnit();
+						}
+						else
+						{
+							upperName = tmpProv.getName();
+						}
+					}							
+					
+				}
+				else if(code.getUpperLevel() == RegionLevel.LEVEL_CITY)
+				{
+					List<City> cityList = cityService.getByAreaId(code.getUpper());
+					if(null != cityList && cityList.size() >0) {
+						tmpCity = cityList.get(0);
+						if(null != tmpCity.getUnit()) {
+							upperName = tmpCity.getName() + tmpCity.getUnit();
+						}
+						else
+						{
+							upperName = tmpCity.getName();
+						}
+					}								
+					
+				}
+				
+				if(null != upperName) {
+					areas.add(upperName+code.getName());
+				}
+				else
+				{
+					areas.add(code.getName());
+				}
 			}
 		}
 		
