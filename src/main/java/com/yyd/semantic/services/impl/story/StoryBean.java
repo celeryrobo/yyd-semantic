@@ -16,6 +16,12 @@ public class StoryBean extends AbstractSemanticResult {
 		setParamType(ParamType.U);
 	}
 
+	public StoryBean(String text, int errCode, String errMsg) {
+		this.text = text;
+		setErrCode(errCode);
+		setErrMsg(errMsg);
+	}
+
 	public String getText() {
 		return text;
 	}

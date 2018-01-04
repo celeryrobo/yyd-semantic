@@ -1,15 +1,12 @@
 #YBNF 1.0 utf8;
-callable @festival(FestivalName),@festival(SolarTerm);
-
-$fes_name{festivalName} = $_call_festival_FestivalName_;
-$fes_term{solarTerm} = $_call_festival_SolarTerm_;
 
 $fes_year{specificYear} = 今年|明年|后年|大后年|去年|前年|大前年;
 $fes_day{specificDay} = 今天|明天|后天|大后天|昨天|前天|大前天;
 $fes_month{specificMonth} = 这个月|下个月|上个月;
 $fes_str1=[是|有]什么节日;
-$fes_str2=是什么时候|是哪天|是哪一天;
+$fes_str2=[是](什么时候|哪天|哪一天);
 $fes_str3=还有多久|还需要多久|还有多长时间|还有多少天|还有几天;
+$fes_str4=你知道|能不能告诉我|可以告诉我|告诉我|知道|你知不知道;
 
 $fes_digital_year{digitalYear}=$_yyd_digital_<4>;
 $fes_digital_month{digitalMonth}=$_yyd_digital_<1,2>;
@@ -20,8 +17,4 @@ $fes_han_digital_day{hanDigitalDay}=$han_digital<1,2>;
 $com_fes_case1{intent%query1} = [阳历] $fes_digital_month (月|月份) [$fes_digital_day [日|号]] $fes_str1;
 $com_fes_case2{intent%query2} = [农历 |阴历] $fes_han_digital_month (月|月份) [($fes_han_digital_day [日|号])|(初 $fes_digital_day)] $fes_str1;
 
-$com_fes_case3{intent%query3} = [$fes_year|$fes_digital_year][年][的]($fes_name|$fes_term)$fes_str2;
-
-$com_fes_case4{intent%query4} = [距离|离][$fes_year|$fes_digital_year] [年] [的] ($fes_name|$fes_term) $fes_str3;
-
-$festival_common=$com_fes_case4|$com_fes_case3|$com_fes_case2|$com_fes_case1;
+$festival_common=[$fes_str4]($com_fes_case2|$com_fes_case1)[$_yyd_particle_];

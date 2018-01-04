@@ -25,9 +25,8 @@ public class FestivalBean extends AbstractSemanticResult {
 		setOperation(Operation.SPEAK);
 		setParamType(ParamType.T);
 	}
-	public FestivalBean(String text, Object resource,Integer errCode) {
+	public FestivalBean(String text,Integer errCode) {
 		this.text = text;
-		setResource(resource);
 		setOperation(Operation.SPEAK);
 		setParamType(ParamType.T);
 		setErrCode(errCode);

@@ -3,9 +3,15 @@
 #include classpath:semantics/commons/common.ybnf;
 #include classpath:semantics/commons/festival.ybnf;
 service festival;
+
+callable @festival(FestivalName),@festival(SolarTerm);
+
 root $main;
 
+$fes_name{festivalName} = $_call_festival_FestivalName_;
+$fes_term{solarTerm} = $_call_festival_SolarTerm_;
 
+$fes_case1{intent%query3} = [$fes_year|$fes_digital_year][年][的]($fes_name|$fes_term)$fes_str2;
+$fes_case2{intent%query4} = [距离|离][$fes_year|$fes_digital_year] [年] [的] ($fes_name|$fes_term) $fes_str3;
 
-
-$main = $festival_common;
+$main = [$fes_str4]($fes_case2|$fes_case1)[$_yyd_particle_];

@@ -25,7 +25,7 @@ import com.yyd.semantic.services.impl.festival.FestivalBean;
 @Component
 public class FestivalSemantic implements Semantic<FestivalBean> {
 	public static final Integer SEMANTIC_SUCCESS = 0;
-	public static final Integer SEMANTIC_FAILURE = 1;
+	public static final Integer SEMANTIC_FAILURE = 301;
 	public static final String ERRO_ANSWER = "不好意思，我好像没听懂。。。";
 	public static final Integer SOLAR_FESTIVAL = 1;
 	public static final Integer LUNAR_FESTIVAL = 2;
@@ -61,7 +61,7 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 			break;
 		}
 		default:
-			result = new FestivalBean(ERRO_ANSWER, null, SEMANTIC_SUCCESS);
+			result = new FestivalBean(ERRO_ANSWER, SEMANTIC_SUCCESS);
 			break;
 		}
 		return result;
@@ -109,7 +109,7 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 				}
 			}
 		}
-		return new FestivalBean(ERRO_ANSWER, null, SEMANTIC_FAILURE);
+		return new FestivalBean(ERRO_ANSWER, SEMANTIC_FAILURE);
 	}
 
 	private FestivalBean query2(Map<String, String> slots, SemanticContext semanticContext, int dateCode) {
@@ -154,7 +154,7 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 				}
 			}
 		}
-		return new FestivalBean(ERRO_ANSWER, null, SEMANTIC_FAILURE);
+		return new FestivalBean(ERRO_ANSWER, SEMANTIC_FAILURE);
 	}
 
 	private FestivalBean query3(Map<String, String> slots, SemanticContext semanticContext) {
@@ -377,7 +377,7 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 				}
 			}
 		}
-		return new FestivalBean(ERRO_ANSWER, null, SEMANTIC_FAILURE);
+		return new FestivalBean(ERRO_ANSWER, SEMANTIC_FAILURE);
 	}
 
 	private FestivalBean query4(Map<String, String> slots, SemanticContext semanticContext) {
@@ -482,7 +482,7 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 										.append("还有").append(days).append("天");
 							} else {
 								days = Math.abs(days);
-								answerText.append(year).append("年").append(name).append("是").append(de.getCnDate())
+								answerText.append(year).append(name).append("是").append(de.getCnDate())
 										.append(" ").append(de.getLunarDate()).append(" ").append(de.getWeekDate())
 										.append(" ").append("已经过去").append(days).append("天");
 							}
@@ -640,6 +640,6 @@ public class FestivalSemantic implements Semantic<FestivalBean> {
 				}
 			}
 		}
-		return new FestivalBean(ERRO_ANSWER, null, SEMANTIC_FAILURE);
+		return new FestivalBean(ERRO_ANSWER, SEMANTIC_FAILURE);
 	}
 }

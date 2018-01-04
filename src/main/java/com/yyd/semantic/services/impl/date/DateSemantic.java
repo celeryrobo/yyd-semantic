@@ -17,7 +17,7 @@ import com.yyd.semantic.services.impl.festival.DateUtil;
 @Component
 public class DateSemantic implements Semantic<DateBean> {
 	public static final Integer SEMANTIC_SUCCESS = 0;
-	public static final Integer SEMANTIC_FAILURE = 1;
+	public static final Integer SEMANTIC_FAILURE = 1101;
 	public static final String ERRO_ANSWER = "不好意思，我好像没听懂。。。";
 	@Override
 	public DateBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {

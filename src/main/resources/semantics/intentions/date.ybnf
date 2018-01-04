@@ -5,5 +5,7 @@
 service date;
 root $main;
 
+$date_case1{intent%query1} = [那] $date_day [呢];
 
-$main = $date_common;
+
+$main = $date_case1;

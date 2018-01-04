@@ -21,6 +21,12 @@ import com.yyd.semantic.db.service.story.StoryResourceService;
 
 @Component
 public class StorySemantic implements Semantic<StoryBean> {
+	public static final Integer SEMANTIC_SUCCESS = 0;
+	public static final Integer SEMANTIC_FAILURE = 201;
+	public static final String ERRO_ANSWER = "不好意思，我好像没听懂。。。";
+	public static final String ERRO_MSG1 = "找不到相应资源";
+	public static final String ERRO_MSG2 = "语义槽为空";
+	public static final String ERRO_MSG3 = "意图为空";
 	@Autowired
 	private StoryCategoryService categoryService;
 
@@ -39,7 +45,6 @@ public class StorySemantic implements Semantic<StoryBean> {
 		Map<String, String> slots = ybnfCompileResult.getSlots();
 		String action = slots.get("intent");
 		Map<String, String> objects = ybnfCompileResult.getObjects();
-		System.out.println("intent---->" + action);
 		switch (action) {
 		case StoryIntent.QUERY_CATEGORY: {
 			result = queryCategory(objects, semanticContext);
@@ -50,7 +55,7 @@ public class StorySemantic implements Semantic<StoryBean> {
 			break;
 		}
 		default:
-			result = new StoryBean("我不懂你在说什么", null, null);
+			result = new StoryBean(ERRO_ANSWER, SEMANTIC_FAILURE, ERRO_MSG3);
 			break;
 		}
 		return result;
@@ -61,7 +66,6 @@ public class StorySemantic implements Semantic<StoryBean> {
 	}
 
 	private StoryBean queryResource(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我没听说过这个故事";
 		if (slots.isEmpty()) {
 			// 换一个故事，没有slot
 			List<Integer> ids = resourceService.getIdList();
@@ -69,6 +73,8 @@ public class StorySemantic implements Semantic<StoryBean> {
 				int randomIdx = CommonUtils.randomInt(ids.size());
 				StoryResource story = resourceService.getById(ids.get(randomIdx));
 				return new StoryBean(textFormat(story.getName()), story.getPlayUrl(), story);
+			} else {
+				return new StoryBean(ERRO_ANSWER, SEMANTIC_FAILURE, ERRO_MSG1);
 			}
 		} else {
 			// 听某个具体的故事,有slot
@@ -77,14 +83,16 @@ public class StorySemantic implements Semantic<StoryBean> {
 				StoryResource story = resourceService.getByName(name);
 				if (story != null) {
 					return new StoryBean(textFormat(story.getName()), story.getPlayUrl(), story);
+				} else {
+					return new StoryBean(ERRO_ANSWER, SEMANTIC_FAILURE, ERRO_MSG1);
 				}
+			} else {
+				return new StoryBean(ERRO_ANSWER, SEMANTIC_FAILURE, ERRO_MSG2);
 			}
 		}
-		return new StoryBean(result, null, null);
 	}
 
 	private StoryBean queryCategory(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我没有听过你说的这个故事";
 		// 我要听某类故事,有slot
 		String categoryName = slots.get(StorySlot.STORY_CATEGORY);
 		if (categoryName != null) {
@@ -94,14 +102,18 @@ public class StorySemantic implements Semantic<StoryBean> {
 				List<StoryCategoryRelationship> list = categoryRelaService.getByParentId(categoryId);
 				if (list != null) {
 					return getStoryResult(list, categoryId);
+				} else {
+					return new StoryBean(ERRO_ANSWER, SEMANTIC_FAILURE, ERRO_MSG1);
 				}
+			} else {
+				return new StoryBean(ERRO_ANSWER, SEMANTIC_FAILURE, ERRO_MSG1);
 			}
+		} else {
+			return new StoryBean(ERRO_ANSWER, SEMANTIC_FAILURE, ERRO_MSG2);
 		}
-		return new StoryBean(result, null, null);
 	}
 
 	private StoryBean getStoryResult(List<StoryCategoryRelationship> list, Integer categoryId) {
-		String text = "你说的故事我没听过";
 		if (!list.isEmpty()) {
 			// 非叶子类目
 			while (!list.isEmpty()) {
@@ -130,6 +142,6 @@ public class StorySemantic implements Semantic<StoryBean> {
 				}
 			}
 		}
-		return new StoryBean(text, null, null);
+		return new StoryBean(ERRO_ANSWER, SEMANTIC_FAILURE, ERRO_MSG1);
 	}
 }

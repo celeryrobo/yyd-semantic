@@ -3,10 +3,19 @@
 #include classpath:semantics/commons/common.ybnf;
 #include classpath:semantics/commons/story.ybnf;
 service story;
+callable @story(StoryName), @story(StoryCategory);
 root $main;
 
-$story_case{intent%queryResource} = (这个[故事]不好听|我不喜欢这个[故事])|$case;
+$story_resource{storyResource} = $_call_story_StoryName_;
+$story_category{storyCategory} = $_call_story_StoryCategory_;
 
-$story_main = ($story_case)[$_yyd_particle_];
 
-$main = $story_common|$story_main;
+$story_case1_1= $story_resource [的][故事];
+$story_case1_2= $story_category [的][故事] $story_resource;
+$story_case1{intent%queryResource}=$story_com_case1_4($story_case1_1|$story_case1_2)[听听];
+
+$story_case2{intent%queryCategory}=$story_com_case1_4 $story_category [的][故事][听听];
+
+$story_case3{intent%queryResource} = 这个[故事]不好听|我不喜欢这个[故事]|((可以|能不能|可不可以|可以不可以)[再][给我]换一个)|[再][随便]换一个|不好听;
+
+$main = ($story_case1|$story_case2|$story_case3)[$_yyd_particle_];

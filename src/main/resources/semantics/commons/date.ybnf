@@ -1,27 +1,28 @@
 #YBNF 1.0 utf8;
-$year{specificYear} = 今年|明年|后年|大后年|去年|前年|大前年;
-$day{specificDay} = 今天|明天|后天|大后天|昨天|前天|大前天;
-$month{specificMonth} = 这个月|下个月|上个月;
-$str1=[是](星期几|什么日子|什么时候|礼拜几|几号);
-$str2=还有多久|还需要多久|还有多长时间|还有多少天|还有几天;
+$date_year{specificYear} = 今年|明年|后年|大后年|去年|前年|大前年;
+$date_day{specificDay} = 今天|明天|后天|大后天|昨天|前天|大前天;
+$date_month{specificMonth} = 这个月|下个月|上个月;
+$date_str1=[是](星期几|什么日子|什么时候|礼拜几|几号);
+$date_str2=还有多久|还需要多久|还有多长时间|还有多少天|还有几天;
+$date_str3=你知道|能不能告诉我|可以告诉我|告诉我|知道|你知不知道;
 
-$digital_year{digitalYear}=$_yyd_digital_<4>;
-$digital_month{digitalMonth}=$_yyd_digital_<1,2>;
-$digital_day{digitalDay}=$_yyd_digital_<1,2>;
-$han_digital_month{hanDigitalMonth}=$han_digital<1,2>;
-$han_digital_day{hanDigitalDay}=$han_digital<1,2>;
+$date_digital_year{digitalYear}=$_yyd_digital_<4>;
+$date_digital_month{digitalMonth}=$_yyd_digital_<1,2>;
+$date_digital_day{digitalDay}=$_yyd_digital_<1,2>;
+$date_han_digital_month{hanDigitalMonth}=$han_digital<1,2>;
+$date_han_digital_day{hanDigitalDay}=$han_digital<1,2>;
 
-$com_case1{intent%query1} = $day $str1;
+$com_date_case1{intent%query1} = $date_day $date_str1;
 
-$com_case2{intent%query2} = [$month] $digital_day [日|号] $str1;
-$com_case3{intent%query3} = [$month] $han_digital_day [日|号] $str1;
+$com_date_case2{intent%query2} = [$date_month] $date_digital_day [日|号] $date_str1;
+$com_date_case3{intent%query3} = [$date_month] $date_han_digital_day [日|号] $date_str1;
 
-$com_case4{intent%query4}=([$digital_year] [年]|[$year]) $digital_month 月  $digital_day [日|号]  $str1;
-$com_case5{intent%query5}=([$year]|[农历]|[阴历])$han_digital_month 月  [初]$han_digital_day [日|号]  $str1;
+$com_date_case4{intent%query4}=([$date_digital_year] [年]|[$date_year]) $date_digital_month 月  $date_digital_day [日|号]  $date_str1;
+$com_date_case5{intent%query5}=([$date_year]|[农历]|[阴历])$date_han_digital_month 月  [初]$date_han_digital_day [日|号]  $date_str1;
 
-$com_case6{intent%query6}=现在几点了|现在是什么时候|什么时候了|几点了;
+$com_date_case6{intent%query6}=现在几点了|现在是什么时候|什么时候了|几点了;
 
-$com_case7{intent%query7}=[距离] ([$digital_year]|[$year]) [年] $digital_month 月  $digital_day (日|号) $str2;
-$com_case8{intent%query8}=[距离][农历] [$year] $han_digital_month 月  $han_digital_day (日|号) $str2;
+$com_date_case7{intent%query7}=[距离] ([$date_digital_year]|[$date_year]) [年] $date_digital_month 月  $date_digital_day (日|号) $date_str2;
+$com_date_case8{intent%query8}=[距离][农历] [$date_year] $date_han_digital_month 月  $date_han_digital_day (日|号) $date_str2;
 
-$date_common = $com_case1|$com_case2|$com_case3|$com_case4|$com_case5|$com_case6|$com_case7|$com_case8;
+$date_common =[$date_str3] ($com_date_case1|$com_date_case2|$com_date_case3|$com_date_case4|$com_date_case5|$com_date_case6|$com_date_case7|$com_date_case8);
