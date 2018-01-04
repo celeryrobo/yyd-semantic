@@ -20,7 +20,7 @@ public class OperaCategorySegmentLibrary implements SegmentLibrary{
 		List<String> names = categoryService.getAllNames();
 		List<Value> values = new LinkedList<>();
 		for (String name : names) {
-			values.add(new Value(name, "category", "1"));
+			values.add(new Value(name, "operaCategory", "1"));
 		}
 		return values;
 	}

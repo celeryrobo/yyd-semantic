@@ -74,4 +74,26 @@
 		<desc>成语内容</desc>
 		<service>idiom</service>
 	</nature> -->
+	<!-- 戏曲场景 -->
+	<nature>
+		<name>operaName</name>
+		<desc>戏曲名称</desc>
+		<service>opera</service>
+	</nature>	
+	<nature>
+		<name>operaCategory</name>
+		<desc>戏曲类别</desc>
+		<service>opera</service>
+	</nature>
+	<!-- 相声场景 -->
+	<nature>
+		<name>crosstalkActor</name>
+		<desc>相声演员</desc>
+		<service>crosstalk</service>
+	</nature>	
+	<nature>
+		<name>crosstalkName</name>
+		<desc>相声名称</desc>
+		<service>crosstalk</service>
+	</nature>
 </serviceconf>

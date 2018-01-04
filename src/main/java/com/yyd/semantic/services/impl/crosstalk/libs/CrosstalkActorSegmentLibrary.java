@@ -20,7 +20,7 @@ public class CrosstalkActorSegmentLibrary implements SegmentLibrary{
 		List<String> names = actorService.getAllNames();
 		List<Value> values = new LinkedList<>();
 		for (String name : names) {
-			values.add(new Value(name, "actor", "1"));
+			values.add(new Value(name, "crosstalkActor", "1"));
 		}
 		return values;
 	}

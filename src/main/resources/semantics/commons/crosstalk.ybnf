@@ -1,44 +1,16 @@
 #YBNF 1.0 utf8;
-callable @crosstalk(actor), @crosstalk(name);
 
-$crosstalk_actor{actor} =$_call_crosstalk_actor_;
-$crosstalk_name{name} = $_call_crosstalk_name_;
-$crosstalk_category{category} = 单口相声|对口相声|群口相声;
 
 $crosstalk_prefix1 = 我想|我很想|我要|要|俺|俺想|俺想要;
 $crosstalk_prefix2 = 给我|你给我|再|你|那么|请|可以|你可以|那你就;
 $crosstalk_prefix3 = 给我|你给我|再|你|那么|请|可以|你可以|那你就|我要|我想|我很想;
 
 
-$crosstalk_case1_1 = [$crosstalk_prefix1] (听) [[一](个|段)] 相声    [吧|可不可以|[行]吗];
-$crosstalk_case1_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] 相声    [吧|可不可以|[行]吗];
-$crosstalk_case1_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] 相声    [吧|可不可以|[行]吗];
-$crosstalk_case1{intent%queryCrosstalk} = $crosstalk_case1_1|$crosstalk_case1_2|$crosstalk_case1_3;
-
-$crosstalk_case2_1 = [$crosstalk_prefix1] (听) [[一](个|段)] [相声]  $crosstalk_name [吧|可不可以|[行]吗];
-$crosstalk_case2_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] [相声]  $crosstalk_name [吧|可不可以|[行]吗];
-$crosstalk_case2_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] [相声]  $crosstalk_name [吧|可不可以|[行]吗];
-$crosstalk_case2{intent%queryCrosstalk} =  $crosstalk_case2_1|$crosstalk_case2_2|$crosstalk_case2_3;
-
-$crosstalk_case3_1 = [$crosstalk_prefix1] (听) [[一](个|段)] $crosstalk_category [吧|可不可以|[行]吗];
-$crosstalk_case3_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] $crosstalk_category [吧|可不可以|[行]吗];
-$crosstalk_case3_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] $crosstalk_category [吧|可不可以|[行]吗];
-$crosstalk_case3{intent%queryCrosstalk} =  $crosstalk_case3_1|$crosstalk_case3_2|$crosstalk_case3_3;
-
-$crosstalk_case4_1 = [$crosstalk_prefix1] (听) [[一](个|段)] $crosstalk_actor [的] (相声|$crosstalk_category)  [吧|可不可以|[行]吗];
-$crosstalk_case4_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] $crosstalk_actor [的] (相声|$crosstalk_category)  [吧|可不可以|[行]吗];
-$crosstalk_case4_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] $crosstalk_actor [的] (相声|$crosstalk_category) [吧|可不可以|[行]吗];
-$crosstalk_case4{intent%queryCrosstalk} = $crosstalk_case4_1|$crosstalk_case4_2|$crosstalk_case4_3;
-
-$crosstalk_case5_1 = [$crosstalk_prefix1] (听) [[一](个|段)] $crosstalk_actor [[的][相声|$crosstalk_category]] $crosstalk_name [吧|可不可以|[行]吗];
-$crosstalk_case5_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] $crosstalk_actor [[的][相声|$crosstalk_category]] $crosstalk_name [吧|可不可以|[行]吗];
-$crosstalk_case5_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] $crosstalk_actor [[的][相声|$crosstalk_category]] $crosstalk_name [吧|可不可以|[行]吗];
-$crosstalk_case5{intent%queryCrosstalk} = $crosstalk_case5_1|$crosstalk_case5_2|$crosstalk_case5_3;
-
-$crosstalk_case6_1 = [一段] $crosstalk_actor 的  (相声|$crosstalk_category) [$crosstalk_name];
-$crosstalk_case6_2 = [一段] (相声|$crosstalk_category)  [$crosstalk_name];
-$crosstalk_case6{intent%queryCrosstalk} = $crosstalk_case6_1|$crosstalk_case6_2;
+$crosstalk_case100_1 = [$crosstalk_prefix1] (听) [[一](个|段)] 相声    [吧|可不可以|[行]吗];
+$crosstalk_case100_2 = [$crosstalk_prefix2] (讲) [[一](个|段)] 相声    [吧|可不可以|[行]吗];
+$crosstalk_case100_3 = [$crosstalk_prefix3] (放|播|播放|来) [[一](个|段)] 相声    [吧|可不可以|[行]吗];
+$crosstalk_case100{intent%queryCrosstalk} = $crosstalk_case100_1|$crosstalk_case100_2|$crosstalk_case100_3;
 
 
-$crosstalk_common=$crosstalk_case1|$crosstalk_case2|$crosstalk_case3|$crosstalk_case4|$crosstalk_case5|$crosstalk_case6;
+$crosstalk_common=$crosstalk_case100;
 

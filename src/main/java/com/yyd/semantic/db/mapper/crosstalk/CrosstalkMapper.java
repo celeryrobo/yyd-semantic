@@ -19,19 +19,19 @@ public interface CrosstalkMapper {
 	@Select("SELECT name FROM yyd_resources.tb_crosstalk_resource")
 	public List<String> getAllName();
 	
-	@Select("SELECT id, name, content_url FROM yyd_resources.tb_crosstalk_resource WHERE id = #{id}")
+	@Select("SELECT id, name, src_url FROM yyd_resources.tb_crosstalk_resource WHERE id = #{id}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "name", column = "name"),
-		@Result(property = "resourceUrl", column = "content_url")
+		@Result(property = "resourceUrl", column = "src_url")
 	})
 	public Crosstalk getById(Integer id);
 	
-	@Select("SELECT id, name, content_url FROM yyd_resources.tb_crosstalk_resource WHERE name = #{name}")
+	@Select("SELECT id, name, src_url FROM yyd_resources.tb_crosstalk_resource WHERE name = #{name}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "name", column = "name"),
-		@Result(property = "resourceUrl", column = "content_url")
+		@Result(property = "resourceUrl", column = "src_url")
 	})
 	public List<Crosstalk> getByName(String name);
 }

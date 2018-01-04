@@ -20,30 +20,30 @@ public interface SongMapper {
 	@Select("SELECT name FROM yyd_resources.tb_music_resource")
 	public List<String> getAllName();
 	
-	@Select("SELECT id, name, singer_id, content_url FROM yyd_resources.tb_music_resource WHERE id = #{id}")
+	@Select("SELECT id, name, singer_id, src_url FROM yyd_resources.tb_music_resource WHERE id = #{id}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "name", column = "name"),
 		@Result(property = "singerId", column = "singer_id"),
-		@Result(property = "songUrl", column = "content_url")
+		@Result(property = "songUrl", column = "src_url")
 	})
 	public Song getById(Integer id);
 	
-	@Select("SELECT id, name, singer_id, content_url FROM yyd_resources.tb_music_resource WHERE name = #{name}")
+	@Select("SELECT id, name, singer_id, src_url FROM yyd_resources.tb_music_resource WHERE name = #{name}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "name", column = "name"),
 		@Result(property = "singerId", column = "singer_id"),
-		@Result(property = "songUrl", column = "content_url")
+		@Result(property = "songUrl", column = "src_url")
 	})
 	public List<Song> getByName(String name);
 	
-	@Select("SELECT id, name, singer_id, content_url FROM yyd_resources.tb_music_resource WHERE singer_id = #{singerId}")
+	@Select("SELECT id, name, singer_id, src_url FROM yyd_resources.tb_music_resource WHERE singer_id = #{singerId}")
 	@Results({
 		@Result(property = "id", column = "id"),
 		@Result(property = "name", column = "name"),
 		@Result(property = "singerId", column = "singer_id"),
-		@Result(property = "songUrl", column = "content_url")
+		@Result(property = "songUrl", column = "src_url")
 	})
 	public List<Song> getBySingerId(Integer singerId);
 }

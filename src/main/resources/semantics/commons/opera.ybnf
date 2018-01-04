@@ -1,41 +1,14 @@
 #YBNF 1.0 utf8;
-callable @opera(name), @opera(category);
 
-$opera_actor{actor} = 梅兰芳;
-$opera_name{name} = $_call_opera_name_;
-$opera_category{category} = $_call_opera_category_;
 
 $opera_prefix1 = 我想|我很想|我要|要|俺|俺想|俺想要;
 $opera_prefix2 = 给我|你给我|再|你|那么|请|可以|你可以|那你就;
 $opera_prefix3 = 给我|你给我|再|你|那么|请|可以|你可以|那你就|我要|我想|我很想;
 
-$opera_case1_1 = [$opera_prefix1] (听) [[一](个|段)]  [戏曲]  [$opera_name] [吧|可不可以|[行]吗];
-$opera_case1_2 = [$opera_prefix2] (唱) [[一](个|段)]  [戏曲]  [$opera_name] [吧|可不可以|[行]吗];
-$opera_case1_3 = [$opera_prefix3] (放|播|播放|来) [[一](个|段)]  [戏曲]  [$opera_name] [吧|可不可以|[行]吗];
-$opera_case1{intent%queryOpera} = $opera_case1_1|$opera_case1_2|$opera_case1_3;
+$opera_case100_1 = [$opera_prefix1] (听) [[一](个|段)]  戏曲  [吧|可不可以|[行]吗];
+$opera_case100_2 = [$opera_prefix2] (唱) [[一](个|段)]  戏曲  [吧|可不可以|[行]吗];
+$opera_case100_3 = [$opera_prefix3] (放|播|播放|来) [[一](个|段)]  戏曲   [吧|可不可以|[行]吗];
+$opera_case100{intent%queryOpera} = $opera_case100_1|$opera_case100_2|$opera_case100_3;
 
-$opera_case2_1 = [$opera_prefix1] (听) [[一](个|段)]  $opera_category [吧|可不可以|[行]吗];
-$opera_case2_2 = [$opera_prefix2] (唱) [[一](个|段)]  $opera_category [吧|可不可以|[行]吗];
-$opera_case2_3 = [$opera_prefix3] (放|播|播放|来) [[一](个|段)]  $opera_category [吧|可不可以|[行]吗];
-$opera_case2{intent%queryOpera} = $opera_case2_1|$opera_case2_2|$opera_case2_3;
 
-$opera_case3_1 = [$opera_prefix1] (听) [[一](个|段)]  $opera_category [的] $opera_name [吧|可不可以|[行]吗];
-$opera_case3_2 = [$opera_prefix2] (唱) [[一](个|段)]  $opera_category [的] $opera_name [吧|可不可以|[行]吗];
-$opera_case3_3 = [$opera_prefix3] (放|播|播放|来) [[一](个|段)]  $opera_category [的] $opera_name [吧|可不可以|[行]吗];
-$opera_case3{intent%queryOpera} = $opera_case3_1|$opera_case3_2|$opera_case3_3;
-
-$opera_case4_1 = [$opera_prefix1] (听)[[一](个|段)]  ($opera_actor) 的  (戏[曲] | $opera_category) [吧|可不可以|[行]吗];
-$opera_case4_2 = [$opera_prefix2] (唱)[[一](个|段)]  ($opera_actor) 的  (戏[曲] | $opera_category) [吧|可不可以|[行]吗];
-$opera_case4_3 = [$opera_prefix3] (放|播|播放|来)[[一](个|段)]  ($opera_actor) 的  (戏[曲] | $opera_category) [吧|可不可以|[行]吗];
-$opera_case4{intent%queryOpera} = $opera_case4_1|$opera_case4_2|$opera_case4_3;
-
-$opera_case5_1 = [$opera_prefix1] (听)[[一](个|段)] ($opera_actor) 的  [戏[曲] | $opera_category] $opera_name [吧|可不可以|[行]吗];
-$opera_case5_2 = [$opera_prefix2] (唱)[[一](个|段)] ($opera_actor) 的  [戏[曲] | $opera_category] $opera_name [吧|可不可以|[行]吗];
-$opera_case5_3 = [$opera_prefix3] (放|播|播放|来)[[一](个|段)] ($opera_actor) 的  [戏[曲] | $opera_category] $opera_name [吧|可不可以|[行]吗];
-$opera_case5{intent%queryOpera} = $opera_case5_1|$opera_case5_2|$opera_case5_3;
-
-$opera_case6_1 = [一段] $opera_actor 的  (戏[曲] | $opera_category) [$opera_name];
-$opera_case6_2 = [一段] (戏[曲] | $opera_category) [$opera_name];
-$opera_case6{intent%queryOpera} = $opera_case6_1|$opera_case6_2;
-
-$opera_common=$opera_case1|$opera_case2|$opera_case3|$opera_case4|$opera_case5|$opera_case6;
+$opera_common=$opera_case100;
