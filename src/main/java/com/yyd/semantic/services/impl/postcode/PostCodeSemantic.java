@@ -116,7 +116,7 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			//地名校验
 			boolean verifyCity = true;
 			if(null != targetProv && null != targetCity) {
-				if(targetProv.getAreaId() != targetCity.getUpper()) {
+				if(!targetProv.getAreaId().equals(targetCity.getUpper())) {
 					verifyCity = false;
 				}
 			}
@@ -125,9 +125,9 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			if(verifyCity) {					
 				for(District district:districts) {					
 					boolean verifyDistrict = true;
-					int upperLevel = district.getUpperLevel();
-					if(upperLevel == RegionLevel.LEVEL_CITY) {
-						if(null != targetCity && targetCity.getAreaId() != district.getUpper()) {
+					Integer upperLevel = district.getUpperLevel();
+					if(upperLevel.equals(RegionLevel.LEVEL_CITY)) {
+						if(null != targetCity && !targetCity.getAreaId().equals(district.getUpper())) {
 							verifyDistrict = false;
 						}
 						//省+县级区域情况
@@ -137,17 +137,17 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 								City tmpCity = null;
 								//地级市不会重名，因此只取第一个
 								tmpCity = targetCitys.get(0);
-								if(tmpCity.getUpper() != targetProv.getAreaId()) {
+								if(!tmpCity.getUpper().equals(targetProv.getAreaId())) {
 									verifyDistrict = false;
 								}
 							}
 							
 						}
 					}
-					else if(upperLevel == RegionLevel.LEVEL_PROVINCE)
+					else if(upperLevel.equals(RegionLevel.LEVEL_PROVINCE))
 					{
 						//省直辖的县级区域，中间不能再出现地级区域
-						if(null != targetProv && targetProv.getAreaId() != district.getUpper()) {
+						if(null != targetProv && !targetProv.getAreaId().equals(district.getUpper())) {
 							verifyDistrict = false;
 						}
 					}
@@ -227,7 +227,7 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			List<City> cityList = new ArrayList<City>();
 			if(null != targetProv) {
 				for(City city:citys) {
-					if(targetProv.getAreaId() == city.getUpper()) {
+					if(targetProv.getAreaId().equals(city.getUpper())) {
 						cityList.add(city);
 					}
 				}

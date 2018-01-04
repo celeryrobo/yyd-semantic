@@ -30,12 +30,12 @@ public class CarNumberServiceImpl implements CarNumberService{
 	}
 	
 	@Override
-	public List<CarNumber> getByAreaId(int areaId){
+	public List<CarNumber> getByAreaId(Integer areaId){
 		return carNumberMapper.getByAreaId(areaId);
 	}
 	
 	@Override
-	public List<CarNumber> getByAreaIdAndLevel(int areaId,int level){
+	public List<CarNumber> getByAreaIdAndLevel(Integer areaId,Integer level){
 		return carNumberMapper.getByAreaIdAndLevel(areaId, level);
 	}
 }

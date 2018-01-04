@@ -32,7 +32,7 @@ public interface CityMapper {
 		@Result(property = "areaId", column = "area_id"),
 		@Result(property = "upper", column = "upper"),		
 	})
-	public City getById(int id);
+	public City getById(Integer id);
 	
 	@Select("SELECT id,name,unit,area_id,upper FROM yyd_resources.tb_region_city WHERE area_id = #{areaId}")
 	@Results({
@@ -42,7 +42,7 @@ public interface CityMapper {
 		@Result(property = "areaId", column = "area_id"),
 		@Result(property = "upper", column = "upper"),		
 	})
-	public List<City> getByAreaId(int areaId);
+	public List<City> getByAreaId(Integer areaId);
 	
 	@Select("SELECT id,name,unit,area_id,upper FROM yyd_resources.tb_region_city WHERE name = #{name}")
 	@Results({
@@ -63,5 +63,5 @@ public interface CityMapper {
 		@Result(property = "areaId", column = "area_id"),
 		@Result(property = "upper", column = "upper"),		
 	})
-	public List<City> getByUpper(int upper);
+	public List<City> getByUpper(Integer upper);
 }

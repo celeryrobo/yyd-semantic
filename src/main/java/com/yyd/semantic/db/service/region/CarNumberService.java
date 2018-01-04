@@ -11,7 +11,7 @@ public interface CarNumberService {
 	
 	public List<CarNumber> getByNumber(String number);
 	
-	public List<CarNumber> getByAreaId(int areaId);
+	public List<CarNumber> getByAreaId(Integer areaId);
 	
-	public List<CarNumber> getByAreaIdAndLevel(int areaId,int level);
+	public List<CarNumber> getByAreaIdAndLevel(Integer areaId,Integer level);
 }

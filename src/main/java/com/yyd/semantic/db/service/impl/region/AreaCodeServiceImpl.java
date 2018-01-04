@@ -31,12 +31,12 @@ public class AreaCodeServiceImpl implements AreaCodeService{
 	}
 	
 	@Override
-	public List<AreaCode> getByAreaId(int areaId){
+	public List<AreaCode> getByAreaId(Integer areaId){
 		return areaCodeMapper.getByAreaId(areaId);
 	}
 	
 	@Override
-	public List<AreaCode> getByAreaIdAndLevel(int areaId,int level){
+	public List<AreaCode> getByAreaIdAndLevel(Integer areaId,Integer level){
 		return areaCodeMapper.getByAreaIdAndLevel(areaId, level);
 	}
 }

@@ -21,12 +21,12 @@ public class ProvinceServiceImpl implements ProvinceService{
 	}
 	
 	@Override
-	public Province getById(int id) {
+	public Province getById(Integer id) {
 		return provinceMapper.getById(id);
 	}
 	
 	@Override
-	public List<Province> getByAreaId(int areaId){
+	public List<Province> getByAreaId(Integer areaId){
 		return provinceMapper.getByAreaId(areaId);
 	}
 	

@@ -21,12 +21,12 @@ public class DistrictServiceImpl implements DistrictService{
 	}
 	
 	@Override
-	public District getById(int id) {
+	public District getById(Integer id) {
 		return districtMapper.getById(id);
 	}
 	
 	@Override
-	public List<District> getByAreaId(int areaId){
+	public List<District> getByAreaId(Integer areaId){
 		return districtMapper.getByAreaId(areaId);
 	}
 	
@@ -36,7 +36,7 @@ public class DistrictServiceImpl implements DistrictService{
 	}
 	
 	@Override
-	public List<District> getByUpperAndLevel(int upper,int upperLevel){
+	public List<District> getByUpperAndLevel(Integer upper,Integer upperLevel){
 		return districtMapper.getByUpperAndLevel(upper, upperLevel);
 	}
 	

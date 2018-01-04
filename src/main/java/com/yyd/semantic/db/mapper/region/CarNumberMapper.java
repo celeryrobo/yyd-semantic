@@ -49,7 +49,7 @@ public interface CarNumberMapper {
 		@Result(property = "upper", column = "upper"),
 		@Result(property = "upperLevel", column = "upper_level"),
 	})
-	public List<CarNumber> getByAreaId(int areaId);
+	public List<CarNumber> getByAreaId(Integer areaId);
 	
 	@Select("SELECT id,name,area_id,car_number,level,upper,upper_level FROM yyd_resources.tb_region_car_number WHERE area_id = #{0} AND level = #{1}")
 	@Results({
@@ -61,5 +61,5 @@ public interface CarNumberMapper {
 		@Result(property = "upper", column = "upper"),
 		@Result(property = "upperLevel", column = "upper_level"),
 	})
-	public List<CarNumber> getByAreaIdAndLevel(int areaId,int level);
+	public List<CarNumber> getByAreaIdAndLevel(Integer areaId,Integer level);
 }

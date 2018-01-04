@@ -32,7 +32,7 @@ public interface ProvinceMapper {
 		@Result(property = "areaId", column = "area_id"),
 		@Result(property = "upper", column = "upper"),		
 	})
-	public Province getById(int id);	
+	public Province getById(Integer id);	
 	
 	
 	@Select("SELECT id,name,unit,area_id,upper FROM yyd_resources.tb_region_province WHERE area_id = #{areaId}")
@@ -43,7 +43,7 @@ public interface ProvinceMapper {
 		@Result(property = "areaId", column = "area_id"),
 		@Result(property = "upper", column = "upper"),		
 	})
-	public List<Province> getByAreaId(int areaId);	
+	public List<Province> getByAreaId(Integer areaId);	
 	
 	@Select("SELECT id,name,unit,area_id,upper FROM yyd_resources.tb_region_province WHERE name = #{name}")
 	@Results({

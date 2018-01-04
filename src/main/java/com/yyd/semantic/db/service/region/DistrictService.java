@@ -7,13 +7,13 @@ import com.yyd.semantic.db.bean.region.District;
 public interface DistrictService {
 	public List<District> getAll();
 	
-	public District getById(int id);
+	public District getById(Integer id);
 	
-	public List<District> getByAreaId(int areaId);
+	public List<District> getByAreaId(Integer areaId);
 	
 	public List<District> getByName(String name);
 	
-	public List<District> getByUpperAndLevel(int upper,int upperLevel);
+	public List<District> getByUpperAndLevel(Integer upper,Integer upperLevel);
 	
 	public List<String> getAllShortName();
 	

@@ -11,7 +11,7 @@ public interface PostCodeService {
 	
 	public List<PostCode> getByCode(String code);	
 	
-	public List<PostCode> getByAreaId(int areaId);	
+	public List<PostCode> getByAreaId(Integer areaId);	
 	
-	public List<PostCode> getByAreaIdAndLevel(int areaId,int level);	
+	public List<PostCode> getByAreaIdAndLevel(Integer areaId,Integer level);	
 }

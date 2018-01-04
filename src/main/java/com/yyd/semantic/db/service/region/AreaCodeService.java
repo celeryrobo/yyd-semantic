@@ -11,7 +11,7 @@ public interface AreaCodeService {
 	
 	public List<AreaCode> getByCode(String code);
 	
-	public List<AreaCode> getByAreaId(int areaId);
+	public List<AreaCode> getByAreaId(Integer areaId);
 	
-	public List<AreaCode> getByAreaIdAndLevel(int areaId,int level);
+	public List<AreaCode> getByAreaIdAndLevel(Integer areaId,Integer level);
 }
