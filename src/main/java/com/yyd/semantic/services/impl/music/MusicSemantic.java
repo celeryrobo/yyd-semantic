@@ -1,5 +1,6 @@
 package com.yyd.semantic.services.impl.music;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,13 @@ import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.CommonUtils;
+import com.yyd.semantic.db.bean.music.Category;
+import com.yyd.semantic.db.bean.music.MusicTag;
+import com.yyd.semantic.db.bean.music.MusicTagType;
 import com.yyd.semantic.db.bean.music.Singer;
 import com.yyd.semantic.db.bean.music.Song;
+import com.yyd.semantic.db.service.music.CategoryService;
+import com.yyd.semantic.db.service.music.MusicTagService;
 import com.yyd.semantic.db.service.music.SingerService;
 import com.yyd.semantic.db.service.music.SongService;
 
@@ -23,6 +29,10 @@ public class MusicSemantic implements Semantic<MusicBean> {
 	private SongService songService;
 	@Autowired
 	private SingerService singerService;
+	@Autowired
+	private  CategoryService songCategoryService;
+	@Autowired
+	private MusicTagService musicTagSerivce;
 
 	@Override
 	public MusicBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
@@ -81,47 +91,77 @@ public class MusicSemantic implements Semantic<MusicBean> {
 			String singer = slots.get(MusicSlot.MUSIC_SINGER);
 			String song = slots.get(MusicSlot.MUSIC_SONG_NAME);
 			String category = slots.get(MusicSlot.MUSIC_CATEGORY);
-			if (song != null) {
+			
+			List<Song> songs = null;
+			if(null != song) {
+				songs = songService.getByName(song);
+			}			
+			List<Integer> singerIds = null;
+			if(null != singer) {
+				singerIds = singerService.getIdsByName(singer);
+			}			
+			List<Category> songCategory = null;			
+			if(null != category) {
+				songCategory = songCategoryService.getByName(category);				
+			}
+			
+			if (songs != null) {
 				//1.根据歌名查找歌曲
-				List<Song> songs = songService.getByName(song);
 				if (songs.isEmpty()) {
 					result = "我没听过歌曲" + song;
 				} else {
 					//验证歌手名是否一致
-					if (singer != null) {
-						List<Integer> singerIds = singerService.getIdsByName(singer);
-						BREAK_POINT: for (int i = 0; i < songs.size(); i++) {
-							for (Integer id : singerIds) {
-								if (id.equals(songs.get(i).getSingerId())) {
-									songEntity = songs.get(i);
-									break BREAK_POINT;
-								}
-							}
-						}
-						if (songEntity == null) {
-							result = "我没听过" + singer + "的" + song;
-						}
-					} else {
-						int idx = CommonUtils.randomInt(songs.size());
+					List<Song> songList1 = verifySinger(songs,singerIds);					
+					//验证歌曲类别是否一致
+					List<Song> songList2 = verifyCategory(songList1,songCategory);					
+					
+					if(songList2.size() > 0)
+					{
+						int idx = CommonUtils.randomInt(songList2.size());
 						songEntity = songs.get(idx);
 					}
+					else
+					{
+						result = "我还没听过此类歌曲";
+					}
 				}
-			} else if (singer != null) {
+			} else if (singerIds != null) {
 				//2.根据歌手名查找歌曲
-				List<Integer> singerIds = singerService.getIdsByName(singer);
-				int idx = CommonUtils.randomInt(singerIds.size());
-				Integer singerId = singerIds.get(idx);
-				List<Song> songs = songService.getBySingerId(singerId);
-				if (songs.isEmpty()) {
+				if(singerIds.isEmpty()) {
 					result = "我没听过" + singer + "的歌";
-				} else {
-					idx = CommonUtils.randomInt(songs.size());
-					songEntity = songs.get(idx);
 				}
-			} else if (category != null) {
+				else
+				{
+					int idx = CommonUtils.randomInt(singerIds.size());
+					Integer singerId = singerIds.get(idx);
+					songs = songService.getBySingerId(singerId);
+					if (songs.isEmpty()) {
+						result = "我没听过" + singer + "的歌";
+					} else {
+						List<Song> songList = verifyCategory(songs,songCategory);	
+						if(songList.size() > 0) {
+							idx = CommonUtils.randomInt(songs.size());
+							songEntity = songs.get(idx);
+						}
+						else
+						{
+							result = "我没听过" + singer + "的此类歌曲";
+						}
+					}
+				}
+				
+			} else if (songCategory != null) {
 				//3. 根据类别查找歌曲
-				List<Song> songs = songService.findByCategoryName(category);
-				if(null == songs || songs.isEmpty()) {
+				songs = new ArrayList<Song>();
+				for(Category categoryName:songCategory) {
+					List<Song> tmpSongs = null;
+					tmpSongs = songService.findByCategoryId(categoryName.getId());
+					if(null != tmpSongs) {
+						songs.addAll(tmpSongs);
+					}
+				}
+				
+				if(songs.isEmpty()) {
 					result = "我还没听过这个类型的歌";
 				}
 				else
@@ -163,6 +203,74 @@ public class MusicSemantic implements Semantic<MusicBean> {
 		}
 		
 		return resultBean;
+	}
+	
+	private List<Song> verifyCategory(List<Song> songs,List<Category> songCategory){
+		List<Song> songList = new ArrayList<Song>();
+		
+		if(null != songCategory && songCategory.size() > 0){
+			for(int i=0;i < songs.size();i++) {
+				List<MusicTag> musicTag = musicTagSerivce.getByResourceId(songs.get(i).getId());
+				if(null == musicTag || musicTag.size() <= 0) {
+					continue;
+				}
+				
+				boolean find = false;							
+				for(MusicTag tag:musicTag) {
+					for(Category catetoryName:songCategory) {
+						if(tag.getTagId() == catetoryName.getId() && tag.getTagTypeId() == MusicTagType.TAG_MUSIC_CATEGORY) {
+							find = true;
+							break;
+						}
+					}
+					
+					if(find) {
+						break;
+					}
+				}
+				
+				if(find) {
+					songList.add(songs.get(i));
+				}
+				
+				
+			}
+		}
+		else
+		{
+			songList.addAll(songs);
+		}
+		
+		return songList;
+	}
+	
+	
+	/**
+	 * 校验歌手
+	 * @param songs
+	 * @param singerIds
+	 * @return
+	 */
+	private List<Song> verifySinger(List<Song> songs,List<Integer> singerIds){
+		List<Song> songList = new ArrayList<Song>();
+		
+		if (null !=singerIds && singerIds.size() > 0) {						
+			for (int i = 0; i < songs.size(); i++) {
+				for (Integer id : singerIds) {
+					if (id.equals(songs.get(i).getSingerId())) {
+						songList.add(songs.get(i));
+						break;
+					}
+				}
+			}						
+			
+		} 
+		else
+		{
+			songList.addAll(songs);
+		}
+		
+		return songList;
 	}
 	
 	private MusicBean next(Map<String, String> slots, SemanticContext semanticContext) {

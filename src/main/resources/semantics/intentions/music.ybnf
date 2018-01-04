@@ -15,33 +15,29 @@ $music_case_1{intent%querySong} = [$music_prefix_4] [换一首|换一个]($song_
 
 $music_case_2{intent%next} = [$music_prefix_4]  换  (一)[曲|首|个] [歌[儿]|歌曲|音乐];
 
-$music_case_3_1 = [$music_prefix_1] (听) 下  [[一](个|首|曲)] [音乐|歌曲|歌[儿]];
-$music_case_3_2 = [$music_prefix_2] (唱) 下  [[一](个|首|曲)] [音乐|歌曲|歌[儿]];
-$music_case_3_3 = [$music_prefix_3] (放|播|播放|来) 下  [[一](个|首|曲)] [音乐|歌曲|歌[儿]];
-$music_case_3_4 = 下  [[一](个|首|曲)] [音乐|歌曲|歌[儿]];
-$music_case_3_5 = 下  [[一](个|首|曲)] [音乐|歌曲|歌[儿]];
-$music_case_3{intent%next} =$music_case_3_1|$music_case_3_2|$music_case_3_3|$music_case_3_4|$music_case_3_5;
+$music_case_3_1 = [$music_prefix_1] (听) 下  [一](个|首|曲) [音乐|歌曲|歌[儿]];
+$music_case_3_2 = [$music_prefix_2] (唱) 下  [一](个|首|曲) [音乐|歌曲|歌[儿]];
+$music_case_3_3 = [$music_prefix_3] (放|播|播放|来) 下  [一](个|首|曲) [音乐|歌曲|歌[儿]];
+$music_case_3_4 = 下  [一](个|首|曲) [音乐|歌曲|歌[儿]];
+$music_case_3{intent%next} =$music_case_3_1|$music_case_3_2|$music_case_3_3|$music_case_3_4;
 
-$music_case_4_1 = [$music_prefix_1] (听) 上  [[一](个|首|曲)] [音乐|歌曲|歌[儿]];
-$music_case_4_2 = [$music_prefix_2] (唱) 上  [[一](个|首|曲)] [音乐|歌曲|歌[儿]];
-$music_case_4_3 = [$music_prefix_3] (放|播|播放|来) 上  [[一](个|首|曲)] [音乐|歌曲|歌[儿]];
+$music_case_4_1 = [$music_prefix_1] (听) 上  [一](个|首|曲) [音乐|歌曲|歌[儿]];
+$music_case_4_2 = [$music_prefix_2] (唱) 上  [一](个|首|曲) [音乐|歌曲|歌[儿]];
+$music_case_4_3 = [$music_prefix_3] (放|播|播放|来) 上  [一](个|首|曲) [音乐|歌曲|歌[儿]];
+$music_case_4_3 = 上  [一](个|首|曲) [音乐|歌曲|歌[儿]];
 $music_case_4{intent%last} = $music_case_4_1|$music_case_4_2|$music_case_4_3;
 
-$music_case_5_1 = [$music_prefix_1] (再|重复) (听) (一)[次][遍];
-$music_case_5_2 = [$music_prefix_1]  再重复        (听) (一)[次][遍];
-$music_case_5_3 = [$music_prefix_2] (再|重复) (唱) (一)[次][遍];
-$music_case_5_4 = [$music_prefix_2]  再重复        (唱) (一)[次][遍];
-$music_case_5_5 = [$music_prefix_3] (再|重复) (放|播|播放|来) (一)[次][遍];
-$music_case_5_6 = [$music_prefix_3]  再|重复     (放|播|播放|来) (一)[次][遍];
-$music_case_5{intent%last} =$music_case_5_1|$music_case_5_2|$music_case_5_3|$music_case_5_4|$music_case_5_5|$music_case_5_6;
-
+$music_case_5_1 = [$music_prefix_1] (再|重复|再重复) (听) (一)[次][遍];
+$music_case_5_2 = [$music_prefix_2] (再|重复|再重复) (唱) (一)[次][遍];
+$music_case_5_3 = [$music_prefix_3] (再|重复|再重复) (放|播|播放|来) (一)[次][遍];
+$music_case_5{intent%last} =$music_case_5_1|$music_case_5_2|$music_case_5_3;
 
 $music_case_6{intent%repeat} =[$music_prefix_1] (重复播放|单曲循环[播放]);
 
 $music_case_7{intent%querySinger} = [$music_prefix_5] [这 [首|曲]] (歌 [曲|儿]|音乐) (是谁唱的 | (的歌手 [是谁]));
 
-$music_case_8_1 = [$music_prefix_5] [这 [首|曲]] (歌 [曲|儿]|音乐) 叫什么 [名字];
-$music_case_8_2 = [$music_prefix_5] [这 [首|曲]] (歌 [曲|儿]|音乐) [的] [名字] 是什么;
+$music_case_8_1 = [$music_prefix_5] 这 [首|曲] (歌 [曲|儿]|音乐) 叫什么 [名字];
+$music_case_8_2 = [$music_prefix_5] 这 [首|曲] (歌 [曲|儿]|音乐) [的] [名字] 是什么;
 $music_case_8{intent%querySongName} = $music_case_8_1|$music_case_8_2;
 
 $music_main = $music_case_1|$music_case_2|$music_case_3|$music_case_4|$music_case_5|$music_case_6|$music_case_7|$music_case_8;
