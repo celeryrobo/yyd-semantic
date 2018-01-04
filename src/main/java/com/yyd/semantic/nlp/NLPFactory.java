@@ -7,7 +7,8 @@ import java.util.Map;
 
 import org.ansj.domain.Result;
 import org.ansj.domain.Term;
-import org.ansj.splitWord.analysis.DicAnalysis;
+import org.ansj.recognition.impl.UserDicNatureRecognition;
+import org.ansj.splitWord.analysis.IndexAnalysis;
 import org.nlpcn.commons.lang.tire.domain.Forest;
 
 /**
@@ -39,7 +40,8 @@ public class NLPFactory {
 		}
 		Forest[] forestArr = new Forest[forestList.size()];
 		forestList.toArray(forestArr);
-		Result hanlpTermResult = DicAnalysis.parse(text, forestArr);
+		Result hanlpTermResult = IndexAnalysis.parse(text, forestArr);
+		new UserDicNatureRecognition(forestArr).recognition(hanlpTermResult);
 		List<WordTerm> result = Convert(hanlpTermResult);
 		return result;
 	}
