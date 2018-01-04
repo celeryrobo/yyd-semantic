@@ -7,9 +7,9 @@ import com.yyd.semantic.db.bean.region.Province;
 public interface ProvinceService {
 	public List<Province> getAll();
 	
-	public Province getById(int id);	
+	public Province getById(Integer id);	
 	
-	public List<Province> getByAreaId(int areaId);	
+	public List<Province> getByAreaId(Integer areaId);	
 	
 	public List<String> getAllShortName();
 	

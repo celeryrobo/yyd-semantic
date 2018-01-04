@@ -48,7 +48,7 @@ public interface PostCodeMapper {
 		@Result(property = "upper", column = "upper"),
 		@Result(property = "upperLevel", column = "upper_level"),
 	})
-	public List<PostCode> getByAreaId(int areaId);	
+	public List<PostCode> getByAreaId(Integer areaId);	
 	
 	@Select("SELECT id,name,area_id,post_code,level,upper,upper_level FROM yyd_resources.tb_region_post_code WHERE area_id = #{0} AND level = #{1}")
 	@Results({
@@ -60,5 +60,5 @@ public interface PostCodeMapper {
 		@Result(property = "upper", column = "upper"),
 		@Result(property = "upperLevel", column = "upper_level"),
 	})
-	public List<PostCode> getByAreaIdAndLevel(int areaId,int level);	
+	public List<PostCode> getByAreaIdAndLevel(Integer areaId,Integer level);	
 }

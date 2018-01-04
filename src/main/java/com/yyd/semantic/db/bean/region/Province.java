@@ -1,22 +1,22 @@
 package com.yyd.semantic.db.bean.region;
 
 public class Province {
-	private int id;
+	private Integer id;
 	private String name;
 	private String unit;
-	private int upper;
-	private int areaId;	
+	private Integer upper;
+	private Integer areaId;	
 	
-	public int getAreaId() {
+	public Integer getAreaId() {
 		return areaId;
 	}
-	public void setAreaId(int areaId) {
+	public void setAreaId(Integer areaId) {
 		this.areaId = areaId;
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -31,10 +31,10 @@ public class Province {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public int getUpper() {
+	public Integer getUpper() {
 		return upper;
 	}
-	public void setUpper(int upper) {
+	public void setUpper(Integer upper) {
 		this.upper = upper;
 	}
 }

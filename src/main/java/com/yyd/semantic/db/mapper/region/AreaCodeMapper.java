@@ -51,7 +51,7 @@ public interface AreaCodeMapper {
 		@Result(property = "upper", column = "upper"),
 		@Result(property = "upperLevel", column = "upper_level"),
 	})
-	public List<AreaCode> getByAreaId(int areaId);
+	public List<AreaCode> getByAreaId(Integer areaId);
 	
 	
 	@Select("SELECT id,name,area_id,area_code,level,upper,upper_level FROM yyd_resources.tb_region_area_code WHERE area_id = #{0} AND level = #{1}")
@@ -64,6 +64,6 @@ public interface AreaCodeMapper {
 		@Result(property = "upper", column = "upper"),
 		@Result(property = "upperLevel", column = "upper_level"),
 	})
-	public List<AreaCode> getByAreaIdAndLevel(int areaId,int level);	
+	public List<AreaCode> getByAreaIdAndLevel(Integer areaId,Integer level);	
 	
 }

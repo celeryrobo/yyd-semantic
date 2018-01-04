@@ -35,7 +35,7 @@ public interface DistrictMapper {
 		@Result(property = "upper", column = "upper"),	
 		@Result(property = "upperLevel", column = "upper_level"),	
 	})
-	public District getById(int id);
+	public District getById(Integer id);
 		
 	@Select("SELECT id,name,unit,area_id,upper,upper_level FROM yyd_resources.tb_region_district WHERE area_id = #{areaId}")
 	@Results({
@@ -46,7 +46,7 @@ public interface DistrictMapper {
 		@Result(property = "upper", column = "upper"),	
 		@Result(property = "upperLevel", column = "upper_level"),	
 	})
-	public List<District> getByAreaId(int areaId);
+	public List<District> getByAreaId(Integer areaId);
 	
 	@Select("SELECT id,name,unit,area_id,upper,upper_level FROM yyd_resources.tb_region_district WHERE name = #{name}")
 	@Results({
@@ -69,5 +69,5 @@ public interface DistrictMapper {
 		@Result(property = "upper", column = "upper"),	
 		@Result(property = "upperLevel", column = "upper_level"),	
 	})
-	public List<District> getByUpperAndLevel(int upper,int upperLevel);
+	public List<District> getByUpperAndLevel(Integer upper,Integer upperLevel);
 }

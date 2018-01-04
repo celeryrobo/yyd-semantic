@@ -21,12 +21,12 @@ public class CityServiceImpl implements CityService{
 	}
 	
 	@Override
-	public City getById(int id) {
+	public City getById(Integer id) {
 		return citytMapper.getById(id);
 	}
 	
 	@Override
-	public List<City> getByAreaId(int areaId){
+	public List<City> getByAreaId(Integer areaId){
 		return citytMapper.getByAreaId(areaId);
 	}
 	
@@ -93,7 +93,7 @@ public class CityServiceImpl implements CityService{
 	}
 	
 	@Override
-	public List<City> getByUpper(int upper){
+	public List<City> getByUpper(Integer upper){
 		return citytMapper.getByUpper(upper);
 	}
 }

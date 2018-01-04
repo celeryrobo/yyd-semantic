@@ -30,12 +30,12 @@ public class PostCodeServiceImpl implements PostCodeService{
 	}
 	
 	@Override
-	public List<PostCode> getByAreaId(int areaId){
+	public List<PostCode> getByAreaId(Integer areaId){
 		return postCodeMapper.getByAreaId(areaId);
 	}
 	
 	@Override
-	public List<PostCode> getByAreaIdAndLevel(int areaId,int level){
+	public List<PostCode> getByAreaIdAndLevel(Integer areaId,Integer level){
 		return postCodeMapper.getByAreaIdAndLevel(areaId, level);
 	}
 }
