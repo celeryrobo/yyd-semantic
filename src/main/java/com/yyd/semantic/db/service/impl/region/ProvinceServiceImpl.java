@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yyd.semantic.db.bean.region.City;
 import com.yyd.semantic.db.bean.region.Province;
 import com.yyd.semantic.db.mapper.region.ProvinceMapper;
 import com.yyd.semantic.db.service.region.ProvinceService;

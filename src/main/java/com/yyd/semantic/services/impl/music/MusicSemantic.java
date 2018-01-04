@@ -13,10 +13,8 @@ import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.CommonUtils;
 import com.yyd.semantic.db.bean.music.Singer;
-import com.yyd.semantic.db.bean.music.Category;
 import com.yyd.semantic.db.bean.music.Song;
 import com.yyd.semantic.db.service.music.SingerService;
-import com.yyd.semantic.db.service.music.CategoryService;
 import com.yyd.semantic.db.service.music.SongService;
 
 @Component
@@ -25,8 +23,6 @@ public class MusicSemantic implements Semantic<MusicBean> {
 	private SongService songService;
 	@Autowired
 	private SingerService singerService;
-	@Autowired
-	private CategoryService categoryService;
 
 	@Override
 	public MusicBean handle(YbnfCompileResult ybnfCompileResult, SemanticContext semanticContext) {
