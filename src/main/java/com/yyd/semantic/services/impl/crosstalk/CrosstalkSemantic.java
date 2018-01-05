@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ybnf.compiler.beans.YbnfCompileResult;
-import com.ybnf.compiler.beans.AbstractSemanticResult.Operation;
-import com.ybnf.compiler.beans.AbstractSemanticResult.ParamType;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.CommonUtils;
@@ -45,7 +43,8 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 				break;
 			}		
 			default: {
-				result = new CrosstalkBean("这句话太复杂了，我还不能理解");
+				String msg = CrosstalkError.getMsg(CrosstalkError.ERROR_UNKNOW_INTENT);
+				result = new CrosstalkBean(CrosstalkError.ERROR_UNKNOW_INTENT,msg);
 				break;
 			}
 		}
@@ -53,7 +52,8 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 	}
 	
 	private CrosstalkBean queryCrosstalk(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = CrosstalkError.ERROR_NO_RESOURCE;
+				
 		CrosstalkSlot ss = new CrosstalkSlot(semanticContext.getParams());
 		Crosstalk entity = null;
 		
@@ -82,10 +82,10 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 			if(null != name) {
 				List<Crosstalk> crosstalks = crosstalkService.getByName(name);
 				if(null == crosstalks || crosstalks.isEmpty()) {
-					result = "我没听过相声" + name;
+					errorCode = CrosstalkError.ERROR_NO_RESOURCE;
 				}
 				else if(null != category) {
-					result = "我没听过此类相声";
+					errorCode = CrosstalkError.ERROR_NO_RESOURCE;
 				}
 				else
 				{
@@ -123,15 +123,13 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 					}
 					else
 					{
-						result = "我还没听过此相声";
+						errorCode = CrosstalkError.ERROR_NO_RESOURCE;
 					}
 				}
 				
 			}			
-			else if(null != category) {		
-				
-				result = "我还没听过此类相声";
-				
+			else if(null != category) {					
+				errorCode = CrosstalkError.ERROR_NO_RESOURCE;				
 			}
 			else if(null != actor) {
 				List<Integer> acotrIds = actorService.getIdsByName(actor);
@@ -139,7 +137,7 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 				Integer actorId = acotrIds.get(idx);
 				List<Crosstalk> crosstalks = crosstalkService.findByActorId(actorId);
 				if (crosstalks.isEmpty()) {
-					result = "我没听过" + actor + "的相声";
+					errorCode = CrosstalkError.ERROR_NO_RESOURCE;
 				} else {
 					idx = CommonUtils.randomInt(crosstalks.size());
 					entity = crosstalks.get(idx);
@@ -150,20 +148,21 @@ public class CrosstalkSemantic implements Semantic<CrosstalkBean> {
 			
 		}
 		
+		if(null != entity) {
+			errorCode = CrosstalkError.ERROR_SUCCESS;
+		}
+		
 		
 		CrosstalkBean resultBean = null;
-
-		if (entity != null) {
+		if (errorCode.equals(CrosstalkError.ERROR_SUCCESS)) {
 			ss.setId(entity.getId());
-			result = entity.getResourceUrl();
-			
-			resultBean = new CrosstalkBean(null,entity.getResourceUrl(),entity);
-			resultBean.setOperation(Operation.PLAY);
-			resultBean.setParamType(ParamType.U);
+						
+			resultBean = new CrosstalkBean(null,entity.getResourceUrl(),entity);			
 		}
 		else
 		{
-			resultBean = new CrosstalkBean(result);			
+			String msg = CrosstalkError.getMsg(errorCode);
+			resultBean = new CrosstalkBean(errorCode,msg);			
 		}
 		
 		return resultBean;

@@ -8,6 +8,11 @@ public class PostCodeBean extends AbstractSemanticResult{
 	public PostCodeBean(String text) {
 		this.text = text;
 	}
+	
+	public PostCodeBean(Integer errorCode,String text) {
+		this.text = text;
+		setErrCode(errorCode);
+	}
 
 	public String getText() {
 		return text;

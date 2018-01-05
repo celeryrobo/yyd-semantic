@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ybnf.compiler.beans.YbnfCompileResult;
-import com.ybnf.compiler.beans.AbstractSemanticResult.Operation;
-import com.ybnf.compiler.beans.AbstractSemanticResult.ParamType;
 import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.CommonUtils;
@@ -44,7 +42,8 @@ public class OperaSemantic implements Semantic<OperaBean> {
 				break;
 			}		
 			default: {
-				result = new OperaBean("这句话太复杂了，我还不能理解");
+				String msg = OperaError.getMsg(OperaError.ERROR_UNKNOW_INTENT);
+				result = new OperaBean(OperaError.ERROR_UNKNOW_INTENT,msg);
 				break;
 			}
 		}
@@ -52,7 +51,8 @@ public class OperaSemantic implements Semantic<OperaBean> {
 	}
 	
 	private OperaBean queryOpera(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = OperaError.ERROR_NO_RESOURCE;
+		
 		OperaSlot ss = new OperaSlot(semanticContext.getParams());
 		Opera entity = null;
 		
@@ -62,6 +62,10 @@ public class OperaSemantic implements Semantic<OperaBean> {
 			if(ids.size() > 0) {
 				int idx = CommonUtils.randomInt(ids.size());
 				entity = operaService.getById(ids.get(idx));	
+			}
+			else
+			{
+				errorCode = OperaError.ERROR_NO_RESOURCE;
 			}
 				
 		}
@@ -87,11 +91,11 @@ public class OperaSemantic implements Semantic<OperaBean> {
 				operas = operaService.getByName(name);
 				//根据戏曲名字查找
 				if(null == operas || operas.isEmpty()) {
-					result = "我没听过戏曲" + name;
+					errorCode = OperaError.ERROR_NO_RESOURCE;
 				}
 				else if(null != actor){
 					//暂时没有戏曲演员
-					result = "我还没听过" + actor + "的戏曲";
+					errorCode = OperaError.ERROR_NO_RESOURCE;
 				}
 				else 
 				{
@@ -130,13 +134,13 @@ public class OperaSemantic implements Semantic<OperaBean> {
 					}
 					else
 					{
-						result = "我还没听过此类戏曲";
+						errorCode = OperaError.ERROR_NO_RESOURCE;
 					}
 				}
 			}
 			else if(null != actor) {
 				//根据演员查找
-				result = "我还没听过" + actor + "的戏曲";
+				errorCode = OperaError.ERROR_NO_RESOURCE;
 			}
 			else if(null != category) {
 				//根据类别查找	
@@ -150,7 +154,7 @@ public class OperaSemantic implements Semantic<OperaBean> {
 				}
 				
 				if(null == operas || operas.isEmpty() ) {
-					result = "我还没听过这个类型的戏曲";
+					errorCode = OperaError.ERROR_NO_RESOURCE;
 				}
 				else
 				{						
@@ -163,19 +167,21 @@ public class OperaSemantic implements Semantic<OperaBean> {
 		}
 		
 		
-		OperaBean resultBean = null;
+		if(null != entity) {
+			errorCode = OperaError.ERROR_SUCCESS;
+		}
 		
-		if (entity != null) {
+		
+		OperaBean resultBean = null;		
+		if (errorCode.equals(OperaError.ERROR_SUCCESS)) {
 			ss.setId(entity.getId());
-			result = entity.getResourceUrl();
-			
-			resultBean = new OperaBean(null,entity.getResourceUrl(),entity);
-			resultBean.setOperation(Operation.PLAY);
-			resultBean.setParamType(ParamType.U);
+					
+			resultBean = new OperaBean(null,entity.getResourceUrl(),entity);			
 		}
 		else
 		{
-			resultBean = new OperaBean(result);			
+			String msg = OperaError.getMsg(errorCode);
+			resultBean = new OperaBean(errorCode,msg);			
 		}
 		
 		

@@ -52,7 +52,8 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 				break;
 			}	
 			default: {
-				result = new PostCodeBean("这句话太复杂了，我还不能理解");
+				String msg = PostCodeError.getMsg(PostCodeError.ERROR_UNKNOW_INTENT);
+				result = new PostCodeBean(PostCodeError.ERROR_UNKNOW_INTENT,msg);
 				break;
 			}
 		}
@@ -61,8 +62,8 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 	
 	
 	private PostCodeBean queryCode(Map<String, String> slots, SemanticContext semanticContext) {
-		String result ="我听不懂你在说什么";		
-		PostCodeBean resultBean = null;
+		Integer errorCode = PostCodeError.ERROR_NO_RESOURCE;
+		
 		List<PostCode> listPostCode = new ArrayList<PostCode>();
 		
 		String provShort =slots.get(PostCodeSlot.REGION_PROV_SHORT);
@@ -161,7 +162,10 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 						
 			//根据县级区域查找				
 			if(districtList.isEmpty()) {
-				result = "我还不知道该地邮编";
+				//此处表明地址校验失败,即没有地址通过校验
+				if(districts.size() > 0) {
+					errorCode = PostCodeError.ERROR_REGION_NAME_ERROR;
+				}
 			}
 			else
 			{
@@ -240,7 +244,11 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			
 			//根据地级区域查找			
 			if(cityList.isEmpty()) {
-				result = "我还不知道该地邮编";
+				//此处表明地址校验失败,即没有地址通过校验
+				if(citys.size() > 0) {
+					errorCode = PostCodeError.ERROR_REGION_NAME_ERROR;
+				}
+				
 			}
 			else
 			{
@@ -254,7 +262,7 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 		else if(null != provs) {
 			//根据省级区域查找							
 			if(provs.isEmpty()) {
-				result = "我还不知道该地邮编";
+				errorCode = PostCodeError.ERROR_NO_RESOURCE;
 			}
 			else
 			{
@@ -270,7 +278,8 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			}
 			
 		}
-				
+		
+		String result = null;
 		StringBuilder builder = new StringBuilder();		
 		for(int i =0; i < listPostCode.size();i++) {
 			builder.append(listPostCode.get(i).getName()+" ");
@@ -279,16 +288,33 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			if(i != listPostCode.size()-1) {
 				builder.append(",");
 			}
-		}
-		
-				
+		}				
 		if(!listPostCode.isEmpty()) {
 			result = builder.toString();
 		}
+		if(null != result) {
+			errorCode = PostCodeError.ERROR_SUCCESS;
+		}
 		
 		
-		resultBean = new PostCodeBean(result);
-		
+		PostCodeBean resultBean = null;
+		if(errorCode.equals(PostCodeError.ERROR_SUCCESS)) {
+			resultBean = new PostCodeBean(result);
+		}
+		else
+		{
+			String msg = PostCodeError.getMsg(errorCode);
+			if(errorCode.equals(PostCodeError.ERROR_REGION_NAME_ERROR)) {
+				//地名校验失败的错误单独处理，因为其他家的服务对此问题一般会回答错误
+				resultBean = new PostCodeBean(msg);
+			}
+			else
+			{
+				resultBean = new PostCodeBean(errorCode,msg);
+			}
+			
+		}
+				
 		return resultBean;
 	}
 	
@@ -299,19 +325,23 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 	 * @return
 	 */
 	private PostCodeBean queryRegion(Map<String, String> slots, SemanticContext semanticContext) {
-		String result ="我听不懂你在说什么";		
+		Integer errorCode = PostCodeError.ERROR_NO_RESOURCE;
+		
 		String postCode =slots.get(PostCodeSlot.REGION_POSTCODE);
 		PostCodeBean resultBean = null;
 		
 		if(null == postCode) {
-			resultBean = new PostCodeBean(result);
+			errorCode = PostCodeError.ERROR_NO_SLOG_DATA;
+			String msg = PostCodeError.getMsg(errorCode);
+			resultBean = new PostCodeBean(errorCode,msg);
 			return resultBean;
 		}
 		
 		List<PostCode> postCodeList = postService.getByCode(postCode);
 		if(null == postCodeList || postCodeList.isEmpty()) {
-			result = "我还不知道"+postCode+"是哪里的邮编";
-			resultBean = new PostCodeBean(result);
+			errorCode = PostCodeError.ERROR_NO_RESOURCE;
+			String msg = PostCodeError.getMsg(errorCode);
+			resultBean = new PostCodeBean(errorCode,msg);
 			return resultBean;
 		}
 			
@@ -393,6 +423,7 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 			}
 		}
 		
+		String result = null;
 		StringBuilder builder = new StringBuilder();
 		for(int i =0; i < areas.size();i++) {
 			builder.append(areas.get(i));
@@ -400,9 +431,20 @@ public class PostCodeSemantic implements Semantic<PostCodeBean>{
 				builder.append(",");
 			}
 		}
-		
 		result = builder.toString();
-		resultBean = new PostCodeBean(result);
+		if(null != result) {
+			errorCode = PostCodeError.ERROR_SUCCESS;
+		}
+		
+		
+		if(errorCode.equals(PostCodeError.ERROR_SUCCESS)) {
+			resultBean = new PostCodeBean(result);
+		}
+		else
+		{
+			String msg = PostCodeError.getMsg(errorCode);
+			resultBean = new PostCodeBean(errorCode,msg);
+		}		
 		
 		return resultBean;
 	}

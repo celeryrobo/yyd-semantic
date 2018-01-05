@@ -8,6 +8,11 @@ public class CarNumberBean extends AbstractSemanticResult{
 	public CarNumberBean(String text) {
 		this.text = text;
 	}
+	
+	public CarNumberBean(Integer errorCode,String text) {
+		this.text = text;
+		setErrCode(errorCode);
+	}
 
 	public String getText() {
 		return text;

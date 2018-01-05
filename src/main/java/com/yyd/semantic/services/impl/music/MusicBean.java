@@ -16,17 +16,21 @@ public class MusicBean extends AbstractSemanticResult {
 	private String url;
 	private int    mode; 
 	
-	
-	public MusicBean(String text, String url, int mode,Object resource) {
+	//执行正确时使用
+	public MusicBean(String text, String url, int mode,Object resource,Operation operation,ParamType paramType) {
 		this.text = text;
 		this.url = url;
 		this.mode = mode;
 		setResource(resource);	
+		setOperation(operation);
+		setParamType(paramType);
 	}
 
-	public MusicBean(String text) {
+	//执行错误时使用
+	public MusicBean(Integer errorCode,String text) {
 		this.mode = PLAY_NO;
 		this.text = text;
+		setErrCode(errorCode);
 	}
 
 	public String getText() {

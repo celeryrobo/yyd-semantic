@@ -51,7 +51,8 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 				break;
 			}	
 			default: {
-				result = new CarNumberBean("这句话太复杂了，我还不能理解");
+				String msg = CarNumberError.getMsg(CarNumberError.ERROR_UNKNOW_INTENT);
+				result = new CarNumberBean(CarNumberError.ERROR_UNKNOW_INTENT,msg);
 				break;
 			}
 		}
@@ -60,7 +61,8 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 	
 	
 	private CarNumberBean queryNumber(Map<String, String> slots, SemanticContext semanticContext) {
-		String result ="我听不懂你在说什么";		
+		Integer errorCode = CarNumberError.ERROR_NO_RESOURCE;
+		
 		CarNumberBean resultBean = null;
 		List<CarNumber> listCarNumber = new ArrayList<CarNumber>();
 		
@@ -164,7 +166,10 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 						
 			//先根据县一级区域查找车牌，如果找不到再根据上一级区域查找
 			if(districtList.isEmpty()) {
-				result = "我还不知道该地车牌号";
+				//此处表明地址校验失败,即没有地址通过校验
+				if(districts.size() > 0) {
+					errorCode = CarNumberError.ERROR_REGION_NAME_ERROR;
+				}
 			}
 			else
 			{
@@ -263,7 +268,10 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 			
 			//根据地级区域查找
 			if(cityList.isEmpty()) {
-				result = "我还不知道该地区车牌";
+				//此处表明地址校验失败,即没有地址通过校验
+				if(citys.size() > 0) {
+					errorCode = CarNumberError.ERROR_REGION_NAME_ERROR;
+				}
 			}
 			else
 			{
@@ -277,7 +285,7 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 		else if(null != provs) {
 			//根据省级区域查找			
 			if(provs.isEmpty()) {
-				result = "我还不知道该地车牌";
+				errorCode = CarNumberError.ERROR_NO_RESOURCE;
 			}
 			else
 			{	
@@ -304,6 +312,7 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 			
 		}
 		
+		String result = null;
 		StringBuilder builder = new StringBuilder();
 		for(int i =0; i < listCarNumber.size();i++) {			
 			builder.append(listCarNumber.get(i).getName()+" ");			
@@ -317,8 +326,28 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 		if(!listCarNumber.isEmpty()) {
 			result = builder.toString();
 		}
-				
-		resultBean = new CarNumberBean(result);			
+		if(null != result) {
+			errorCode = CarNumberError.ERROR_SUCCESS;
+		}
+		
+		
+		if(errorCode.equals(CarNumberError.ERROR_SUCCESS)) {
+			resultBean = new CarNumberBean(result);		
+		}
+		else
+		{
+			String msg = CarNumberError.getMsg(errorCode);			
+			if(errorCode.equals(CarNumberError.ERROR_REGION_NAME_ERROR)) {
+				//地名校验失败的错误单独处理，因为其他家的服务对此问题一般会回答错误
+				resultBean = new CarNumberBean(msg);
+			}
+			else
+			{
+				resultBean = new CarNumberBean(errorCode,msg);
+			}
+					
+		}
+			
 		
 		
 		return resultBean;
@@ -326,19 +355,23 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 	
 	
 	private CarNumberBean queryRegion(Map<String, String> slots, SemanticContext semanticContext) {
-		String result ="我听不懂你在说什么";		
+		Integer errorCode = CarNumberError.ERROR_NO_RESOURCE;
+		
 		String carNumber =slots.get(CarNumberSlot.REGION_CARNUMBER);
 		CarNumberBean resultBean = null;
 		
 		if(null == carNumber) {
-			resultBean = new CarNumberBean(result);
+			errorCode = CarNumberError.ERROR_NO_SLOG_DATA;
+			String msg = CarNumberError.getMsg(errorCode);
+			resultBean = new CarNumberBean(errorCode,msg);
 			return resultBean;
 		}
 		
 		List<CarNumber> carNumberList = carNumberService.getByNumber(carNumber);
 		if(null == carNumberList || carNumberList.isEmpty()) {
-			result = "我还不知道"+carNumber+"是哪里的车牌";
-			resultBean = new CarNumberBean(result);
+			errorCode = CarNumberError.ERROR_NO_RESOURCE;
+			String msg = CarNumberError.getMsg(errorCode);
+			resultBean = new CarNumberBean(errorCode,msg);
 			return resultBean;
 		}
 			
@@ -420,6 +453,7 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 			}
 		}
 		
+		String result = null;
 		StringBuilder builder = new StringBuilder();
 		for(int i =0; i < areas.size();i++) {
 			builder.append(areas.get(i));
@@ -428,9 +462,20 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 			}
 		}		
 		result = builder.toString();
+		if(null != result) {
+			errorCode = CarNumberError.ERROR_SUCCESS;
+		}
 		
 		
-		resultBean = new CarNumberBean(result);
+		if(errorCode.equals(CarNumberError.ERROR_SUCCESS)) {
+			resultBean = new CarNumberBean(result);
+		}
+		else
+		{
+			String msg = CarNumberError.getMsg(errorCode);
+			resultBean = new CarNumberBean(errorCode,msg);
+		}
+		
 		
 		return resultBean;
 	}

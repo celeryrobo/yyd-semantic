@@ -8,6 +8,11 @@ public class JokeBean extends AbstractSemanticResult{
 	public JokeBean(String text) {
 		this.text = text;
 	}
+	
+	public JokeBean(Integer errorCode,String text) {
+		this.text = text;
+		setErrCode(errorCode);
+	}
 
 	public String getText() {
 		return text;

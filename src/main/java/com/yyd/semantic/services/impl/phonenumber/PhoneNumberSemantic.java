@@ -36,7 +36,8 @@ public class PhoneNumberSemantic implements Semantic<PhoneNumberBean> {
 				break;
 			}	
 			default: {
-				result = new PhoneNumberBean("这句话太复杂了，我还不能理解");
+				String msg = PhonenumberError.getMsg(PhonenumberError.ERROR_UNKNOW_INTENT);
+				result = new PhoneNumberBean(PhonenumberError.ERROR_UNKNOW_INTENT,msg);
 				break;
 			}
 		}
@@ -44,7 +45,8 @@ public class PhoneNumberSemantic implements Semantic<PhoneNumberBean> {
 	}
 	
 	private PhoneNumberBean queryNumber(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = PhonenumberError.ERROR_NO_RESOURCE;
+		
 		PhoneNumberSlot ss = new PhoneNumberSlot(semanticContext.getParams());
 		PhoneNumber entity = null;
 		
@@ -53,7 +55,7 @@ public class PhoneNumberSemantic implements Semantic<PhoneNumberBean> {
 			List<PhoneNumber> numbers = phoneNumberService.findByName(name);
 			
 			if(null == numbers || numbers.isEmpty()) {
-				result = "我没听过" + name+"的号码";
+				errorCode = PhonenumberError.ERROR_NO_RESOURCE;
 			}
 			else
 			{
@@ -62,17 +64,22 @@ public class PhoneNumberSemantic implements Semantic<PhoneNumberBean> {
 			}
 		}
 		
-		PhoneNumberBean resultBean = null;
+		if(null != entity) {
+			errorCode = PhonenumberError.ERROR_SUCCESS;
+		}
 		
-		if (entity != null) {
+		
+		PhoneNumberBean resultBean = null;		
+		if (errorCode.equals(PhonenumberError.ERROR_SUCCESS)) {
 			ss.setId(entity.getId());
-			result = entity.getNumber();
+			String result = entity.getNumber();
 			
 			resultBean = new PhoneNumberBean(result);			
 		}
 		else
 		{
-			resultBean = new PhoneNumberBean(result);			
+			String msg = PhonenumberError.getMsg(errorCode);
+			resultBean = new PhoneNumberBean(errorCode,msg);			
 		}
 		
 		
@@ -80,7 +87,8 @@ public class PhoneNumberSemantic implements Semantic<PhoneNumberBean> {
 	}
 	
 	private PhoneNumberBean queryName(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = PhonenumberError.ERROR_NO_RESOURCE;
+		
 		PhoneNumberSlot ss = new PhoneNumberSlot(semanticContext.getParams());
 		PhoneNumber entity = null;
 		
@@ -89,7 +97,7 @@ public class PhoneNumberSemantic implements Semantic<PhoneNumberBean> {
 			List<PhoneNumber> numbers = phoneNumberService.getByNumber(number);
 			
 			if(null == numbers || numbers.isEmpty()) {
-				result = "我没听过这个号码";
+				errorCode = PhonenumberError.ERROR_NO_RESOURCE;
 			}
 			else
 			{
@@ -98,17 +106,21 @@ public class PhoneNumberSemantic implements Semantic<PhoneNumberBean> {
 			}
 		}
 		
-		PhoneNumberBean resultBean = null;
+		if(null != entity) {
+			errorCode = PhonenumberError.ERROR_SUCCESS;
+		}
 		
-		if (entity != null){
+		PhoneNumberBean resultBean = null;		
+		if (errorCode.equals(PhonenumberError.ERROR_SUCCESS)){
 			ss.setId(entity.getId());
-			result = entity.getName();
+			String result = entity.getName();
 			
 			resultBean = new PhoneNumberBean(result);			
 		}
 		else
 		{
-			resultBean = new PhoneNumberBean(result);			
+			String msg = PhonenumberError.getMsg(errorCode);
+			resultBean = new PhoneNumberBean(errorCode,msg);
 		}
 		
 		

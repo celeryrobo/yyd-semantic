@@ -8,6 +8,11 @@ public class PhoneNumberBean extends AbstractSemanticResult{
 	public PhoneNumberBean(String text) {
 		this.text = text;
 	}
+	
+	public PhoneNumberBean(Integer errorCode,String text) {
+		this.text = text;
+		setErrCode(errorCode);
+	}
 
 	public String getText() {
 		return text;

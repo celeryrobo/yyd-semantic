@@ -52,7 +52,8 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 				break;
 			}	
 			default: {
-				result = new AreaCodeBean("这句话太复杂了，我还不能理解");
+				String msg = AreaCodeError.getMsg(AreaCodeError.ERROR_UNKNOW_INTENT);
+				result = new AreaCodeBean(AreaCodeError.ERROR_UNKNOW_INTENT,msg);
 				break;
 			}
 		}
@@ -61,8 +62,8 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 	
 	
 	private AreaCodeBean queryCode(Map<String, String> slots, SemanticContext semanticContext) {
-		String result ="我听不懂你在说什么";		
-		AreaCodeBean resultBean = null;
+		Integer errorCode = AreaCodeError.ERROR_NO_RESOURCE;
+		
 		List<AreaCode> listAreaCode = new ArrayList<AreaCode>();
 		
 		String provShort =slots.get(AreaCodeSlot.REGION_PROV_SHORT);
@@ -164,7 +165,10 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 			
 			//县级区域返回时要加上它的上一级区域
 			if(districtList.isEmpty()) {
-				result = "我还不知道该地区号";
+				//此处表明地址校验失败,即没有地址通过校验
+				if(districts.size() > 0) {
+					errorCode = AreaCodeError.ERROR_REGION_NAME_ERROR;
+				}
 			}
 			else
 			{
@@ -174,7 +178,6 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 					List<AreaCode> list = areaCodeService.getByAreaIdAndLevel(area.getUpper(), area.getUpperLevel());
 					tmpAreaCode.addAll(list);
 				}	
-				
 				
 				if(null != districtList.get(0).getUnit()) {
 					targetDistrict = districtList.get(0).getName() + districtList.get(0).getUnit();
@@ -214,7 +217,11 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 			
 			//根据地级区域查找
 			if(cityList.isEmpty()) {
-				result = "我还不知道该地区号";
+				//此处表明地址校验失败,即没有地址通过校验
+				if(citys.size() > 0) {
+					errorCode = AreaCodeError.ERROR_REGION_NAME_ERROR;
+				}
+				
 			}
 			else
 			{
@@ -228,7 +235,7 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 		else if(null != provs) {
 			//根据省级区域查找						
 			if(provs.isEmpty()) {
-				result = "我还不知道该地区号";
+				errorCode = AreaCodeError.ERROR_NO_RESOURCE;
 			}
 			else
 			{
@@ -261,7 +268,7 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 		
 		StringBuilder builder = new StringBuilder();
 		for(int i =0; i < listAreaCode.size();i++) {			
-			builder.append(listAreaCode.get(i).getName()+" "); //显示上一级区域名字			
+			builder.append(listAreaCode.get(i).getName()+" "); //显示区域名字			
 			builder.append(listAreaCode.get(i).getCode());
 			
 			if(i != listAreaCode.size()-1) {
@@ -269,12 +276,33 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 			}
 		}
 		
-		
+		String result = null;
 		if(!listAreaCode.isEmpty()) {
 			result = builder.toString();
 		}
-				
-		resultBean = new AreaCodeBean(result);		
+		if(null != result) {
+			errorCode = AreaCodeError.ERROR_SUCCESS;
+		}
+		
+		
+		AreaCodeBean resultBean = null;
+		if(errorCode.equals(AreaCodeError.ERROR_SUCCESS)) {
+			resultBean = new AreaCodeBean(result);	
+		}
+		else
+		{
+			String msg = AreaCodeError.getMsg(errorCode);
+			if(errorCode.equals(AreaCodeError.ERROR_REGION_NAME_ERROR)) {
+				//地名校验失败的错误单独处理，因为其他家的服务对此问题一般会回答错误
+				resultBean = new AreaCodeBean(msg);	
+			}
+			else
+			{
+				resultBean = new AreaCodeBean(errorCode,msg);	
+			}			
+			
+		}
+			
 		
 		return resultBean;
 	}
@@ -286,19 +314,23 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 	 * @return
 	 */
 	private AreaCodeBean queryRegion(Map<String, String> slots, SemanticContext semanticContext) {
-		String result ="我听不懂你在说什么";		
+		Integer errorCode = AreaCodeError.ERROR_NO_RESOURCE;
+		
 		String areaCode =slots.get(AreaCodeSlot.REGION_AREACODE);
 		AreaCodeBean resultBean = null;
 		
 		if(null == areaCode) {
-			resultBean = new AreaCodeBean(result);
+			errorCode = AreaCodeError.ERROR_NO_SLOG_DATA;
+			String msg = AreaCodeError.getMsg(errorCode);
+			resultBean = new AreaCodeBean(errorCode,msg);
 			return resultBean;
 		}
 		
 		List<AreaCode> areaCodeList = areaCodeService.getByCode(areaCode);
 		if(null == areaCodeList || areaCodeList.isEmpty()) {
-			result = "我还不知道"+areaCode+"是哪里的邮编";
-			resultBean = new AreaCodeBean(result);
+			errorCode = AreaCodeError.ERROR_NO_RESOURCE;
+			String msg = AreaCodeError.getMsg(errorCode);
+			resultBean = new AreaCodeBean(errorCode,msg);
 			return resultBean;
 		}
 			
@@ -378,6 +410,7 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 			}
 		}
 		
+		String result = null;
 		StringBuilder builder = new StringBuilder();
 		for(int i =0; i < areas.size();i++) {
 			builder.append(areas.get(i));
@@ -386,9 +419,20 @@ public class AreaCodeSemantic implements Semantic<AreaCodeBean>{
 			}
 		}		
 		result = builder.toString();
+		if(null != result) {
+			errorCode = AreaCodeError.ERROR_SUCCESS;
+		}
 		
 		
-		resultBean = new AreaCodeBean(result);
+		if(errorCode.equals(AreaCodeError.ERROR_SUCCESS)) {
+			resultBean = new AreaCodeBean(result);
+		}
+		else
+		{
+			String msg = AreaCodeError.getMsg(errorCode);
+			resultBean = new AreaCodeBean(errorCode,msg);
+		}
+				
 		
 		return resultBean;
 	}

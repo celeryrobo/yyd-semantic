@@ -10,11 +10,13 @@ public class CrosstalkBean extends AbstractSemanticResult{
 		this.text = text;
 		this.url = url;
 		setResource(resource);		
+		setOperation(Operation.PLAY);
+		setParamType(ParamType.U);
 	}
 
-
-	public CrosstalkBean(String text) {
+	public CrosstalkBean(Integer errorCode,String text) {
 		this.text = text;
+		setErrCode(errorCode);
 	}
 
 	public String getText() {

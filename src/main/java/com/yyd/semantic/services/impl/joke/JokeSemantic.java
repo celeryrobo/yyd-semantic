@@ -34,7 +34,8 @@ public class JokeSemantic implements Semantic<JokeBean>{
 				break;
 			}		
 			default: {
-				result = new JokeBean("这句话太复杂了，我还不能理解");
+				String msg = JokeError.getMsg(JokeError.ERROR_UNKNOW_INTENT);
+				result = new JokeBean(JokeError.ERROR_UNKNOW_INTENT,msg);
 				break;
 			}
 		}
@@ -42,7 +43,8 @@ public class JokeSemantic implements Semantic<JokeBean>{
 	}
 	
 	private JokeBean queryJoke(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = JokeError.ERROR_NO_RESOURCE;
+		
 		JokeSlot ss = new JokeSlot(semanticContext.getParams());
 		Joke entity = null;
 		
@@ -63,7 +65,7 @@ public class JokeSemantic implements Semantic<JokeBean>{
 				//根据类别查找
 				List<Joke> operas = jokeService.findByCategoryName(category);
 				if(null == operas || operas.isEmpty() ) {
-					result = "我还没听过这个类型的笑话";					
+					errorCode = JokeError.ERROR_NO_RESOURCE;				
 				}
 				else
 				{						
@@ -75,20 +77,23 @@ public class JokeSemantic implements Semantic<JokeBean>{
 			
 		}
 		
+		if(null != entity) {
+			errorCode = JokeError.ERROR_SUCCESS;
+		}
 		
-		JokeBean resultBean = null;
 		
-		if (entity != null) {
+		JokeBean resultBean = null;		
+		if (errorCode.equals(JokeError.ERROR_SUCCESS)) {
 			ss.setId(entity.getId());
-			result = entity.getResourceUrl();
-			
+						
 			resultBean = new JokeBean(entity.getContent());
 			resultBean.setOperation(Operation.SPEAK);
 			resultBean.setParamType(ParamType.T);
 		}
 		else
 		{
-			resultBean = new JokeBean(result);			
+			String msg = JokeError.getMsg(errorCode);
+			resultBean = new JokeBean(errorCode,msg);			
 		}
 		
 		

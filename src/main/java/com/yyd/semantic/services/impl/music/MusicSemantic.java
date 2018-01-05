@@ -66,7 +66,8 @@ public class MusicSemantic implements Semantic<MusicBean> {
 			break;
 		}
 		default: {
-			result = new MusicBean("这句话太复杂了，我还不能理解");
+			String msg = MusicError.getMsg(MusicError.ERROR_UNKNOW_INTENT);
+			result = new MusicBean(MusicError.ERROR_UNKNOW_INTENT,msg);
 			break;
 		}
 		}
@@ -74,16 +75,20 @@ public class MusicSemantic implements Semantic<MusicBean> {
 	}
 
 	private MusicBean querySong(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		//String result = "我听不懂你在说什么";
+		Integer errorCode = MusicError.ERROR_NO_RESOURCE;
 		MusicSlot ss = new MusicSlot(semanticContext.getParams());
 		Song songEntity = null;
 		if (slots.isEmpty()) {
 			//随机挑选一首歌
-			List<Integer> songIds = songService.getIdList();
-			
+			List<Integer> songIds = songService.getIdList();			
 			if(songIds.size() > 0) {
 				int idx = CommonUtils.randomInt(songIds.size());
 				songEntity = songService.getById(songIds.get(idx));
+			}
+			else
+			{
+				errorCode = MusicError.ERROR_NO_RESOURCE;
 			}
 			
 		} else {
@@ -108,7 +113,7 @@ public class MusicSemantic implements Semantic<MusicBean> {
 			if (songs != null) {
 				//1.根据歌名查找歌曲
 				if (songs.isEmpty()) {
-					result = "我没听过歌曲" + song;
+					errorCode = MusicError.ERROR_NO_RESOURCE;
 				} else {
 					//验证歌手名是否一致
 					List<Song> songList1 = verifySinger(songs,singerIds);					
@@ -122,13 +127,13 @@ public class MusicSemantic implements Semantic<MusicBean> {
 					}
 					else
 					{
-						result = "我还没听过此类歌曲";
+						errorCode = MusicError.ERROR_NO_RESOURCE;
 					}
 				}
 			} else if (singerIds != null) {
 				//2.根据歌手名查找歌曲
 				if(singerIds.isEmpty()) {
-					result = "我没听过" + singer + "的歌";
+					errorCode = MusicError.ERROR_NO_RESOURCE;
 				}
 				else
 				{
@@ -136,7 +141,7 @@ public class MusicSemantic implements Semantic<MusicBean> {
 					Integer singerId = singerIds.get(idx);
 					songs = songService.getBySingerId(singerId);
 					if (songs.isEmpty()) {
-						result = "我没听过" + singer + "的歌";
+						errorCode = MusicError.ERROR_NO_RESOURCE;
 					} else {
 						List<Song> songList = verifyCategory(songs,songCategory);	
 						if(songList.size() > 0) {
@@ -145,7 +150,7 @@ public class MusicSemantic implements Semantic<MusicBean> {
 						}
 						else
 						{
-							result = "我没听过" + singer + "的此类歌曲";
+							errorCode = MusicError.ERROR_NO_RESOURCE;
 						}
 					}
 				}
@@ -162,7 +167,7 @@ public class MusicSemantic implements Semantic<MusicBean> {
 				}
 				
 				if(songs.isEmpty()) {
-					result = "我还没听过这个类型的歌";
+					errorCode = MusicError.ERROR_NO_RESOURCE;
 				}
 				else
 				{						
@@ -174,9 +179,13 @@ public class MusicSemantic implements Semantic<MusicBean> {
 			}
 		}
 		
-		MusicBean resultBean = null;
+		if(null != songEntity) {
+			errorCode = MusicError.ERROR_SUCCESS;
+		}
 		
-		if (songEntity != null) {
+		
+		MusicBean resultBean = null;		
+		if (errorCode.equals(MusicError.ERROR_SUCCESS)) {
 			ss.setSongId(songEntity.getId());
 						
 			Integer singerId = songEntity.getSingerId();
@@ -193,13 +202,12 @@ public class MusicSemantic implements Semantic<MusicBean> {
 				resource.setSinger(singer.getName());
 			}
 						
-			resultBean = new MusicBean(null,songEntity.getSongUrl(),MusicBean.PLAY_NORMAL,resource);
-			resultBean.setOperation(Operation.PLAY);
-			resultBean.setParamType(ParamType.U);
+			resultBean = new MusicBean(null,songEntity.getSongUrl(),MusicBean.PLAY_NORMAL,resource,Operation.PLAY,ParamType.U);			
 		}
 		else
 		{
-			resultBean = new MusicBean(result);			
+			String msg = MusicError.getMsg(errorCode);
+			resultBean = new MusicBean(errorCode,msg);			
 		}
 		
 		return resultBean;
@@ -274,7 +282,8 @@ public class MusicSemantic implements Semantic<MusicBean> {
 	}
 	
 	private MusicBean next(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = MusicError.ERROR_NO_RESOURCE;
+		
 		MusicSlot ss = new MusicSlot(semanticContext.getParams());
 		Song songEntity = null;
 	
@@ -293,13 +302,23 @@ public class MusicSemantic implements Semantic<MusicBean> {
 		{
 			//随机挑选一首歌
 			songIds = songService.getIdList();			
+		}		
+		if(null == songIds || songIds.size() <= 0) {
+			errorCode = MusicError.ERROR_NO_RESOURCE;
+		}
+		else
+		{
+			int idx = CommonUtils.randomInt(songIds.size());
+			songEntity = songService.getById(songIds.get(idx));				
 		}
 		
-		if(null != songIds && songIds.size() > 0) {
-			int idx = CommonUtils.randomInt(songIds.size());
-			songEntity = songService.getById(songIds.get(idx));			
-			ss.setSongId(songEntity.getId());
-			
+		if(null != songEntity) {
+			errorCode = MusicError.ERROR_SUCCESS;
+		}
+		
+		
+		if(errorCode.equals(MusicError.ERROR_SUCCESS)) {						
+			ss.setSongId(songEntity.getId());			
 			Integer singerId = songEntity.getSingerId();
 			Singer singer = null;
 			if(null != singerId) {
@@ -313,16 +332,13 @@ public class MusicSemantic implements Semantic<MusicBean> {
 			if(null != singer) {
 				resource.setSinger(singer.getName());
 			}
-			
-			
-			resultBean = new MusicBean(null,songEntity.getSongUrl(),MusicBean.PLAY_NORMAL,resource);
-			resultBean.setOperation(Operation.PLAY);
-			resultBean.setParamType(ParamType.U);
+						
+			resultBean = new MusicBean(null,songEntity.getSongUrl(),MusicBean.PLAY_NORMAL,resource,Operation.PLAY,ParamType.U);			
 		}
 		else
 		{
-			result = "我还没有歌曲";
-			resultBean = new MusicBean(result);
+			String msg = MusicError.getMsg(errorCode);
+			resultBean = new MusicBean(errorCode,msg);
 		}
 			
 		
@@ -332,18 +348,22 @@ public class MusicSemantic implements Semantic<MusicBean> {
 	
 	
 	private MusicBean last(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = MusicError.ERROR_NO_RESOURCE;
+		
 		MusicSlot ss = new MusicSlot(semanticContext.getParams());
 		Song songEntity = null;
 	
 		Integer songId = ss.getSongId();
-		songEntity = songService.getById(songId);		
 		if(null != songId) {
 			songEntity = songService.getById(songId);		
 		}
+		if(null != songEntity) {			
+			errorCode = MusicError.ERROR_SUCCESS;			
+		}
+		
 		
 		MusicBean resultBean = null;
-		if (songEntity != null) {
+		if (errorCode.equals(MusicError.ERROR_SUCCESS)) {
 			ss.setSongId(songEntity.getId());
 			
 			Integer singerId = songEntity.getSingerId();
@@ -360,31 +380,33 @@ public class MusicSemantic implements Semantic<MusicBean> {
 				resource.setSinger(singer.getName());
 			}
 			
-			resultBean = new MusicBean(null,songEntity.getSongUrl(),MusicBean.PLAY_NORMAL,resource);
-			resultBean.setOperation(Operation.PLAY);
-			resultBean.setParamType(ParamType.U);
+			resultBean = new MusicBean(null,songEntity.getSongUrl(),MusicBean.PLAY_NORMAL,resource,Operation.PLAY,ParamType.U);			
 		}
 		else
 		{
-			result = "还没有上一曲呀";
-			resultBean = new MusicBean(result);
+			String msg = MusicError.getMsg(errorCode);
+			resultBean = new MusicBean(errorCode,msg);
 		}
 		return resultBean;
 	}
 	
 	private MusicBean repeat(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = MusicError.ERROR_NO_RESOURCE;
+		
 		MusicSlot ss = new MusicSlot(semanticContext.getParams());
 		Song songEntity = null;
 	
 		Integer songId = ss.getSongId();
-		songEntity = songService.getById(songId);		
 		if(null != songId) {
 			songEntity = songService.getById(songId);		
 		}
+		if(null != songEntity) {
+			errorCode = MusicError.ERROR_SUCCESS;
+		}
+		
 		
 		MusicBean resultBean = null;
-		if (songEntity != null) {
+		if (errorCode.equals(MusicError.ERROR_SUCCESS)) {
 			ss.setSongId(songEntity.getId());
 			
 			Singer singer = singerService.getById(songEntity.getSingerId());			
@@ -396,20 +418,21 @@ public class MusicSemantic implements Semantic<MusicBean> {
 				resource.setSinger(singer.getName());
 			}
 			
-			resultBean = new MusicBean(null,songEntity.getSongUrl(),MusicBean.PLAY_REPEAT_SINGLE,resource);
-			resultBean.setOperation(Operation.PLAY);
-			resultBean.setParamType(ParamType.U);
+			resultBean = new MusicBean(null,songEntity.getSongUrl(),MusicBean.PLAY_REPEAT_SINGLE,resource,Operation.PLAY,ParamType.U);			
 		}
 		else
 		{
-			result = "我不知道你要重复放哪首歌";
-			resultBean = new MusicBean(result);
+			String msg = MusicError.getMsg(errorCode);
+			resultBean = new MusicBean(errorCode,msg);
 		}
+		
 		return resultBean;
 	}
 	
 	private MusicBean querySinger(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = MusicError.ERROR_NO_RESOURCE;
+		String result = null;
+		
 		MusicSlot ss = new MusicSlot(semanticContext.getParams());
 		Song songEntity = null;
 			
@@ -428,30 +451,45 @@ public class MusicSemantic implements Semantic<MusicBean> {
 				}
 				else
 				{
-					result = "无歌手名";
+					errorCode = MusicError.ERROR_NO_RESOURCE;
 				}
 				
 			}
 			else
 			{
-				result = "无歌手名";
+				errorCode = MusicError.ERROR_NO_RESOURCE;
 			}
 		}
 		else
 		{
-			result = "我不知道你是要问哪首歌的歌手";
+			errorCode = MusicError.ERROR_NO_RESOURCE;
 		}
 		
-		return new MusicBean(result);
+		if(null != result) {
+			errorCode = MusicError.ERROR_SUCCESS;
+		}
+		
+		MusicBean resultBean = null;
+		if(errorCode.equals(MusicError.ERROR_SUCCESS)) {
+			resultBean = new MusicBean(result,null,MusicBean.PLAY_NO,null,Operation.SPEAK,ParamType.T);			
+		}
+		else
+		{
+			String msg = MusicError.getMsg(errorCode);
+			resultBean = new MusicBean(errorCode,msg);
+		}
+		
+		return resultBean;
 	}
 
 	private MusicBean querySongName(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "我听不懂你在说什么";
+		Integer errorCode = MusicError.ERROR_NO_RESOURCE;
+		String result = null;
+		
 		MusicSlot ss = new MusicSlot(semanticContext.getParams());
 		Song songEntity = null;
 	
 		Integer songId = ss.getSongId();
-		songEntity = songService.getById(songId);		
 		if(null != songId) {
 			songEntity = songService.getById(songId);		
 		}
@@ -462,8 +500,24 @@ public class MusicSemantic implements Semantic<MusicBean> {
 		}
 		else
 		{
-			result = "我不知道你是要问哪首歌的歌名";
+			errorCode = MusicError.ERROR_NO_RESOURCE;
 		}
-		return new MusicBean(result);
+				
+		if(null != result) {
+			errorCode = MusicError.ERROR_SUCCESS;
+		}
+		
+		
+		MusicBean resultBean = null;
+		if(errorCode.equals(MusicError.ERROR_SUCCESS)) {
+			resultBean = new MusicBean(result,null,MusicBean.PLAY_NO,null,Operation.SPEAK,ParamType.T);	
+		}
+		else
+		{
+			String msg = MusicError.getMsg(errorCode);
+			resultBean = new MusicBean(errorCode,msg);
+		}
+		
+		return resultBean;
 	}
 }

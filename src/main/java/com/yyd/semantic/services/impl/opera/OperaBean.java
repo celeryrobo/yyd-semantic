@@ -3,6 +3,7 @@ package com.yyd.semantic.services.impl.opera;
 import com.ybnf.compiler.beans.AbstractSemanticResult;
 
 
+
 public class OperaBean extends AbstractSemanticResult{
 	private String text;
 	private String url;
@@ -10,10 +11,13 @@ public class OperaBean extends AbstractSemanticResult{
 	public OperaBean(String text, String url, Object resource) {
 		this.text = text;
 		this.url = url;
-		setResource(resource);		
+		setResource(resource);	
+		setOperation(Operation.PLAY);
+		setParamType(ParamType.U);
 	}
 
-	public OperaBean(String text) {
+	public OperaBean(Integer errorCode,String text) {
+		setErrCode(errorCode);
 		this.text = text;
 	}
 
