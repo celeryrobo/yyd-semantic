@@ -1,8 +1,10 @@
 package com.yyd.semantic.services.impl.carnumber;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -312,10 +314,23 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 			
 		}
 		
+		
+		//检查地名是否一样，因为有些地方下面有多个车牌号，如省级单位或直辖市
+		boolean same = false;
+		Set<String> names = new HashSet<String>();
+		for(int i=0; i<listCarNumber.size();i++) {
+			names.add(listCarNumber.get(i).getName());
+		}
+		if(listCarNumber.size() > 1 && names.size() == 1) {
+			same = true;
+		}
+		
 		String result = null;
 		StringBuilder builder = new StringBuilder();
-		for(int i =0; i < listCarNumber.size();i++) {			
-			builder.append(listCarNumber.get(i).getName()+" ");			
+		for(int i =0; i < listCarNumber.size();i++) {	
+			if(!same) {
+				builder.append(listCarNumber.get(i).getName()+" ");	
+			}					
 			
 			builder.append(listCarNumber.get(i).getCode());
 			
