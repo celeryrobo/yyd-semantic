@@ -330,7 +330,13 @@ public class CarNumberSemantic implements Semantic<CarNumberBean>{
 		for(int i =0; i < listCarNumber.size();i++) {	
 			if(!same) {
 				builder.append(listCarNumber.get(i).getName()+" ");	
-			}					
+			}
+			else
+			{
+				if(0 == i) {
+					builder.append(listCarNumber.get(i).getName()+" ");	
+				}
+			}
 			
 			builder.append(listCarNumber.get(i).getCode());
 			
