@@ -27,6 +27,11 @@ import com.yyd.semantic.nlp.WordTerm;
 
 @Component
 public class RecipeSemantic implements Semantic<RecipeBean> {
+	private final static Integer SEMANTIC_FAIL = 101;
+	private final static Integer RESOURCE_NOTEXSIT = 102;
+
+	private final static String SEMANTIC_ERR_MSG = "听不懂你说的什么";
+
 	private final static String PREFIX = "PREFIX recipe: <http://www.yydrobot.com/ontologies/recipe.owl#>";
 	@Value("${tdb.datasource.url}")
 	private String tdbConnectionStr;
@@ -60,24 +65,25 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 			result = processThisRecipeFood(objects, semanticContext);
 			break;
 		default:
-			result = new RecipeBean("这句话太复杂了，我还不能理解");
+			result = new RecipeBean(SEMANTIC_FAIL, "这句话太复杂了，我还不能理解");
 			break;
 		}
 		return result;
 	}
 
 	private RecipeBean processThisRecipeFood(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		RecipeBean result = new RecipeBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		RecipeSlot recipeSlot = new RecipeSlot(semanticContext.getParams());
 		String recipeFood = recipeSlot.getRecipeFood();
 		if (recipeFood != null) {
-			result = recipeFood;
+			result.setText(recipeFood);
+			result.setErrCode(0);
 		}
-		return new RecipeBean(result);
+		return result;
 	}
 
 	private RecipeBean processRecipeStepText(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		RecipeBean result = new RecipeBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		String recipeFood = slots.get(RecipeSlot.RECIPE_FOOD);
 		RecipeSlot recipeSlot = new RecipeSlot(semanticContext.getParams());
 		if (recipeFood == null) {
@@ -127,17 +133,17 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 				}
 			}
 			if (sets.isEmpty()) {
-				result = "我没吃过" + recipeFood + "，不了解";
+				result.setText("我没吃过" + recipeFood + "，不了解");
 			} else {
-				result = StringUtil.joiner(sets, "");
+				result.setText(StringUtil.joiner(sets, ""));
 				recipeSlot.setRecipeFood(recipeFood);
 			}
 		}
-		return new RecipeBean(result);
+		return result;
 	}
 
 	private RecipeBean processRecipeFood(Map<String, String> slots, SemanticContext semanticContext, String action) {
-		String result = "听不懂你说的什么";
+		RecipeBean result = new RecipeBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		String recipeFood = slots.get(RecipeSlot.RECIPE_FOOD);
 		RecipeSlot recipeSlot = new RecipeSlot(semanticContext.getParams());
 		if (recipeFood == null) {
@@ -172,17 +178,17 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 				}
 			}
 			if (sets.isEmpty()) {
-				result = "我没吃过" + recipeFood + "，不了解";
+				result.setText("我没吃过" + recipeFood + "，不了解");
 			} else {
-				result = StringUtil.joiner(sets, "、");
+				result.setText(StringUtil.joiner(sets, "、"));
 				recipeSlot.setRecipeFood(recipeFood);
 			}
 		}
-		return new RecipeBean(result);
+		return result;
 	}
 
 	private RecipeBean isIngredientOf(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		RecipeBean result = new RecipeBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		String recpieIngredients = slots.get(RecipeSlot.RECIPE_INGREDIENTS);
 		if (recpieIngredients != null) {
 			List<WordTerm> terms = NLPFactory.segment(recpieIngredients, "recipe_recipeIngredient");
@@ -208,11 +214,11 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 				}
 			}
 			if (list.isEmpty()) {
-				result = "我不知道" + recpieIngredients + "能做什么菜";
+				result.setText("我不知道" + recpieIngredients + "能做什么菜");
 			} else {
-				result = StringUtil.joiner(list, "、");
+				result.setText(StringUtil.joiner(list, "、"));
 			}
 		}
-		return new RecipeBean(result);
+		return result;
 	}
 }

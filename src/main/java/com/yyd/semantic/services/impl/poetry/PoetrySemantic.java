@@ -20,6 +20,11 @@ import com.yyd.semantic.db.service.poetry.PoetryService;
 
 @Component
 public class PoetrySemantic implements Semantic<PoetryBean> {
+	private final static Integer SEMANTIC_FAIL = 101;
+	private final static Integer RESOURCE_NOTEXSIT = 102;
+
+	private final static String SEMANTIC_ERR_MSG = "听不懂你说的什么";
+
 	@Autowired
 	private AuthorService authorService;
 
@@ -77,7 +82,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			break;
 		}
 		default: {
-			result = new PoetryBean("这句话太复杂了，我还不能理解", null);
+			result = new PoetryBean(SEMANTIC_FAIL, "这句话太复杂了，我还不能理解");
 			break;
 		}
 		}
@@ -85,7 +90,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 	}
 
 	private PoetryBean querySentence(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		PoetryBean result = new PoetryBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
 		Poetry poetry = null;
 		// 存在语义分析实体的情况
@@ -94,7 +99,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 		if (title != null) {
 			List<Poetry> poetries = poetryService.getByTitle(title);
 			if (poetries.isEmpty()) {
-				result = "我不记得" + title + "这首诗了";
+				result.setText("我不记得" + title + "这首诗了");
 			} else {
 				int idx = CommonUtils.randomInt(poetries.size());
 				poetry = poetries.get(idx);
@@ -102,7 +107,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 		} else if (sentence != null) {
 			List<PoetrySentence> poetrySentences = poetrySentenceService.getBySent(sentence);
 			if (poetrySentences.isEmpty()) {
-				result = "我不记得" + sentence + "这句诗了";
+				result.setText("我不记得" + sentence + "这首诗了");
 			} else {
 				int idx = CommonUtils.randomInt(poetrySentences.size());
 				PoetrySentence poetrySentence = poetrySentences.get(idx);
@@ -124,37 +129,41 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 				if (number.isSuccess()) {
 					List<PoetrySentence> poetrySentences = poetrySentenceService.getByPoetryId(poetry.getId());
 					if (!poetrySentences.isEmpty()) {
+						result.setErrCode(0);
 						int index = number.getNumber().intValue();
 						if (index < 1) {
-							result = "诗句是从第一句开始的";
+							result.setText("诗句是从第一句开始的");
 						} else if (index > poetrySentences.size()) {
-							result = "这首诗我只知道" + poetrySentences.size() + "句";
+							result.setText("这首诗我只知道" + poetrySentences.size() + "句");
 						} else {
 							PoetrySentence poetrySentence = poetrySentences.get(index - 1);
 							ps.setPoemCurSentenceIndex(index - 1);
-							result = poetrySentence.getSentence();
+							result.setText(poetrySentence.getSentence());
 						}
 					}
 				}
 			}
+			result.setResource(poetry);
+			result.setErrCode(0);
 		}
-		return new PoetryBean(result, poetry);
+		return result;
 	}
 
 	private PoetryBean thisPoetry(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		PoetryBean result = new PoetryBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
 		Integer poemId = ps.getPoemId();
-		Poetry poetry = null;
 		if (poemId != null) {
-			poetry = poetryService.getById(poemId);
-			result = poetry.toString();
+			Poetry poetry = poetryService.getById(poemId);
+			result.setText(poetry.toString());
+			result.setErrCode(0);
+			result.setResource(poetry);
 		}
-		return new PoetryBean(result, poetry);
+		return result;
 	}
 
 	private PoetryBean queryPoetry(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		PoetryBean result = new PoetryBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
 		Poetry poetry = null;
 		if (slots.isEmpty()) {
@@ -162,7 +171,6 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			if (!ids.isEmpty()) {
 				int randomIdx = CommonUtils.randomInt(ids.size());
 				poetry = poetryService.getById(ids.get(randomIdx));
-				result = poetry.toString();
 			}
 		} else {
 			// 存在语义分析实体的情况
@@ -172,7 +180,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			if (title != null) {
 				List<Poetry> poetries = poetryService.getByTitle(title);
 				if (poetries.isEmpty()) {
-					result = "我不记得" + title + "这首诗了";
+					result.setText("我不记得" + title + "这首诗了");
 				} else {
 					int randomIdx = CommonUtils.randomInt(poetries.size());
 					poetry = poetries.get(randomIdx);
@@ -184,41 +192,40 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 							}
 						}
 					}
-					result = poetry.toString();
 				}
 			} else if (sentence != null) {
 				List<PoetrySentence> poetrySentences = poetrySentenceService.getBySent(sentence);
 				if (poetrySentences.isEmpty()) {
-					result = "我不记得" + sentence + "这句诗了";
+					result.setText("我不记得" + sentence + "这句诗了");
 				} else {
 					PoetrySentence poetrySentence = poetrySentences.get(0);
 					poetry = poetryService.getById(poetrySentence.getPoetryId());
 					if (poetry == null) {
-						result = "我不记得" + sentence + "这句诗了";
-					} else {
-						result = poetry.toString();
+						result.setText("我不记得" + sentence + "这句诗了");
 					}
 				}
 			} else if (author != null) {
 				List<Poetry> poetries = poetryService.getByAuthor(author);
 				if (poetries.isEmpty()) {
-					result = "我没有读过" + author + "的诗";
+					result.setText("我没有读过" + author + "的诗");
 				} else {
 					int randomIdx = CommonUtils.randomInt(poetries.size());
 					poetry = poetries.get(randomIdx);
-					result = poetry.toString();
 				}
 			}
 		}
 		if (poetry != null) {
 			ps.clear();
 			ps.setPoemId(poetry.getId());
+			result.setText(poetry.toString());
+			result.setErrCode(0);
+			result.setResource(poetry);
 		}
-		return new PoetryBean(result, poetry);
+		return result;
 	}
 
 	private PoetryBean queryTitle(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		PoetryBean result = new PoetryBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
 		Poetry poetry = null;
 		if (slots.isEmpty()) {
@@ -226,7 +233,6 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			Integer poemId = ps.getPoemId();
 			if (poemId != null) {
 				poetry = poetryService.getById(poemId);
-				result = poetry.getTitle();
 			}
 		} else {
 			// 存在语义分析实体的情况
@@ -234,22 +240,24 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			if (sentence != null) {
 				List<PoetrySentence> poetrySentences = poetrySentenceService.getBySent(sentence);
 				if (poetrySentences.isEmpty()) {
-					result = "我不记得" + sentence + "这句诗了";
+					result.setText("我不记得" + sentence + "这句诗了");
 				} else {
 					poetry = poetryService.getById(poetrySentences.get(0).getPoetryId());
-					result = poetry.getTitle();
 				}
 			}
 			if (poetry != null) {
 				ps.clear();
 				ps.setPoemId(poetry.getId());
+				result.setText(poetry.getTitle());
+				result.setErrCode(0);
+				result.setResource(poetry);
 			}
 		}
-		return new PoetryBean(result, poetry);
+		return result;
 	}
 
 	private PoetryBean queryAuthor(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		PoetryBean result = new PoetryBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
 		Poetry poetry = null;
 		if (slots.isEmpty()) {
@@ -257,7 +265,6 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			Integer poemId = ps.getPoemId();
 			if (poemId != null) {
 				poetry = poetryService.getById(poemId);
-				result = poetry.getAuthorName();
 			}
 		} else {
 			// 存在语义分析实体的情况
@@ -266,39 +273,41 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			if (title != null) {
 				List<Poetry> poetries = poetryService.getByTitle(title);
 				if (poetries.isEmpty()) {
-					result = "我不记得" + title + "这首诗了";
+					result.setText("我不记得" + title + "这首诗了");
 				} else {
 					poetry = poetries.get(0);
-					result = poetry.getAuthorName();
 				}
 			} else if (sentence != null) {
 				List<PoetrySentence> poetrySentences = poetrySentenceService.getBySent(sentence);
 				if (poetrySentences.isEmpty()) {
-					result = "我不记得" + sentence + "这句诗了";
+					result.setText("我不记得" + sentence + "这句诗了");
 				} else {
 					poetry = poetryService.getById(poetrySentences.get(0).getPoetryId());
-					result = poetry.getAuthorName();
 				}
 			}
 			if (poetry != null) {
 				ps.clear();
 				ps.setPoemId(poetry.getId());
+				result.setText(poetry.getAuthorName());
+				result.setErrCode(0);
+				result.setResource(poetry);
 			}
 		}
-		return new PoetryBean(result, poetry);
+		return result;
 	}
 
 	private PoetryBean queryDynasty(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		PoetryBean result = new PoetryBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
 		Poetry poetry = null;
+		String chaoDai = null;
 		if (slots.isEmpty()) {
 			// 不存在语义分析实体的情况
 			Integer poemId = ps.getPoemId();
 			if (poemId != null) {
 				poetry = poetryService.getById(poemId);
 				Author author = authorService.getAuthorById(poetry.getAuthorId());
-				result = author.getChaodai();
+				chaoDai = author.getChaodai();
 			}
 		} else {
 			// 存在语义分析实体的情况
@@ -308,40 +317,45 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			if (author != null) {
 				List<Author> authors = authorService.getByName(author);
 				if (authors.isEmpty()) {
-					result = "我忘记了" + author + "是哪个朝代的了";
+					result.setText("我忘记了" + author + "是哪个朝代的了");
 				} else {
-					result = authors.get(0).getChaodai();
+					chaoDai = authors.get(0).getChaodai();
 				}
 			} else if (title != null) {
 				List<Poetry> poetries = poetryService.getByTitle(title);
 				if (poetries.isEmpty()) {
-					result = "我忘记了" + title + "这首诗是哪个朝代的了";
+					result.setText("我忘记了" + title + "这首诗是哪个朝代的了");
 				} else {
 					poetry = poetries.get(0);
 					Integer author_id = poetry.getAuthorId();
 					Author authEntity = authorService.getAuthorById(author_id);
-					result = authEntity.getChaodai();
+					chaoDai = authEntity.getChaodai();
 				}
 			} else if (sentence != null) {
 				List<PoetrySentence> poetrySentences = poetrySentenceService.getBySent(sentence);
 				poetry = poetryService.getById(poetrySentences.get(0).getPoetryId());
 				if (poetry == null) {
-					result = "我忘记了" + sentence + "这句诗是哪个朝代的了";
+					result.setText("我忘记了" + sentence + "这句诗是哪个朝代的了");
 				} else {
 					Author authEntity = authorService.getAuthorById(poetry.getAuthorId());
-					result = authEntity.getChaodai();
+					chaoDai = authEntity.getChaodai();
 				}
 			}
 			if (poetry != null) {
 				ps.clear();
 				ps.setPoemId(poetry.getId());
+				result.setResource(poetry);
 			}
 		}
-		return new PoetryBean(result, poetry);
+		if (chaoDai != null) {
+			result.setText(chaoDai);
+			result.setErrCode(0);
+		}
+		return result;
 	}
 
 	private PoetryBean nextSentence(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		PoetryBean result = new PoetryBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
 		Integer sentenceIndex = null;
 		Poetry poetry = null;
@@ -372,30 +386,34 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			}
 		}
 		if (poetry != null) {
+			String res = null;
 			List<PoetrySentence> poetrySentences = poetrySentenceService.getByPoetryId(poetry.getId());
 			Integer endIndex = poetrySentences.size() - 1;
 			if (sentenceIndex == null) {
 				sentenceIndex = -1;
 			}
 			if (sentenceIndex >= endIndex) {
-				result = "这已经是最后一句了";
+				res = "这已经是最后一句了";
 				if (slots.containsKey(PoetrySlot.POEM_SENTENCE)) {
-					result = "这是诗人" + poetry.getAuthorName() + "所写的" + poetry.getTitle() + "的最后一句";
+					res = "这是诗人" + poetry.getAuthorName() + "所写的" + poetry.getTitle() + "的最后一句";
 				}
 				sentenceIndex = endIndex;
 			} else {
 				sentenceIndex += 1;
 				PoetrySentence poetrySentence = poetrySentences.get(sentenceIndex);
-				result = poetrySentence.getSentence();
+				res = poetrySentence.getSentence();
 			}
 			ps.setPoemId(poetry.getId());
 			ps.setPoemCurSentenceIndex(sentenceIndex);
+			result.setText(res);
+			result.setErrCode(0);
+			result.setResource(poetry);
 		}
-		return new PoetryBean(result, poetry);
+		return result;
 	}
 
 	private PoetryBean prevSentence(Map<String, String> slots, SemanticContext semanticContext) {
-		String result = "听不懂你说的什么";
+		PoetryBean result = new PoetryBean(RESOURCE_NOTEXSIT, SEMANTIC_ERR_MSG);
 		PoetrySlot ps = new PoetrySlot(semanticContext.getParams());
 		Integer sentenceIndex = null;
 		Poetry poetry = null;
@@ -407,7 +425,7 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			}
 			sentenceIndex = ps.getPoemCurSentenceIndex();
 			if (sentenceIndex == null) {
-				return new PoetryBean(result, null);
+				return result;
 			}
 		} else {
 			// 存在语义分析实体的情况
@@ -427,21 +445,25 @@ public class PoetrySemantic implements Semantic<PoetryBean> {
 			}
 		}
 		if (poetry != null) {
+			String res = null;
 			List<PoetrySentence> poetrySentences = poetrySentenceService.getByPoetryId(poetry.getId());
 			if (sentenceIndex == null) {
 				sentenceIndex = 0;
 			}
 			if (sentenceIndex <= 0) {
-				result = "这已经是第一句了";
+				res = "这已经是第一句了";
 				sentenceIndex = 0;
 			} else {
 				sentenceIndex -= 1;
 				PoetrySentence poetrySentence = poetrySentences.get(sentenceIndex);
-				result = poetrySentence.getSentence();
+				res = poetrySentence.getSentence();
 			}
 			ps.setPoemId(poetry.getId());
 			ps.setPoemCurSentenceIndex(sentenceIndex);
+			result.setText(res);
+			result.setErrCode(0);
+			result.setResource(poetry);
 		}
-		return new PoetryBean(result, poetry);
+		return result;
 	}
 }

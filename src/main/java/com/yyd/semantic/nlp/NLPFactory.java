@@ -42,20 +42,17 @@ public class NLPFactory {
 		forestList.toArray(forestArr);
 		Result hanlpTermResult = IndexAnalysis.parse(text, forestArr);
 		new UserDicNatureRecognition(forestArr).recognition(hanlpTermResult);
-		List<WordTerm> result = Convert(hanlpTermResult);
-		return result;
+		return Convert(hanlpTermResult);
 	}
-
+	
 	private static List<WordTerm> Convert(Result termResult) {
 		List<WordTerm> results = new ArrayList<WordTerm>();
 		int id = 0;
-
 		for (Term term : termResult) {
 			id += 1;
 			WordTerm word = new WordTerm(id, term.getName(), term.getNatureStr());
 			results.add(word);
 		}
-
 		return results;
 	}
 

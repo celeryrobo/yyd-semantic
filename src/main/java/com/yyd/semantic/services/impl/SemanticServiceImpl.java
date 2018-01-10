@@ -56,24 +56,22 @@ public class SemanticServiceImpl implements SemanticService {
 	}
 
 	private YbnfCompileResult parseSemantic(String text, String service) throws Exception {
-		return parseSemantic(text, service, 0);
-	}
-
-	private YbnfCompileResult parseSemantic(String text, String service, int loopCount) throws Exception {
-		if (loopCount > 2) {
-			// 确保无法识别的语料不会导致方法陷入循环递归
-			return null;
-		}
 		YbnfCompileResult result;
 		if (service == null || "".equals(service)) {
 			// 场景为空时表示场景匹配，场景不为空表示意图匹配
 			result = new SemanticScene(semanticCallable).matching(text);
 			// 如果匹配失败则进入分词实体识别，否则进入意图匹配
 			if (result == null) {
-				String serv = cutWord(text);
-				if (serv != null) {
-					// 表示匹配到了场景，否则没有匹配到场景
-					result = parseSemantic(text, serv, loopCount + 1);
+				// 分词场景识别
+				String[] servs = detectService(text);
+				if (servs != null) {
+					// 遍历关键词所识别的场景，直到获得结果未知，遍历完成后还没有结果则表示语义识别失败
+					for (String serv : servs) {
+						result = new SemanticIntention(serv, semanticCallable).matching(text);
+						if (result != null) {
+							break;
+						}
+					}
 				}
 			}
 		} else {
@@ -81,7 +79,7 @@ public class SemanticServiceImpl implements SemanticService {
 			result = new SemanticIntention(service, semanticCallable).matching(text);
 			// 意图匹配失败后，则进入场景匹配
 			if (result == null) {
-				result = parseSemantic(text, null, loopCount + 1);
+				result = parseSemantic(text, null);
 			}
 		}
 		return result;
@@ -94,9 +92,8 @@ public class SemanticServiceImpl implements SemanticService {
 	 *            语料
 	 * @return 场景名
 	 */
-	private String cutWord(String text) {
-		String service = SegSceneParser.parse(text);
-		return service;
+	private String[] detectService(String text) {
+		return SegSceneParser.parse(text);
 	}
 
 }
