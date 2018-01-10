@@ -11,31 +11,31 @@ import com.yyd.semantic.db.bean.poetry.Poetry;
 
 @Mapper
 public interface PoetryMapper {
-	@Select("SELECT id FROM poetry.tb_poetry")
+	@Select("SELECT id FROM yyd_resources.tb_poetry")
 	public List<Integer> getIdList();
 
-	@Select("SELECT title FROM poetry.tb_poetry")
+	@Select("SELECT title FROM yyd_resources.tb_poetry")
 	public List<String> getAllTitles();
 
-	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE id = #{id}")
+	@Select("SELECT id, title, author_name, author_id, content FROM yyd_resources.tb_poetry WHERE id = #{id}")
 	@Results({ @Result(property = "id", column = "id"), @Result(property = "title", column = "title"),
 			@Result(property = "authorName", column = "author_name"),
 			@Result(property = "authorId", column = "author_id"), @Result(property = "content", column = "content") })
 	public Poetry getById(int id);
 
-	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE title = #{title}")
+	@Select("SELECT id, title, author_name, author_id, content FROM yyd_resources.tb_poetry WHERE title = #{title}")
 	@Results({ @Result(property = "id", column = "id"), @Result(property = "title", column = "title"),
 			@Result(property = "authorName", column = "author_name"),
 			@Result(property = "authorId", column = "author_id"), @Result(property = "content", column = "content") })
 	public List<Poetry> getByTitle(String title);
 
-	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE author_name = #{author}")
+	@Select("SELECT id, title, author_name, author_id, content FROM yyd_resources.tb_poetry WHERE author_name = #{author}")
 	@Results({ @Result(property = "id", column = "id"), @Result(property = "title", column = "title"),
 			@Result(property = "authorName", column = "author_name"),
 			@Result(property = "authorId", column = "author_id"), @Result(property = "content", column = "content") })
 	public List<Poetry> getByAuthor(String author);
 
-	@Select("SELECT id, title, author_name, author_id, content FROM poetry.tb_poetry WHERE author_id = #{authorId}")
+	@Select("SELECT id, title, author_name, author_id, content FROM yyd_resources.tb_poetry WHERE author_id = #{authorId}")
 	@Results({ @Result(property = "id", column = "id"), @Result(property = "title", column = "title"),
 			@Result(property = "authorName", column = "author_name"),
 			@Result(property = "authorId", column = "author_id"), @Result(property = "content", column = "content") })
