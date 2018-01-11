@@ -5,9 +5,9 @@ $opera_prefix1 = 我想|我很想|我要|要|俺|俺想|俺想要;
 $opera_prefix2 = 给我|你给我|再|你|那么|请|可以|你可以|那你就;
 $opera_prefix3 = 给我|你给我|再|你|那么|请|可以|你可以|那你就|我要|我想|我很想;
 
-$opera_case100_1 = [$opera_prefix1] (听) [[一](个|段)]  戏曲  [吧|可不可以|[行]吗];
-$opera_case100_2 = [$opera_prefix2] (唱) [[一](个|段)]  戏曲  [吧|可不可以|[行]吗];
-$opera_case100_3 = [$opera_prefix3] (放|播|播放|来) [[一](个|段)]  戏曲   [吧|可不可以|[行]吗];
+$opera_case100_1 = [$opera_prefix1] (听) [[一](个|段)]  戏[曲|剧]  [吧|可不可以|[行]吗];
+$opera_case100_2 = [$opera_prefix2] (唱) [[一](个|段)]  戏[曲|剧]  [吧|可不可以|[行]吗];
+$opera_case100_3 = [$opera_prefix3] (放|播|播放|来) [[一](个|段)]  戏[曲|剧]   [吧|可不可以|[行]吗];
 $opera_case100{intent%queryOpera} = $opera_case100_1|$opera_case100_2|$opera_case100_3;
 
 
