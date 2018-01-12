@@ -9,5 +9,5 @@ public class OperaTagType {
 	/**
 	 * 演员
 	 */
-	public static final int TAG_OPERA_ACTOR = 1;
+	public static final int TAG_OPERA_ACTOR = 2;
 }
