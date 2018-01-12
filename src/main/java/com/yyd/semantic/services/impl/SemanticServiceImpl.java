@@ -34,12 +34,12 @@ public class SemanticServiceImpl implements SemanticService {
 		semanticContext.loadByUserIdentify(userIdentify);
 		YbnfCompileResult result = null;
 		if (text != null && !text.isEmpty()) {
-			result = parseSemantic(text, semanticContext.getService());
+			String lang = text.replaceAll("[\\pP\\pS\\pZ]", "");
+			result = parseSemantic(lang, semanticContext.getService());
 		}
 		SemanticResult sr;
 		if (result == null) {
 			sr = new SemanticResult(404, "Match Fail!", result, new WaringSemanticResult("我听不懂你想说什么！"));
-			sr.setText(text);
 		} else {
 			// 切换场景则清空参数
 			if (!result.getService().equals(semanticContext.getService())) {
@@ -52,6 +52,7 @@ public class SemanticServiceImpl implements SemanticService {
 			semanticContext.setService(result.getService());
 			sr = new SemanticResult(rs.getErrCode(), rs.getErrMsg(), result, rs);
 		}
+		sr.setText(text);
 		return sr;
 	}
 
