@@ -1,0 +1,171 @@
+#YBNF 1.0 utf8;
+
+$geling_prefix1 = 我想|我很想|我很想要|我想要|我要|要|俺想要;
+$geling_prefix2 = 给我|你给我|你|那么|请|可以|你可以|那你就;
+$geling_music_prefix1 = 我想|我很想|我要|要|俺|俺想|俺想要;
+$geling_music_prefix2 = 给我|你给我|再|你|那么|请|可以|你可以|那你就;
+$geling_music_prefix3 = 给我|你给我|再|你|那么|请|可以|你可以|那你就|我要|我想|我很想;
+
+$geling_case1_1 = [$geling_prefix1] [玩|打开] 视觉空间;
+$geling_case1_2 = [$geling_prefix2] (打开) 视觉空间;
+$geling_case1_3{param%quweituya} = [$geling_prefix1] [玩|打开] 涂鸦;
+$geling_case1_4{param%quweituya} = ($geling_prefix2) (打开) 涂鸦;
+$geling_case1_5{param%qiqiaoban} = [$geling_prefix1] [玩|打开] 七巧板;
+$geling_case1_6{param%qiqiaoban} = ($geling_prefix2) (打开) 七巧板;
+$geling_case1{intent%shijuekongjian} = $geling_case1_1|$geling_case1_2|$geling_case1_3|$geling_case1_4|$geling_case1_5|$geling_case1_6;
+
+$geling_case2_1 = [$geling_prefix1] [学习|教] (好习惯|常识);
+$geling_case2_2 = [$geling_prefix1] [打开] 习惯养成;
+$geling_case2_3 = ($geling_prefix2) (打开) 习惯养成;
+$geling_case2_4 = 习惯培养|习惯礼仪|常识学习;
+$geling_case2{intent%xiguanyangcheng} = $geling_case2_1|$geling_case2_2|$geling_case2_3|$geling_case2_4;
+
+
+$geling_case3_1{param%renshidongwu} = [[$geling_prefix1] (认识|识别)] 动物;
+$geling_case3_2{param%zhiwushijie} = [[$geling_prefix1] (认识|识别)] 植物[世界];
+$geling_case3_3{param%renshishucai} = [$geling_prefix1] (认识|识别) 蔬菜;
+$geling_case3_4 = [[$geling_prefix1] (学习|打开)] 自然知识;
+$geling_case3_5 = ($geling_prefix2) (打开)  自然知识;
+$geling_case3{intent%ziranzhishi} = $geling_case3_1|$geling_case3_2|$geling_case3_3|$geling_case3_4|$geling_case3_5;
+
+
+$geling_case4_1{param%renshi1to5} = [$geling_prefix1] (认识数字|识别数字|识数);
+$geling_case4_2{param%renshituxing} = [$geling_prefix1] (认识图形|识别图形|识图形);
+$geling_case4_3 = [$geling_prefix1] (学习|学|认识) (加减乘除|数学|算术);
+$geling_case4_4 = [$geling_prefix1] [打开] (趣味数学);
+$geling_case4_5 = ($geling_prefix2) (打开) (趣味数学);
+$geling_case4{intent%shuliluoji} = $geling_case4_1|$geling_case4_2|$geling_case4_3|$geling_case4_4|$geling_case4_5;
+
+
+$geling_case5_1{param%yingwenerge} = [$geling_music_prefix1] (听) [[一](个|首)] 英(文|语)儿歌;
+$geling_case5_2{param%yingwenerge} = [$geling_music_prefix2] (唱) [[一](个|首)] 英(文|语)儿歌; 
+$geling_case5_3{param%yingwenerge} = [$geling_music_prefix3] (放|播|播放|来) [[一](个|首)] 英文儿歌;
+$geling_case5_4{param%zhongwenerge} = [$geling_music_prefix1] (听) [[一](个|首)] [中文]儿歌;
+$geling_case5_5{param%zhongwenerge} = [$geling_music_prefix2] (唱) [[一](个|首)] [中文]儿歌; 
+$geling_case5_6{param%zhongwenerge} = [$geling_music_prefix3] (放|播|播放|来) [[一](个|首)] [中文]儿歌;
+$geling_case5_7{param%yinyuebaoweizhan} = [[$geling_prefix1] (打开|玩)]  音乐游戏;
+$geling_case5_8{param%yinyuebaoweizhan} = ($geling_prefix2) (打开)  音乐游戏;
+$geling_case5_9{param%xiaoxiaojiazimu} = [[$geling_prefix1] (打开|玩)]  架子鼓;
+$geling_case5_10{param%xiaoxiaojiazimu} = ($geling_prefix2) (打开)  架子鼓;
+$geling_case5{intent%ergetiandi} = $geling_case5_1|$geling_case5_2|$geling_case5_3|$geling_case5_4|$geling_case5_5|$geling_case5_6|$geling_case5_7|$geling_case5_8|$geling_case5_9|$geling_case5_10;
+
+
+$geling_case6_1{param%yiqianlingyiye} = [[$geling_music_prefix1] (听) [[一](个|段)]] [故事] 一千零一夜 [故事];
+$geling_case6_2{param%yiqianlingyiye} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] [故事] 一千零一夜 [故事];
+$geling_case6_3{param%chengyugushi} =  [[$geling_music_prefix1] (听) [[一](个|段)]] 成语故事;
+$geling_case6_4{param%chengyugushi} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 成语故事;
+$geling_case6_5{param%renwugushi} = [[$geling_music_prefix1] (听) [[一](个|段)]] 人物故事;
+$geling_case6_6{param%renwugushi} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 人物故事;
+$geling_case6_7{param%yanyugushi} = [[$geling_music_prefix1] (听) [[一](个|段)]] 谚语[故事];
+$geling_case6_8{param%yanyugushi} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 谚语[故事];
+$geling_case6_9{param%tonghuagushi} = [[$geling_music_prefix1] (听) [[一](个|段)]] 童话故事;
+$geling_case6_10{param%tonghuagushi} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 童话故事;
+$geling_case6_11{param%yisuoyuyan} = [[$geling_music_prefix1] (听) [[一](个|段)]] 伊索寓言;
+$geling_case6_12{param%yisuoyuyan} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 伊索寓言;
+$geling_case6{intent%guishixiaowu} = $geling_case6_1|$geling_case6_2|$geling_case6_3|$geling_case6_4|$geling_case6_5|$geling_case6_6|$geling_case6_7|$geling_case6_8|$geling_case6_9|$geling_case6_10|$geling_case6_11|$geling_case6_12;
+
+
+$geling_case7_1{param%sanzijing} = [[$geling_music_prefix1] (听) [[一](个|段)]] 三字经;
+$geling_case7_2{param%sanzijing} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 三字经;
+$geling_case7_3{param%dizigui} =  [[$geling_music_prefix1] (听) [[一](个|段)]] 弟子规;
+$geling_case7_4{param%dizigui} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 弟子规;
+$geling_case7_5{param%baijiaxing} = [[$geling_music_prefix1] (听) [[一](个|段)]] 百家姓;
+$geling_case7_6{param%baijiaxing} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 百家姓;
+$geling_case7_7{param%qianziwen} = [[$geling_music_prefix1] (听) [[一](个|段)]] 千字文;
+$geling_case7_8{param%qianziwen} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 千字文;
+$geling_case7_9{param%lunyu} = [[$geling_music_prefix1] (听) [[一](个|段)]] 论语;
+$geling_case7_10{param%lunyu} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 论语;
+$geling_case7_11{param%zengguangxianwen} = [[$geling_music_prefix1] (听) [[一](个|段)]] 增广贤文;
+$geling_case7_12{param%zengguangxianwen} = [[$geling_music_prefix3] (放|播|播放|来|讲|说|读) [[一](个|段)]] 增广贤文;
+$geling_case7{intent%kuaileguoxue} = $geling_case7_1|$geling_case7_2|$geling_case7_3|$geling_case7_4|$geling_case7_5|$geling_case7_6|$geling_case7_7|$geling_case7_8|$geling_case7_9|$geling_case7_10|$geling_case7_11|$geling_case7_12;
+
+
+$geling_case8_1{param%pinyinrenzhi} = [$geling_prefix1] (学|学习|认识|认) 拼音;
+$geling_case8_2{param%kuaileshizi} = [[$geling_prefix1] [学|学习]]  (认字|识字);
+$geling_case8_3{param%MYABC} = [$geling_prefix1] (学|学习|认识|认)  (字母|英文字母|ABC);
+$geling_case8_4{param%dongmanbeidanci} = [$geling_prefix1] (学|学习|背|认识|认)  单词;
+$geling_case8_5{param%shouhuiertongyingyu} = [$geling_prefix1] (学习|学) (英语|儿童英语);
+$geling_case8_6{param%ertonghudongkouyu} = [$geling_prefix1] ([玩] 口语游戏 | [练习|学习|学] (口语|互动口语|儿童口语));
+$geling_case8_7{param%zaojiaorenzhi} = [$geling_prefix1] (学习|学) 早教知识;
+$geling_case8_8{param%zaojiaorenzhi} = [$geling_prefix2] (来|讲|说|读) [[一](个|段)] 早教知识;
+$geling_case8_9{param%mofayuedu} = ([$geling_prefix1] (阅读|读) 文章) | 文章阅读;
+$geling_case8{intent%yuyanqimeng} = $geling_case8_1|$geling_case8_2|$geling_case8_3|$geling_case8_4|$geling_case8_5|$geling_case8_6|$geling_case8_7|$geling_case8_8|$geling_case8_9;
+
+
+$geling_case9_1{param%xiaoxuediandu} =    [[$geling_prefix1] (看|打开)] 小学点读;
+$geling_case9_2{param%xiaoxuediandu} =    ($geling_prefix2) (打开) 小学点读;
+$geling_case9_3{param%mingshijingjiang} = [$geling_prefix1]  (看|打开)  (小学名师|小学名师精讲);
+$geling_case9_4{param%mingshijingjiang} = ($geling_prefix2)  (打开)  (小学名师|小学名师精讲);
+$geling_case9_5{param%xiaoxuejiaofu} =    [[$geling_prefix1] (看|打开)] 小学教辅;
+$geling_case9_6{param%xiaoxuejiaofu} =    ($geling_prefix2) (打开) 小学教辅;
+$geling_case9_7{param%xiaoxueaoshu} =     [[$geling_prefix1] (看|打开|学习|学)] 小学奥数;
+$geling_case9_8{param%xiaoxueaoshu} =     ($geling_prefix2) (打开) 小学奥数;
+$geling_case9{intent%xiaoxuejiaoyu} = $geling_case9_1|$geling_case9_2|$geling_case9_3|$geling_case9_4|$geling_case9_5|$geling_case9_6|$geling_case9_7|$geling_case9_8;
+
+
+$geling_case10_1{param%chuzhongtongbumingshi} = [[$geling_prefix1] (看|打开)] 初中名师;
+$geling_case10_2{param%chuzhongtongbujiaofu} =  [[$geling_prefix1] (看|打开)] 初中[同步]教辅;
+$geling_case10_3{param%chuzhongtongbutiku} = [[$geling_prefix1] (看|打开)] 初中[同步]题库;
+$geling_case10_4{param%zhongkaojingjiang} = [[$geling_prefix1] (看|打开|学习|学)] 中考精讲;
+$geling_case10_5{param%chengyudiangu} = [[$geling_prefix1] (看|打开|听) [[一](个|段)]] 成语典故;
+$geling_case10_6{param%dongwushijie} = [[$geling_prefix1] (看|打开)] 动物世界;
+$geling_case10_7{param%shangxiawuqiannian} = [[$geling_prefix1] (看|打开|学习|学|认识)] 上下五千年;
+$geling_case10_8{param%shijielishi} = [[$geling_prefix1] (看|打开|学习|学|认识)] 世界历史;
+$geling_case10_9{param%kewaiyuedu} = [[$geling_prefix1] (看|打开|学习|学)] 课外阅读;
+$geling_case10_10{param%dilizhishi} = [[$geling_prefix1] (看|打开|学习|学)] 地理知识;
+$geling_case10_11{param%zhengzhizhishi} = [[$geling_prefix1] (看|打开|学习|学)] 政治知识;
+$geling_case10_12{param%shengwuzhishi} = [[$geling_prefix1] (看|打开|学习|学)] 生物常识;
+$geling_case10_13{param%huaxuegongshi} = [[$geling_prefix1] (查看|看|打开|学习|学)] 化学公式;
+$geling_case10_14{param%wuligongshi} = [[$geling_prefix1] (查看|看|打开|学习|学)] 物理公式;
+$geling_case10_15{param%yuansuzhouqibiao} = [[$geling_prefix1] (查看|看|打开|学习|学)] 元素周期表;
+$geling_case10_16{param%xiandaihanyucidian} = [[$geling_prefix1] (查看|看|打开)] [现代]汉语词典;
+$geling_case10_17{param%hanyingdacidian} = [[$geling_prefix1] (查看|看|打开)] 汉英[大]词典;
+$geling_case10_18{param%yinghandacidian} = [[$geling_prefix1] (查看|看|打开)] 英汉[大]词典;
+$geling_case10_19{param%shiyongyinghancidian} = [[$geling_prefix1] (查看|看|打开)] 实用英汉词典;
+$geling_case10_20{param%shiyonghanyingcidian} = [[$geling_prefix1] (查看|看|打开)] 实用汉英词典;
+$geling_case10_21{param%tongjinfanyicidian} = [[$geling_prefix1] (查看|看|打开)] (同近反义[词]|同义词|近义词|反义词|反义|近义|同义)词典;
+$geling_case10_22{param%zhonghuachengyu} = [[$geling_prefix1] (查看|看|学|学习|打开)] 中华成语;
+$geling_case10_23{param%guhanyucidian} = [[$geling_prefix1] (查看|看|打开)] 古汉语词典;
+$geling_case10_24{param%quangongnengcidian} = [[$geling_prefix1] (查看|看|打开)] 全功能词典;
+$geling_case10{intent%chuzhongjiaoyu} = $geling_case10_1|$geling_case10_2|$geling_case10_3|$geling_case10_4|$geling_case10_5|$geling_case10_6|$geling_case10_7|$geling_case10_8|$geling_case10_9|$geling_case10_10|$geling_case10_11|$geling_case10_12|$geling_case10_13|$geling_case10_14|$geling_case10_15|$geling_case10_16|$geling_case10_17|$geling_case10_18|$geling_case10_19|$geling_case10_20|$geling_case10_21|$geling_case10_22|$geling_case10_23|$geling_case10_24;
+
+$geling_case11_1{param%chuzhongtongbumingshi} = ($geling_prefix2) (打开) 初中名师;
+$geling_case11_2{param%chuzhongtongbujiaofu} =  ($geling_prefix2) (打开) 初中[同步]教辅;
+$geling_case11_3{param%chuzhongtongbutiku} = ($geling_prefix2) (打开) 初中[同步]题库;
+$geling_case11_4{param%zhongkaojingjiang} = ($geling_prefix2) (打开) 中考精讲;
+$geling_case11_5{param%chengyudiangu} = [$geling_prefix2] (打开|放|播|播放|来|讲|说|读) [[一](个|段)]  成语典故  ;
+$geling_case11_6{param%dongwushijie} = ($geling_prefix2)  (打开) 动物世界;
+$geling_case11_7{param%shangxiawuqiannian} = ($geling_prefix2) (打开) 上下五千年;
+$geling_case11_8{param%shijielishi} = ($geling_prefix2) (打开) 世界历史;
+$geling_case11_9{param%kewaiyuedu} = ($geling_prefix2) (打开) 课外阅读;
+$geling_case11_10{param%dilizhishi} = ($geling_prefix2) (打开) 地理知识;
+$geling_case11_11{param%zhengzhizhishi} = ($geling_prefix2) (打开) 政治知识;
+$geling_case11_12{param%shengwuzhishi} = ($geling_prefix2) (打开) 生物常识;
+$geling_case11_13{param%huaxuegongshi} = ($geling_prefix2) (打开) 化学公式;
+$geling_case11_14{param%wuligongshi} = ($geling_prefix2) (打开) 物理公式;
+$geling_case11_15{param%yuansuzhouqibiao} = ($geling_prefix2) (打开) 元素周期表;
+$geling_case11_16{param%xiandaihanyucidian} = ($geling_prefix2) (打开) [现代]汉语词典;
+$geling_case11_17{param%hanyingdacidian} = ($geling_prefix2) (打开) 汉英[大]词典;
+$geling_case11_18{param%yinghandacidian} = ($geling_prefix2) (打开) 英汉[大]词典;
+$geling_case11_19{param%shiyongyinghancidian} = ($geling_prefix2) (打开) 实用英汉词典;
+$geling_case11_20{param%shiyonghanyingcidian} = ($geling_prefix2) (打开) 实用汉英词典;
+$geling_case11_21{param%tongjinfanyicidian} = ($geling_prefix2) (打开) (同近反义[词]|同义词|近义词|反义词|反义|近义|同义)词典;
+$geling_case11_22{param%zhonghuachengyu} = ($geling_prefix2) (打开) 中华成语;
+$geling_case11_23{param%guhanyucidian} = ($geling_prefix2) (打开) 古汉语词典;
+$geling_case11_24{param%quangongnengcidian} = ($geling_prefix2) (打开) 全功能词典;
+$geling_case11{intent%chuzhongjiaoyu} = $geling_case11_1|$geling_case11_2|$geling_case11_3|$geling_case11_4|$geling_case11_5|$geling_case11_6|$geling_case11_7|$geling_case11_8|$geling_case11_9|$geling_case11_10|$geling_case11_11|$geling_case11_12|$geling_case11_13|$geling_case11_14|$geling_case11_15|$geling_case11_16|$geling_case11_17|$geling_case11_18|$geling_case11_19|$geling_case11_20|$geling_case11_21|$geling_case11_22|$geling_case11_23|$geling_case11_24;
+
+
+$geling_case12_1{param%gaozhongtongbumingshi} = [[$geling_prefix1] (看|打开)] 高中[同步]名师;
+$geling_case12_2{param%gaozhongtongbumingshi} = ($geling_prefix2) (打开) 高中[同步]名师;
+$geling_case12_3{param%gaozhongtongbujiaofu} =  [[$geling_prefix1] (看|打开)] 高中[同步]教辅;
+$geling_case12_4{param%gaozhongtongbujiaofu} =  ($geling_prefix2) (打开) 高中[同步]教辅;
+$geling_case12_5{param%gaozhongtongbutiku} = [[$geling_prefix1] (看|打开)] 高中[同步]题库;
+$geling_case12_6{param%gaozhongtongbutiku} = ($geling_prefix2) (打开) 高中[同步]题库;
+$geling_case12_7{param%gaokaojingjiang} = [[$geling_prefix1] (看|打开|学习|学)] 高考精讲;
+$geling_case12_8{param%gaokaojingjiang} = ($geling_prefix2) (打开) 高考精讲;
+$geling_case12{intent%gaozhongjiaoyu} = $geling_case12_1|$geling_case12_2|$geling_case12_3|$geling_case12_4|$geling_case12_5|$geling_case12_6|$geling_case12_7|$geling_case12_8;
+
+
+
+$geling_common=$geling_case1|$geling_case2|$geling_case3|$geling_case4|$geling_case5|$geling_case6|$geling_case7|$geling_case8|$geling_case9|$geling_case10|$geling_case11|$geling_case12;
