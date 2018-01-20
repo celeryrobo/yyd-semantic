@@ -14,6 +14,7 @@
 #include classpath:semantics/commons/postcode.ybnf;
 #include classpath:semantics/commons/areacode.ybnf;
 #include classpath:semantics/commons/carnumber.ybnf;
+#include classpath:semantics/commons/geling.ybnf;
 
 service common;
 root $main;
@@ -31,6 +32,7 @@ $idiom_main{service%idiom} = $idiom_common;
 $postcode_main{service%postcode} = $postcode_common;
 $areacode_main{service%areacode} = $areacode_common;
 $carnumber_main{service%carnumber} = $carnumber_common;
+$geling_main{service%geling}=$geling_common;
 
-$main = $poetry_main|$music_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main|$idiom_main|$date_main|$postcode_main|$areacode_main|$carnumber_main;
+$main = $poetry_main|$music_main|$story_main|$festival_main|$crosstalk_main|$opera_main|$joke_main|$phonenumber_main|$idiom_main|$date_main|$postcode_main|$areacode_main|$carnumber_main|$geling_main;
 
