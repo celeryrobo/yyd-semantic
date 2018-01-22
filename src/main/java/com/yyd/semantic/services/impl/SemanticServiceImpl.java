@@ -34,7 +34,7 @@ public class SemanticServiceImpl implements SemanticService {
 		semanticContext.loadByUserIdentify(userIdentify);
 		YbnfCompileResult result = null;
 		if (text != null && !text.isEmpty()) {
-			String lang = text.replaceAll("[,;:'\"!，。；：‘’“”！\\s+]", "");
+			String lang = text.replaceAll("[\\?,;:'\"!？，。；：‘’“”！\\s+]", "");
 			result = parseSemantic(lang, semanticContext.getService());
 		}
 		SemanticResult sr;
