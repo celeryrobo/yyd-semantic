@@ -1,0 +1,43 @@
+#YBNF 1.0 utf8;
+
+$calc_prefix1 = 我想知道|我很想知道|我要知道|要知道|俺知道|俺想知道|俺想要知道|告诉我|你告诉我|请告诉我;
+$calc_prefix2 = 你给我|给我|再给我|那么给我|请给我|可以给我|你可以给我|那你就给我;
+
+
+$calc_num = $_yyd_num_  [$_yyd_point_  $_yyd_num_];
+
+$calc_operator_add=( $_yyd_plus_ | [然后|之后|最后]加 | [然后|之后|最后]加上 | [然后|之后|最后]再加 | [然后|之后|最后]再加上);
+$calc_operator_sub=( $_yyd_subtract_ | [然后|之后|最后]减 | [然后|之后|最后]减去|[然后|之后|最后]再减|[然后|之后|最后]再减去);
+$calc_operator_mul=( $_yyd_multi_ | [然后|之后|最后]乘 | [然后|之后|最后]乘以 | [然后|之后|最后]再乘|[然后|之后|最后]再乘以  | [然后|之后|最后]乘上 | [然后|之后|最后]再乘上);
+$calc_operator_div=( $_yyd_division_ | [然后|之后|最后]除 | [然后|之后|最后]除以 | [然后|之后|最后]再除 | [然后|之后|最后]再除以);
+$calc_operator_assign_add=( $_yyd_equal_ | 是多少 | 等于多少 | [的|之]和[是多少] );
+$calc_operator_assign_sub=( $_yyd_equal_ | 是多少 | 等于多少 | [的|之]差[是多少] );
+$calc_operator_assign_mul=( $_yyd_equal_ | 是多少 | 等于多少 | [的|之]积[是多少] );
+$calc_operator_assign_div=( $_yyd_equal_ | 是多少 | 等于多少 | [的|之]商[是多少] );
+$calc_operator_assign=( $_yyd_equal_ | 是多少 | 等于多少 );
+
+
+$calc_case1_1 = [$calc_prefix1] [$_yyd_lxkh_]  $calc_num $calc_operator_add $calc_num  [$_yyd_rxkh_] [$calc_operator_assign_add];
+$calc_case1_2 = [[$calc_prefix2] (求|求取|计算|运算)]  $calc_num $calc_operator_add $calc_num  [$calc_operator_assign_add];
+$calc_case1{intent%calcSimpleAdd} = $calc_case1_1|$calc_case1_2;
+
+$calc_case2_1 = [$calc_prefix1] $calc_num    $calc_operator_sub    $calc_num    [$calc_operator_assign_sub];
+$calc_case2_2 = [[$calc_prefix2] (求|求取|计算|运算)]   $calc_num   $calc_operator_sub   $calc_num    [$calc_operator_assign_sub];
+$calc_case2{intent%calcSimpleSub} = $calc_case2_1|$calc_case2_2;
+
+$calc_case3_1 = [$calc_prefix1] $calc_num    $calc_operator_mul   $calc_num     [$calc_operator_assign_mul];
+$calc_case3_2 = [[$calc_prefix2] (求|求取|计算|运算)]  $calc_num    $calc_operator_mul   $calc_num    [$calc_operator_assign_mul];
+$calc_case3{intent%calcSimpleMul} = $calc_case3_1|$calc_case3_2;
+
+$calc_case4_1 = [$calc_prefix1] $calc_num $calc_operator_div   $calc_num   [$calc_operator_assign_div];
+$calc_case4_2 = [[$calc_prefix2] (求|求取|计算|运算)]   $calc_num   $calc_operator_div   $calc_num   [$calc_operator_assign_div];
+$calc_case4{intent%calcSimpleDiv} = $calc_case4_1|$calc_case4_2;
+
+
+$operator = $calc_operator_add|$calc_operator_sub|$calc_operator_mul|$calc_operator_div;
+$expression= $calc_num |($_yyd_lxkh_  $expression  $_yyd_rxkh_)|($expression $operator $expression);
+$calc_case5_1 = [$calc_prefix1]  $expression   [$calc_operator_assign];
+$calc_case5_2 = [$calc_prefix2] [求|求取|计算|运算]   $expression    [$calc_operator_assign];
+$calc_case5{intent%calcMulti} = $calc_case5_1|$calc_case5_2;
+
+$calc_common=$calc_case1|$calc_case2|$calc_case3|$calc_case4|$calc_case5;

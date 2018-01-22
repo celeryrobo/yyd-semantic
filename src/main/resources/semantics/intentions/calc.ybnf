@@ -1,0 +1,9 @@
+#YBNF 1.0 utf8;
+#include original.ybnf;
+#include classpath:semantics/commons/common.ybnf;
+#include classpath:semantics/commons/calc.ybnf;
+service calc;
+root $main;
+
+
+$main = $calc_common;
