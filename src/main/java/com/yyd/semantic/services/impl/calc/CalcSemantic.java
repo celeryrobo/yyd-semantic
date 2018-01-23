@@ -166,11 +166,25 @@ public class CalcSemantic implements Semantic<CalcBean>{
 	 * @return
 	 */
 	private String replaceOperator(String text) {
+		if(null == text || text.isEmpty()) {
+			return null;
+		}
+		
 		String tmpText = text;
 		tmpText = tmpText.replace("×", "*");
 		tmpText = tmpText.replace("÷", "/");
 		tmpText = tmpText.replace("（", "(");
 		tmpText = tmpText.replace("）", ")");
+		return tmpText;
+	}
+	
+	/**
+	 * 将汉字数字替换为阿拉伯数字
+	 * @param text
+	 * @return
+	 */
+	private String replaceHanzi(String text) {
+		String tmpText = NumToChn.replaceHanzi(text);		
 		return tmpText;
 	}
 	
@@ -197,6 +211,7 @@ public class CalcSemantic implements Semantic<CalcBean>{
 		if(null==text || text.isEmpty()) {
 			return text;
 		}
+		
 		String tmpText = text.replace(" ", "");
 		char[] array = tmpText.toCharArray();
 		int start = -1;
@@ -273,6 +288,7 @@ public class CalcSemantic implements Semantic<CalcBean>{
 		String tmpText = text;
 		tmpText = replaceAdd(tmpText);
 		tmpText = replaceOperator(tmpText);
+		tmpText = replaceHanzi(tmpText);
 		String expression = getExpression(tmpText);
 		if(verifyExpresision(expression)) {
 			result = calc(expression);
@@ -303,6 +319,7 @@ public class CalcSemantic implements Semantic<CalcBean>{
 		String tmpText = text;
 		tmpText = replaceSub(tmpText);
 		tmpText = replaceOperator(tmpText);
+		tmpText = replaceHanzi(tmpText);
 		String expression = getExpression(tmpText);
 		if(verifyExpresision(expression)) {
 			result = calc(expression);
@@ -333,6 +350,7 @@ public class CalcSemantic implements Semantic<CalcBean>{
 		String tmpText = text;
 		tmpText = replaceMul(tmpText);
 		tmpText = replaceOperator(tmpText);
+		tmpText = replaceHanzi(tmpText);
 		String expression = getExpression(tmpText);
 		if(verifyExpresision(expression)) {
 			result = calc(expression);
@@ -363,6 +381,7 @@ public class CalcSemantic implements Semantic<CalcBean>{
 		String tmpText = text;
 		tmpText = replaceDiv(tmpText);
 		tmpText = replaceOperator(tmpText);
+		tmpText = replaceHanzi(tmpText);
 		String expression = getExpression(tmpText);
 		if(verifyExpresision(expression)) {
 			result = calc(expression);
@@ -399,6 +418,7 @@ public class CalcSemantic implements Semantic<CalcBean>{
 		tmpText = replaceMul(tmpText);
 		tmpText = replaceDiv(tmpText);
 		tmpText = replaceOperator(tmpText);
+		tmpText = replaceHanzi(tmpText);
 		String expression = getExpression(tmpText);
 		if(verifyExpresision(expression)) {
 			result = calc(expression);
