@@ -137,6 +137,7 @@ public class RecipeSemantic implements Semantic<RecipeBean> {
 			} else {
 				result.setText(StringUtil.joiner(sets, ""));
 				recipeSlot.setRecipeFood(recipeFood);
+				result.setErrCode(0);
 			}
 		}
 		return result;

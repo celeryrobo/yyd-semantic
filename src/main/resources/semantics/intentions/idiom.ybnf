@@ -6,7 +6,7 @@ service idiom;
 callable @idiom(idiomContent);
 root $main;
 
-$idiom_content{idiomContent} = $_call_idiom_idiomContent_;
+$idiom_content{idiomContent} = $_call_idiom_idiomContent_ | $_yyd_common_;
 
 $idiom_case1{intent%playing} = $idiom_content;
 

@@ -53,7 +53,7 @@ public class MITIESemanticScene implements SemanticMatching {
 			System.out.println("MITIE Semantic Scene Run Time :" + (System.currentTimeMillis() - startTs) + " Service :"
 					+ result.getService());
 		} catch (Exception e) {
-			System.err.println(e);
+			e.printStackTrace();
 		}
 		return result;
 	}
