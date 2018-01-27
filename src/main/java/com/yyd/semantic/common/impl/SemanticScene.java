@@ -1,5 +1,9 @@
 package com.yyd.semantic.common.impl;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
 import com.ybnf.compiler.ICompiler;
 import com.ybnf.compiler.beans.YbnfCompileResult;
 import com.ybnf.compiler.impl.JCompiler;
@@ -7,8 +11,11 @@ import com.ybnf.semantic.SemanticCallable;
 import com.yyd.semantic.common.FileUtils;
 import com.yyd.semantic.common.SemanticMatching;
 
+@Component("SemanticScene")
 public class SemanticScene implements SemanticMatching {
 	private static ICompiler compiler = null;
+	@Resource(name = "GlobalSemanticCallable")
+	private SemanticCallable semanticCallable;
 
 	public static void init() {
 		try {
@@ -20,7 +27,7 @@ public class SemanticScene implements SemanticMatching {
 		}
 	}
 
-	public SemanticScene(SemanticCallable semanticCallable) throws Exception {
+	public SemanticScene() throws Exception {
 		if (compiler == null) {
 			init();
 		}

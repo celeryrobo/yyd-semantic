@@ -12,9 +12,9 @@ import com.ybnf.semantic.Semantic;
 import com.ybnf.semantic.SemanticCallable;
 import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.SemanticFactory;
+import com.yyd.semantic.common.SemanticMatching;
 import com.yyd.semantic.common.SemanticResult;
 import com.yyd.semantic.common.impl.SemanticIntention;
-import com.yyd.semantic.common.impl.SemanticScene;
 import com.yyd.semantic.common.impl.WaringSemanticResult;
 import com.yyd.semantic.nlp.SegSceneParser;
 import com.yyd.semantic.services.SemanticService;
@@ -28,6 +28,12 @@ public class SemanticServiceImpl implements SemanticService {
 	private SemanticContext semanticContext;
 	@Resource(name = "GlobalSemanticCallable")
 	private SemanticCallable semanticCallable;
+	// ybnf模板场景识别对象
+	@Resource(name = "SemanticScene")
+	private SemanticMatching semanticScene;
+	// mitie模型场景识别对象
+	@Resource(name = "MITIESemanticScene")
+	private SemanticMatching mitieSemanticScene;
 
 	@Override
 	public SemanticResult handleSemantic(String text, String userIdentify) throws Exception {
@@ -36,6 +42,9 @@ public class SemanticServiceImpl implements SemanticService {
 		if (text != null && !text.isEmpty()) {
 			String lang = text.replaceAll("[\\?,;:'\"!？，。；：‘’“”！\\s+]", "");
 			result = parseSemantic(lang, semanticContext.getService());
+			if(result == null) {
+				result = mitieSemanticScene.matching(text);
+			}
 		}
 		SemanticResult sr;
 		if (result == null) {
@@ -60,7 +69,7 @@ public class SemanticServiceImpl implements SemanticService {
 		YbnfCompileResult result;
 		if (service == null || "".equals(service)) {
 			// 场景为空时表示场景匹配，场景不为空表示意图匹配
-			result = new SemanticScene(semanticCallable).matching(text);
+			result = semanticScene.matching(text);
 			// 如果匹配失败则进入分词实体识别，否则进入意图匹配
 			if (result == null) {
 				// 分词场景识别
