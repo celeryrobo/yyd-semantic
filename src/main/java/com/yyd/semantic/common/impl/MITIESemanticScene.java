@@ -57,6 +57,7 @@ public class MITIESemanticScene implements SemanticMatching {
 		YbnfCompileResult result = null;
 		try {
 			long startTs = System.currentTimeMillis();
+			System.out.println("Text :" + text);
 			for (String serviceName : serviceNames) {
 				ICompiler compiler = compilers.get(serviceName);
 				result = compiler.compile(text);
@@ -67,7 +68,7 @@ public class MITIESemanticScene implements SemanticMatching {
 			System.out.println("MITIE Semantic Scene Run Time :" + (System.currentTimeMillis() - startTs) + " Service :"
 					+ result.getService());
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e);
 		}
 		return result;
 	}

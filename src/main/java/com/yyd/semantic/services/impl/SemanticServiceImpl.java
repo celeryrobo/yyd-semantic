@@ -43,7 +43,7 @@ public class SemanticServiceImpl implements SemanticService {
 		YbnfCompileResult result = null;
 		if (text != null && !text.isEmpty()) {
 			result = parseSemantic(text, semanticContext.getService());
-			if(result == null) {
+			if (result == null) {
 				result = mitieSemanticScene.matching(text);
 			}
 		}
@@ -78,7 +78,7 @@ public class SemanticServiceImpl implements SemanticService {
 				if (servs != null) {
 					// 遍历关键词所识别的场景，直到获得结果未知，遍历完成后还没有结果则表示语义识别失败
 					for (String serv : servs) {
-						result = parseSemanticIntention(serv, text);
+						result = parseSemanticIntention(text, serv);
 						if (result != null) {
 							break;
 						}
@@ -87,7 +87,7 @@ public class SemanticServiceImpl implements SemanticService {
 			}
 		} else {
 			// 根据场景名进行意图匹配
-			result = parseSemanticIntention(service, text);
+			result = parseSemanticIntention(text, service);
 			// 意图匹配失败后，则进入场景匹配
 			if (result == null) {
 				result = parseSemantic(text, null);
@@ -96,7 +96,7 @@ public class SemanticServiceImpl implements SemanticService {
 		return result;
 	}
 
-	private YbnfCompileResult parseSemanticIntention(String service, String text) throws Exception {
+	private YbnfCompileResult parseSemanticIntention(String text, String service) throws Exception {
 		YbnfCompileResult result = new SemanticIntention(service, semanticCallable).matching(text);
 		if (result == null) {
 			result = new MITIESemanticIntention(mitieSemanticScene, service).matching(text);

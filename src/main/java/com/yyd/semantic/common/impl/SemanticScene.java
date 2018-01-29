@@ -48,7 +48,7 @@ public class SemanticScene implements SemanticMatching {
 				result.setService(result.getSlots().get("service"));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e);
 		}
 		return result;
 	}
