@@ -1,5 +1,9 @@
 package com.yyd.semantic;
 
+import java.io.BufferedReader;
+
+import com.yyd.semantic.common.FileUtils;
+
 class Parser {
 	private int pos;
 	private String target;
@@ -54,5 +58,16 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 		new Parser("1+2-1");
+		String text = "我想听，(杜甫),的（sss）诗";
+		text = text.replaceAll("[,\\.;:'\"!，。；：‘’“”！\\pS]", "");
+		System.out.println(text);
+		
+		String filename = FileUtils.getResourcePath() + "semantics/mitie.properties";
+		BufferedReader br = FileUtils.fileReader(filename);
+		String line = null;
+		while((line = br.readLine()) != null) {
+			System.out.println(line);
+		}
+		br.close();
 	}
 }

@@ -46,10 +46,12 @@ public class SemanticIntention implements SemanticMatching {
 
 	@Override
 	public YbnfCompileResult matching(String text) {
+		String lang = text.replaceAll("[\\?,;:'\"!？，。；：‘’“”！\\s+]", "");
 		YbnfCompileResult result = null;
 		try {
 			long startTs = System.currentTimeMillis();
-			result = compiler.compile(text);
+			System.out.println("Text :" + lang);
+			result = compiler.compile(lang);
 			System.out.println("Semantic Intention Run Time :" + (System.currentTimeMillis() - startTs) + " Service :"
 					+ result.getService());
 		} catch (Exception e) {

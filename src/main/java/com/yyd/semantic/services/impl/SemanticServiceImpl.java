@@ -14,6 +14,8 @@ import com.ybnf.semantic.SemanticContext;
 import com.yyd.semantic.common.SemanticFactory;
 import com.yyd.semantic.common.SemanticMatching;
 import com.yyd.semantic.common.SemanticResult;
+import com.yyd.semantic.common.impl.MITIESemanticIntention;
+import com.yyd.semantic.common.impl.MITIESemanticScene;
 import com.yyd.semantic.common.impl.SemanticIntention;
 import com.yyd.semantic.common.impl.WaringSemanticResult;
 import com.yyd.semantic.nlp.SegSceneParser;
@@ -33,15 +35,14 @@ public class SemanticServiceImpl implements SemanticService {
 	private SemanticMatching semanticScene;
 	// mitie模型场景识别对象
 	@Resource(name = "MITIESemanticScene")
-	private SemanticMatching mitieSemanticScene;
+	private MITIESemanticScene mitieSemanticScene;
 
 	@Override
 	public SemanticResult handleSemantic(String text, String userIdentify) throws Exception {
 		semanticContext.loadByUserIdentify(userIdentify);
 		YbnfCompileResult result = null;
 		if (text != null && !text.isEmpty()) {
-			String lang = text.replaceAll("[\\?,;:'\"!？，。；：‘’“”！\\s+]", "");
-			result = parseSemantic(lang, semanticContext.getService());
+			result = parseSemantic(text, semanticContext.getService());
 			if(result == null) {
 				result = mitieSemanticScene.matching(text);
 			}
@@ -77,7 +78,7 @@ public class SemanticServiceImpl implements SemanticService {
 				if (servs != null) {
 					// 遍历关键词所识别的场景，直到获得结果未知，遍历完成后还没有结果则表示语义识别失败
 					for (String serv : servs) {
-						result = new SemanticIntention(serv, semanticCallable).matching(text);
+						result = parseSemanticIntention(serv, text);
 						if (result != null) {
 							break;
 						}
@@ -86,11 +87,19 @@ public class SemanticServiceImpl implements SemanticService {
 			}
 		} else {
 			// 根据场景名进行意图匹配
-			result = new SemanticIntention(service, semanticCallable).matching(text);
+			result = parseSemanticIntention(service, text);
 			// 意图匹配失败后，则进入场景匹配
 			if (result == null) {
 				result = parseSemantic(text, null);
 			}
+		}
+		return result;
+	}
+
+	private YbnfCompileResult parseSemanticIntention(String service, String text) throws Exception {
+		YbnfCompileResult result = new SemanticIntention(service, semanticCallable).matching(text);
+		if (result == null) {
+			result = new MITIESemanticIntention(mitieSemanticScene, service).matching(text);
 		}
 		return result;
 	}
